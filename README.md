@@ -10,7 +10,7 @@ docker-compose build
 docker-compose run --rm node sh -c "yarn create install"
 ```
 
-# Reactアプリの実行
+# Docker ComposeとReactアプリの実行
 
 ```
 docker-compose up
