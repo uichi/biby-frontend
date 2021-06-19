@@ -4,10 +4,10 @@
 docker-compose build
 ```
 
-# Reactアプリの作成
+# Nodeプラグインのインストール
 
 ```
-docker-compose run --rm node sh -c "yarn create react-app biby"
+docker-compose run --rm node sh -c "yarn create install"
 ```
 
 # Reactアプリの実行
