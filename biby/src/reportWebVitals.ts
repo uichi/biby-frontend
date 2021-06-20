@@ -1,9 +1,6 @@
 import { ReportHandler } from "web-vitals";
-import { React } from "react";
 
-const reportWebVitals: React.FunctionComponent = (
-  onPerfEntry?: ReportHandler
-) => {
+const reportWebVitals = (onPerfEntry?: ReportHandler) => {
   if (onPerfEntry && onPerfEntry instanceof Function) {
     import("web-vitals").then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
       getCLS(onPerfEntry);
