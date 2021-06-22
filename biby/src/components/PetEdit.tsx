@@ -7,11 +7,9 @@ import {
   TextField,
   RadioGroup,
   Radio,
-  Button,
   DialogTrigger,
   ActionButton,
   AlertDialog,
-  Text,
 } from "@adobe/react-spectrum";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -46,7 +44,9 @@ const PetEdit = (): JSX.Element => {
               <Radio value="male">オス</Radio>
               <Radio value="female">メス</Radio>
             </RadioGroup>
-            <ActionButton type="submit" staticColor="white" autoFocus={true}>保存</ActionButton>
+            <ActionButton type="submit" staticColor="white" autoFocus={true}>
+              保存
+            </ActionButton>
             <DialogTrigger>
               <ActionButton>削除</ActionButton>
               <AlertDialog

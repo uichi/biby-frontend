@@ -7,10 +7,12 @@ import {
   Flex,
   Image,
   ActionButton,
+  Link,
 } from "@adobe/react-spectrum";
 import Header from "./Header";
 import Footer from "./Footer";
 import Edit from "@spectrum-icons/workflow/Edit";
+import { Link as RouterLink } from "react-router-dom";
 
 const Pet = (): JSX.Element => {
   return (
@@ -36,10 +38,14 @@ const Pet = (): JSX.Element => {
               <Text>イッヌ</Text>
               <Text>誕生日</Text>
               <Text>家族になった日</Text>
-              <ActionButton>
-                <Text>編集</Text>
-                <Edit />
-              </ActionButton>
+              <Link variant="secondary" isQuiet>
+                <RouterLink to="/pet/edit/1">
+                  <ActionButton bottom="size-0">
+                    <Text>編集</Text>
+                    <Edit />
+                  </ActionButton>
+                </RouterLink>
+              </Link>
             </Flex>
           </Flex>
         </Well>
