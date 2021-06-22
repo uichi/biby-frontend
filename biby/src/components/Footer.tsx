@@ -23,7 +23,7 @@ const Footer = (): JSX.Element => {
             marginTop="size-200"
             marginStart="size-200"
           >
-            <Link>
+            <Link variant="secondary">
               <RouterLink to="/">
                 <Home size="S" color="#fff" />
               </RouterLink>

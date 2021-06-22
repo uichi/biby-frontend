@@ -9,10 +9,6 @@ import Settings from "@spectrum-icons/workflow/Settings";
 import { Link } from "@adobe/react-spectrum";
 import { Link as RouterLink } from "react-router-dom";
 
-<Link>
-  <RouterLink to="/next-page">Next Page</RouterLink>
-</Link>;
-
 const Header = (): JSX.Element => {
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
@@ -48,7 +44,7 @@ const Header = (): JSX.Element => {
             marginTop="size-100"
             marginEnd="size-100"
           >
-            <Link>
+            <Link variant="secondary" isQuiet>
               <RouterLink to="/pet">ペット一覧</RouterLink>
             </Link>
           </View>
