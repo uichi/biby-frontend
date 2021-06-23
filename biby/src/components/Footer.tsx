@@ -35,7 +35,11 @@ const Footer = (): JSX.Element => {
             gridArea="name"
             marginTop="size-200"
           >
-            <AssetsModified size="S" color="#fff" />
+            <Link variant="secondary">
+              <RouterLink to="/records">
+                <AssetsModified size="S" />
+              </RouterLink>
+            </Link>
           </View>
           <View
             alignSelf="center"
