@@ -2,19 +2,30 @@ import {
   Provider,
   defaultTheme,
   View,
-  Image,
   Form,
   TextField,
-  RadioGroup,
-  Radio,
   DialogTrigger,
   ActionButton,
   AlertDialog,
+  TextArea,
 } from "@adobe/react-spectrum";
+import { ComboBox, Item } from "@react-spectrum/combobox";
+import { useState, Dispatch, SetStateAction } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 
-const PetEdit = (): JSX.Element => {
+const CareCategoryEdit = (): JSX.Element => {
+  const [fieldTypeId, setFieldTypeId]: [
+    number,
+    Dispatch<SetStateAction<any>> // HACK: 型定義見直す
+  ] = useState<number>(0);
+  const options = [
+    { id: 1, name: "テキスト" },
+    { id: 2, name: "整数" },
+    { id: 3, name: "小数" },
+    { id: 4, name: "チェックボックス" },
+  ];
+
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
       <Header />
@@ -26,24 +37,22 @@ const PetEdit = (): JSX.Element => {
         paddingBottom="8vh"
       >
         <View margin="size-100">
-          <Image
-            width="150px"
-            height="150px"
-            src="https://i.imgur.com/c3gTKSJ.jpg"
-            alt=""
-            objectFit="cover"
-            marginBottom="size-100"
-          />
-          <ActionButton>画像を登録</ActionButton>
-          <h3 id="label-3">ぽち</h3>
+          <h3 id="label-3">記録</h3>
           <Form aria-labelledby="label-3" necessityIndicator="icon">
-            <TextField label="名前" placeholder="ぽち" isRequired={true} />
-            <TextField label="誕生日" placeholder="2020年7月1日" />
-            <TextField label="家族になった日" placeholder="2020年7月1日" />
-            <RadioGroup label="性別">
-              <Radio value="male">オス</Radio>
-              <Radio value="female">メス</Radio>
-            </RadioGroup>
+            <TextField
+              label="タイトル"
+              placeholder="タイトル"
+              isRequired={true}
+            />
+            <p>This id is {fieldTypeId}</p>
+            <ComboBox
+              label="フィールドのタイプを選択してください"
+              defaultItems={options}
+              onSelectionChange={setFieldTypeId}
+            >
+              {(item) => <Item>{item.name}</Item>}
+            </ComboBox>
+            <TextArea label="メモ" height="size-3000" />
             <ActionButton type="submit" staticColor="white">
               保存
             </ActionButton>
@@ -66,4 +75,4 @@ const PetEdit = (): JSX.Element => {
   );
 };
 
-export default PetEdit;
+export default CareCategoryEdit;

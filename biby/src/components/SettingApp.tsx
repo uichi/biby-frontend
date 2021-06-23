@@ -12,8 +12,8 @@ import EditIn from "@spectrum-icons/workflow/EditIn";
 import UserLock from "@spectrum-icons/workflow/UserLock";
 import AnnotatePen from "@spectrum-icons/workflow/AnnotatePen";
 import Question from "@spectrum-icons/workflow/Question";
-import { Link } from "@adobe/react-spectrum";
-import { Link as RouterLink } from "react-router-dom";
+//import { Link } from "@adobe/react-spectrum";
+//import { Link as RouterLink } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 
