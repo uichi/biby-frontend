@@ -1,6 +1,6 @@
 import { Provider, defaultTheme, Grid, View } from "@adobe/react-spectrum";
 import Home from "@spectrum-icons/workflow/Home";
-import Settings from "@spectrum-icons/workflow/Settings";
+import Feed from "@spectrum-icons/workflow/Feed";
 import AssetsModified from "@spectrum-icons/workflow/AssetsModified";
 import { Link } from "@adobe/react-spectrum";
 import { Link as RouterLink } from "react-router-dom";
@@ -36,7 +36,7 @@ const Footer = (): JSX.Element => {
             marginTop="size-200"
           >
             <Link variant="secondary">
-              <RouterLink to="/records">
+              <RouterLink to="/care/logs">
                 <AssetsModified size="S" />
               </RouterLink>
             </Link>
@@ -49,8 +49,8 @@ const Footer = (): JSX.Element => {
             marginEnd="size-200"
           >
             <Link variant="secondary">
-              <RouterLink to="/settings">
-                <Settings size="S" />
+              <RouterLink to="/care/categories">
+                <Feed size="S" />
               </RouterLink>
             </Link>
           </View>

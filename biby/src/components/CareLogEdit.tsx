@@ -2,19 +2,22 @@ import {
   Provider,
   defaultTheme,
   View,
-  Image,
   Form,
   TextField,
-  RadioGroup,
-  Radio,
   DialogTrigger,
   ActionButton,
   AlertDialog,
+  TextArea,
+  NumberField,
+  Checkbox,
 } from "@adobe/react-spectrum";
+import { useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 
-const PetEdit = (): JSX.Element => {
+const RecordEdit = (): JSX.Element => {
+  const [selected, setSelected] = useState<boolean>(false);
+
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
       <Header />
@@ -26,24 +29,37 @@ const PetEdit = (): JSX.Element => {
         paddingBottom="8vh"
       >
         <View margin="size-100">
-          <Image
-            width="150px"
-            height="150px"
-            src="https://i.imgur.com/c3gTKSJ.jpg"
-            alt=""
-            objectFit="cover"
-            marginBottom="size-100"
-          />
-          <ActionButton>画像を登録</ActionButton>
-          <h3 id="label-3">ぽち</h3>
+          <h3 id="label-3">記録</h3>
           <Form aria-labelledby="label-3" necessityIndicator="icon">
-            <TextField label="名前" placeholder="ぽち" isRequired={true} />
-            <TextField label="誕生日" placeholder="2020年7月1日" />
-            <TextField label="家族になった日" placeholder="2020年7月1日" />
-            <RadioGroup label="性別">
-              <Radio value="male">オス</Radio>
-              <Radio value="female">メス</Radio>
-            </RadioGroup>
+            <TextField
+              label="テキスト"
+              placeholder="テキスト"
+              isRequired={true}
+            />
+            <NumberField
+              label="整数"
+              defaultValue={4}
+              minValue={0}
+              formatOptions={{
+                style: "unit",
+                unit: "minute",
+                unitDisplay: "long",
+              }}
+            />
+            <NumberField
+              label="小数"
+              defaultValue={4}
+              minValue={0}
+              formatOptions={{
+                style: "unit",
+                unit: "inch",
+                unitDisplay: "long",
+              }}
+            />
+            <Checkbox isSelected={selected} onChange={setSelected}>
+              Subscribe (controlled)
+            </Checkbox>
+            <TextArea label="メモ" />
             <ActionButton type="submit" staticColor="white">
               保存
             </ActionButton>
@@ -66,4 +82,4 @@ const PetEdit = (): JSX.Element => {
   );
 };
 
-export default PetEdit;
+export default RecordEdit;

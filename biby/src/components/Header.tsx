@@ -27,7 +27,11 @@ const Header = (): JSX.Element => {
             marginTop="size-200"
             marginStart="size-200"
           >
-            <Settings size="S" color="#fff" />
+            <Link variant="secondary" isQuiet>
+              <RouterLink to="/settings">
+                <Settings size="S" />
+              </RouterLink>
+            </Link>
           </View>
           <View
             alignSelf="center"

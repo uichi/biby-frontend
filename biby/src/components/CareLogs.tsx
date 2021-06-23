@@ -3,14 +3,14 @@ import {
   defaultTheme,
   View,
   Text,
-  Well,
-  Flex,
-  Image,
+  ActionButton,
+  Link,
 } from "@adobe/react-spectrum";
 import Header from "./Header";
 import Footer from "./Footer";
+import { Link as RouterLink } from "react-router-dom";
 
-const Records = (): JSX.Element => {
+const CareLogs = (): JSX.Element => {
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
       <Header />
@@ -61,10 +61,19 @@ const Records = (): JSX.Element => {
             <Text>30分</Text>
           </View>
         </View>
+        <View>
+          <Link variant="secondary" margin="size-100" isQuiet>
+            <RouterLink to="/care/log/edit/1">
+              <ActionButton bottom="size-0">
+                <Text>記録する</Text>
+              </ActionButton>
+            </RouterLink>
+          </Link>
+        </View>
       </View>
       <Footer />
     </Provider>
   );
 };
 
-export default Records;
+export default CareLogs;
