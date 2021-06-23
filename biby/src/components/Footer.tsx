@@ -25,7 +25,7 @@ const Footer = (): JSX.Element => {
           >
             <Link variant="secondary">
               <RouterLink to="/">
-                <Home size="S" color="#fff" />
+                <Home size="S" />
               </RouterLink>
             </Link>
           </View>
@@ -44,7 +44,11 @@ const Footer = (): JSX.Element => {
             marginTop="size-200"
             marginEnd="size-200"
           >
-            <Settings size="S" color="#fff" />
+            <Link variant="secondary">
+              <RouterLink to="/settings">
+                <Settings size="S" />
+              </RouterLink>
+            </Link>
           </View>
         </Grid>
       </View>
