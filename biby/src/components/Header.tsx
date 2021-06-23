@@ -45,7 +45,7 @@ const Header = (): JSX.Element => {
             marginEnd="size-100"
           >
             <Link variant="secondary" isQuiet>
-              <RouterLink to="/pet">ペット一覧</RouterLink>
+              <RouterLink to="/pets">ペット一覧</RouterLink>
             </Link>
           </View>
         </Grid>

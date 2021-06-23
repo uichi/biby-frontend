@@ -14,7 +14,7 @@ import Footer from "./Footer";
 import Edit from "@spectrum-icons/workflow/Edit";
 import { Link as RouterLink } from "react-router-dom";
 
-const Pet = (): JSX.Element => {
+const Pets = (): JSX.Element => {
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
       <Header />
@@ -55,4 +55,4 @@ const Pet = (): JSX.Element => {
   );
 };
 
-export default Pet;
+export default Pets;
