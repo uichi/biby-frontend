@@ -8,6 +8,7 @@ import CareLogs from "./components/CareLogs";
 import CareLogEdit from "./components/CareLogEdit";
 import CareCategories from "./components/CareCategories";
 import CareCategoryEdit from "./components/CareCategoryEdit";
+import Profile from "./components/Profile";
 
 function App(): JSX.Element {
   return (
@@ -24,6 +25,7 @@ function App(): JSX.Element {
           path="/care/category/edit/:id"
           component={CareCategoryEdit}
         />
+        <Route exact path="/profile" component={Profile} />
         <Route exact path="/" component={Top} />
       </Switch>
     </BrowserRouter>
