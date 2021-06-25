@@ -14,21 +14,33 @@ import Footer from "./Footer";
 import { getUser, patchUser } from "../api/Profile";
 import { Profile as ProfileInterface } from "../types";
 import { Toaster } from "react-hot-toast";
-import { notify } from "./common/toast";
+import {
+  notifySuccessSave,
+  notifyErrorSave,
+  notifyErrorGet,
+} from "./common/toast";
 
 const Profile = (): JSX.Element => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   useEffect(() => {
     (async () => {
-      const profile: ProfileInterface = await getUser("1");
-      setUsername(profile.username);
-      setEmail(profile.email);
+      const profile: ProfileInterface | null = await getUser("1");
+      if (!profile) {
+        notifyErrorGet();
+      } else {
+        setUsername(profile.username);
+        setEmail(profile.email);
+      }
     })();
   }, []);
-  const saveProfile = () => {
-    patchUser("1", username, email);
-    notify();
+  const saveProfile = async () => {
+    const patchedUser = await patchUser("1", username, email);
+    if (patchedUser) {
+      notifySuccessSave();
+    } else {
+      notifyErrorSave();
+    }
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
