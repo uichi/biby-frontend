@@ -18,6 +18,7 @@ import {
   notifySuccessSave,
   notifyErrorSave,
   notifyErrorGet,
+  validateNotEnteredError,
 } from "./common/toast";
 
 const Profile = (): JSX.Element => {
@@ -26,21 +27,25 @@ const Profile = (): JSX.Element => {
   useEffect(() => {
     (async () => {
       const profile: ProfileInterface | null = await getUser("1");
-      if (!profile) {
-        notifyErrorGet();
-      } else {
+      if (profile) {
         setUsername(profile.username);
         setEmail(profile.email);
+        return;
       }
+      notifyErrorGet();
     })();
   }, []);
   const saveProfile = async () => {
+    if (!username && email) {
+      validateNotEnteredError();
+      return;
+    }
     const patchedUser = await patchUser("1", username, email);
     if (patchedUser) {
       notifySuccessSave();
-    } else {
-      notifyErrorSave();
+      return;
     }
+    notifyErrorSave();
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
@@ -67,6 +72,7 @@ const Profile = (): JSX.Element => {
               label="メールアドレス"
               placeholder="example@biby.live"
               value={email}
+              isRequired={true}
               onChange={setEmail}
             />
             <ActionButton staticColor="white" onPress={saveProfile}>
