@@ -42,3 +42,14 @@ export const notifyErrorGet = (): string =>
     },
     duration: 3000,
   });
+
+export const validateNotEnteredError = (): string =>
+  toast.error("未入力の値があります", {
+    icon: "❌",
+    style: {
+      borderRadius: "10px",
+      background: "#333",
+      color: "#fff",
+    },
+    duration: 3000,
+  });
