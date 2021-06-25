@@ -13,6 +13,8 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { getUser, patchUser } from "../api/Profile";
 import { Profile as ProfileInterface } from "../types";
+import { Toaster } from "react-hot-toast";
+import { notify } from "./common/toast";
 
 const Profile = (): JSX.Element => {
   const [username, setUsername] = useState<string>("");
@@ -24,8 +26,13 @@ const Profile = (): JSX.Element => {
       setEmail(profile.email);
     })();
   }, []);
+  const saveProfile = () => {
+    patchUser("1", username, email);
+    notify();
+  };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
+      <Toaster position="top-center" />
       <Header />
       <View
         backgroundColor="gray-200"
@@ -50,10 +57,7 @@ const Profile = (): JSX.Element => {
               value={email}
               onChange={setEmail}
             />
-            <ActionButton
-              staticColor="white"
-              onPress={() => patchUser("1", username, email)}
-            >
+            <ActionButton staticColor="white" onPress={saveProfile}>
               保存
             </ActionButton>
             <DialogTrigger>
