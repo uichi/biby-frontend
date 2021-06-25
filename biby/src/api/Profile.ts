@@ -9,3 +9,19 @@ export const getUser = (id: string): Promise<Profile> => {
       return { username: "", email: "" };
     });
 };
+
+export const patchUser = (
+  id: string,
+  username: string,
+  email: string
+): void => {
+  const body = JSON.stringify({ username, email });
+  const options = {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body,
+  };
+  fetch(usersUrl + `${id}/`, options);
+};

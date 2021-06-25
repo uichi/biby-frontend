@@ -11,18 +11,17 @@ import {
 import { useState, useEffect } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
-import { getUser } from "../api/Profile";
+import { getUser, patchUser } from "../api/Profile";
 import { Profile as ProfileInterface } from "../types";
 
 const Profile = (): JSX.Element => {
-  const [profile, setProfile] = useState<ProfileInterface>({
-    username: "",
-    email: "",
-  });
+  const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   useEffect(() => {
     (async () => {
-      const user: ProfileInterface = await getUser("1");
-      setProfile(user);
+      const profile: ProfileInterface = await getUser("1");
+      setUsername(profile.username);
+      setEmail(profile.email);
     })();
   }, []);
   return (
@@ -41,19 +40,24 @@ const Profile = (): JSX.Element => {
             <TextField
               label="ユーザー名"
               placeholder="アニマル一郎"
-              value={profile.username}
+              value={username}
               isRequired={true}
+              onChange={setUsername}
             />
             <TextField
               label="メールアドレス"
               placeholder="example@biby.live"
-              value={profile.email}
+              value={email}
+              onChange={setEmail}
             />
-            <ActionButton type="submit" staticColor="white">
+            <ActionButton
+              staticColor="white"
+              onPress={() => patchUser("1", username, email)}
+            >
               保存
             </ActionButton>
             <DialogTrigger>
-              <ActionButton>削除</ActionButton>
+              <ActionButton>退会</ActionButton>
               <AlertDialog
                 variant="destructive"
                 title="退会しますか？"
