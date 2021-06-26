@@ -9,27 +9,24 @@ import {
 import { useState, useEffect } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
-import { getUser, patchUser } from "../api/Profile";
-import { Profile as ProfileInterface } from "../types";
 import { Toaster } from "react-hot-toast";
-import {
-  notifySuccessSave,
-  notifyErrorSave,
-  notifyErrorGet,
-  validateNotEnteredError,
-} from "./common/toast";
+import { notifyErrorGet, validateNotEnteredError } from "./common/toast";
 
 const Signup = (): JSX.Element => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   useEffect(() => {
     (async () => {
-      const profile: ProfileInterface | null = await getUser("1");
-      if (profile) {
-        setUsername(profile.username);
-        setEmail(profile.email);
-        return;
-      }
+      //      const me = await getMe(cookies.authToken);
+      //      const profile: ProfileInterface | null = await getUser(
+      //        me.id,
+      //        cookies.authToken
+      //      );
+      //      if (profile) {
+      //        setUsername(profile.username);
+      //        setEmail(profile.email);
+      //        return;
+      //      }
       notifyErrorGet();
     })();
   }, []);
@@ -38,12 +35,6 @@ const Signup = (): JSX.Element => {
       validateNotEnteredError();
       return;
     }
-    const patchedUser = await patchUser("1", username, email);
-    if (patchedUser) {
-      notifySuccessSave();
-      return;
-    }
-    notifyErrorSave();
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">

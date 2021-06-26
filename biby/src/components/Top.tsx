@@ -9,7 +9,7 @@ import {
 } from "@adobe/react-spectrum";
 import Header from "./Header";
 import Footer from "./Footer";
-import { useEffect } from 'react';
+import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 

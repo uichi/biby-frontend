@@ -17,7 +17,7 @@ import {
 import { useHistory } from "react-router-dom";
 import { emailValid } from "./common/validation";
 import { useCookies } from "react-cookie";
-import { loginAuth } from "../api/Authentication";
+import { loginAuth, getMe } from "../api/Authentication";
 
 const Login = (): JSX.Element => {
   const [email, setEmail] = useState<string>("");
@@ -41,6 +41,8 @@ const Login = (): JSX.Element => {
         return;
       }
       setCookie("authToken", resultLoginAuth.auth_token);
+      const me = await getMe(resultLoginAuth.auth_token);
+      setCookie("meId", me.id);
       history.push("/");
     }
     loginError();
