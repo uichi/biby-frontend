@@ -21,14 +21,12 @@ import {
   validateNotEnteredError,
   validateEmailError,
 } from "./common/toast";
+import { emailValid } from "./common/validation";
 
 const Profile = (): JSX.Element => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  const isEmailValid = useMemo(
-    () => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email),
-    [email]
-  );
+  const isEmailValid = useMemo(() => emailValid.test(email), [email]);
   useEffect(() => {
     (async () => {
       const profile: ProfileInterface | null = await getUser("1");
@@ -41,7 +39,7 @@ const Profile = (): JSX.Element => {
     })();
   }, []);
   const saveProfile = async () => {
-    if (!username && email) {
+    if (!(username && email)) {
       validateNotEnteredError();
       return;
     }

@@ -9,11 +9,15 @@ import CareLogEdit from "./components/CareLogEdit";
 import CareCategories from "./components/CareCategories";
 import CareCategoryEdit from "./components/CareCategoryEdit";
 import Profile from "./components/Profile";
+import Signup from "./components/Signup";
+import Login from "./components/Login";
 
 function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
+        <Route exact path="/signup" component={Signup} />
+        <Route exact path="/login" component={Login} />
         <Route exact path="/pet/edit/:id" component={PetEdit} />
         <Route exact path="/pets" component={Pets} />
         <Route exact path="/settings" component={SettingApp} />
