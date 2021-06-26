@@ -12,6 +12,7 @@ import EditIn from "@spectrum-icons/workflow/EditIn";
 import UserLock from "@spectrum-icons/workflow/UserLock";
 import AnnotatePen from "@spectrum-icons/workflow/AnnotatePen";
 import Question from "@spectrum-icons/workflow/Question";
+import LogOut from "@spectrum-icons/workflow/LogOut";
 import { Link } from "@adobe/react-spectrum";
 import { Link as RouterLink } from "react-router-dom";
 import Header from "./Header";
@@ -36,6 +37,14 @@ const SettingApp = (): JSX.Element => {
               <RouterLink to="/profile">
                 <RealTimeCustomerProfile size="XS" marginEnd="size-100" />
                 <Text>プロフィール</Text>
+              </RouterLink>
+            </Link>
+          </View>
+          <View>
+            <Link variant="secondary" isQuiet>
+              <RouterLink to="/login">
+                <LogOut size="XS" marginEnd="size-100" />
+                <Text>ログイン</Text>
               </RouterLink>
             </Link>
           </View>
