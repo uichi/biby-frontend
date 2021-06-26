@@ -64,3 +64,14 @@ export const validateEmailError = (): string =>
     },
     duration: 3000,
   });
+
+export const loginError = (): string =>
+  toast.error("ログインできませんでした", {
+    icon: "❌",
+    style: {
+      borderRadius: "10px",
+      background: "#333",
+      color: "#fff",
+    },
+    duration: 3000,
+  });

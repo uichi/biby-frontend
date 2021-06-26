@@ -5,18 +5,26 @@ import {
   Form,
   TextField,
   ActionButton,
+  Text,
 } from "@adobe/react-spectrum";
 import { useState, useMemo } from "react";
-import Header from "./Header";
-import Footer from "./Footer";
 import { Toaster } from "react-hot-toast";
-import { validateNotEnteredError, validateEmailError } from "./common/toast";
+import {
+  validateNotEnteredError,
+  validateEmailError,
+  loginError,
+} from "./common/toast";
+import { useHistory } from "react-router-dom";
 import { emailValid } from "./common/validation";
+import { useCookies } from "react-cookie";
+import { loginAuth } from "../api/Authentication";
 
 const Login = (): JSX.Element => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [cookies, setCookie] = useCookies(["authToken"]);
   const isEmailValid = useMemo(() => emailValid.test(email), [email]);
+  const history = useHistory();
   const login = async () => {
     if (!(email && password)) {
       validateNotEnteredError();
@@ -26,20 +34,23 @@ const Login = (): JSX.Element => {
       validateEmailError();
       return;
     }
+    const resultLoginAuth = await loginAuth(email, password);
+    if (resultLoginAuth) {
+      if (!resultLoginAuth.auth_token) {
+        loginError();
+        return;
+      }
+      setCookie("authToken", resultLoginAuth.auth_token);
+      history.push("/");
+    }
+    loginError();
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
       <Toaster position="top-center" />
-      <Header />
-      <View
-        backgroundColor="gray-200"
-        gridArea="content"
-        minHeight="84vh"
-        paddingTop="8vh"
-        paddingBottom="8vh"
-      >
-        <View margin="size-100">
-          <h3 id="label-3">bibyにログインする</h3>
+      <View backgroundColor="gray-200" gridArea="content" minHeight="100vh">
+        <View marginStart="size-100" marginEnd="size-100" paddingTop="size-400">
+          <Text>bibyにログインする</Text>
           <Form aria-labelledby="label-3" necessityIndicator="icon">
             <TextField
               inputMode="email"
@@ -64,7 +75,6 @@ const Login = (): JSX.Element => {
           </Form>
         </View>
       </View>
-      <Footer />
     </Provider>
   );
 };
