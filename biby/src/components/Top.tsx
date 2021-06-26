@@ -9,8 +9,16 @@ import {
 } from "@adobe/react-spectrum";
 import Header from "./Header";
 import Footer from "./Footer";
+import { useEffect } from 'react';
+import { useCookies } from "react-cookie";
+import { useHistory } from "react-router-dom";
 
 const Top = (): JSX.Element => {
+  const [cookies, setCookie] = useCookies();
+  const history = useHistory();
+  useEffect(() => {
+    if (!cookies.authToken) history.push("/login");
+  }, []);
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
       <Header />
