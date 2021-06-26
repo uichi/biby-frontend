@@ -53,3 +53,14 @@ export const validateNotEnteredError = (): string =>
     },
     duration: 3000,
   });
+
+export const validateEmailError = (): string =>
+  toast.error("メールアドレスを正しく入力してください", {
+    icon: "❌",
+    style: {
+      borderRadius: "10px",
+      background: "#333",
+      color: "#fff",
+    },
+    duration: 3000,
+  });
