@@ -12,13 +12,21 @@ import EditIn from "@spectrum-icons/workflow/EditIn";
 import UserLock from "@spectrum-icons/workflow/UserLock";
 import AnnotatePen from "@spectrum-icons/workflow/AnnotatePen";
 import Question from "@spectrum-icons/workflow/Question";
-import LogOut from "@spectrum-icons/workflow/LogOut";
 import { Link } from "@adobe/react-spectrum";
 import { Link as RouterLink } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
+import { useCookies } from "react-cookie";
+import { useHistory } from "react-router-dom";
 
 const SettingApp = (): JSX.Element => {
+  const [cookies, setCookie, removeCookie] = useCookies();
+  const history = useHistory();
+  if (!cookies.authToken) history.push("/login");
+  const logout = async () => {
+    removeCookie("authToken");
+    history.push("/login");
+  };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
       <Header />
@@ -41,11 +49,8 @@ const SettingApp = (): JSX.Element => {
             </Link>
           </View>
           <View>
-            <Link variant="secondary" isQuiet>
-              <RouterLink to="/login">
-                <LogOut size="XS" marginEnd="size-100" />
-                <Text>ログイン</Text>
-              </RouterLink>
+            <Link onPress={logout} variant="secondary" isQuiet>
+              ログアウト
             </Link>
           </View>
           <Text marginTop="size-200">フィードバック</Text>

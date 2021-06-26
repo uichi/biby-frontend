@@ -6,3 +6,8 @@ export interface Profile {
 export interface AuthToken {
   auth_token: string;
 }
+
+export interface Me {
+  id: string;
+  email: string;
+}
