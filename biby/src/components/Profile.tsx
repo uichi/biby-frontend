@@ -8,7 +8,7 @@ import {
   ActionButton,
   AlertDialog,
 } from "@adobe/react-spectrum";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import { getUser, patchUser } from "../api/Profile";
@@ -19,11 +19,16 @@ import {
   notifyErrorSave,
   notifyErrorGet,
   validateNotEnteredError,
+  validateEmailError,
 } from "./common/toast";
 
 const Profile = (): JSX.Element => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const isEmailValid = useMemo(
+    () => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email),
+    [email]
+  );
   useEffect(() => {
     (async () => {
       const profile: ProfileInterface | null = await getUser("1");
@@ -38,6 +43,10 @@ const Profile = (): JSX.Element => {
   const saveProfile = async () => {
     if (!username && email) {
       validateNotEnteredError();
+      return;
+    }
+    if (!isEmailValid) {
+      validateEmailError();
       return;
     }
     const patchedUser = await patchUser("1", username, email);
@@ -62,18 +71,24 @@ const Profile = (): JSX.Element => {
           <h3 id="label-3">プロフィール</h3>
           <Form aria-labelledby="label-3" necessityIndicator="icon">
             <TextField
+              type="string"
+              inputMode="text"
               label="ユーザー名"
               placeholder="アニマル一郎"
               value={username}
               isRequired={true}
               onChange={setUsername}
+              validationState={username !== "" ? "valid" : "invalid"}
             />
             <TextField
+              type="email"
+              inputMode="email"
               label="メールアドレス"
               placeholder="example@biby.live"
               value={email}
               isRequired={true}
               onChange={setEmail}
+              validationState={isEmailValid ? "valid" : "invalid"}
             />
             <ActionButton staticColor="white" onPress={saveProfile}>
               保存
