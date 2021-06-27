@@ -50,9 +50,9 @@ const Login = (): JSX.Element => {
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
       <Toaster position="top-center" />
-      <View backgroundColor="gray-200" gridArea="content" minHeight="100vh">
+      <View backgroundColor="gray-200" gridArea="content" height="100vh">
         <View marginStart="size-100" marginEnd="size-100" paddingTop="size-400">
-          <Text>bibyにログインする</Text>
+          <h3 id="label-3">bibyにログインする</h3>
           <Form aria-labelledby="label-3" necessityIndicator="icon">
             <TextField
               inputMode="email"

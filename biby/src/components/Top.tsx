@@ -16,8 +16,9 @@ import { useHistory } from "react-router-dom";
 const Top = (): JSX.Element => {
   const [cookies, setCookie] = useCookies();
   const history = useHistory();
+  if (!cookies.authToken) history.push("/login");
   useEffect(() => {
-    if (!cookies.authToken) history.push("/login");
+    //    if (!cookies.authToken) history.push("/login");
   }, []);
   return (
     <Provider theme={defaultTheme} colorScheme="dark">

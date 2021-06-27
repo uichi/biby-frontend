@@ -1,4 +1,4 @@
-import { loginUrl, logoutUrl, meUrl } from "./Config";
+import { loginUrl, logoutUrl, meUrl, signupUrl } from "./Config";
 import { AuthToken, Me } from "../types";
 
 export const loginAuth = (
@@ -42,6 +42,26 @@ export const getMe = (token: string): Promise<Me> => {
     },
   };
   return fetch(meUrl, options)
+    .then((res) => res.json())
+    .then((json) => json)
+    .catch(() => null);
+};
+
+export const signupAuth = (
+  username: string,
+  email: string,
+  password: string,
+  password_confirm: string
+): Promise<any> => {
+  const body = JSON.stringify({ username, email, password, password_confirm });
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body,
+  };
+  return fetch(signupUrl, options)
     .then((res) => res.json())
     .then((json) => json)
     .catch(() => null);
