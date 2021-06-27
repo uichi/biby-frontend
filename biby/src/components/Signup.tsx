@@ -6,15 +6,25 @@ import {
   TextField,
   ActionButton,
 } from "@adobe/react-spectrum";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import { Toaster } from "react-hot-toast";
-import { notifyErrorGet, validateNotEnteredError } from "./common/toast";
+import {
+  validateEmailError,
+  notifyErrorGet,
+  validateNotEnteredError,
+  loginError,
+} from "./common/toast";
+import { emailValid } from "./common/validation";
+import { loginAuth, signupAuth } from "../api/Authentication";
 
 const Signup = (): JSX.Element => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [passwordConfirm, setPasswordConfirm] = useState<string>("");
+  const isEmailValid = useMemo(() => emailValid.test(email), [email]);
   useEffect(() => {
     (async () => {
       //      const me = await getMe(cookies.authToken);
@@ -27,30 +37,44 @@ const Signup = (): JSX.Element => {
       //        setEmail(profile.email);
       //        return;
       //      }
-      notifyErrorGet();
+      //      notifyErrorGet();
     })();
   }, []);
-  const saveProfile = async () => {
-    if (!username && email) {
+  const signup = async () => {
+    if (!(username && email && password && passwordConfirm)) {
       validateNotEnteredError();
       return;
     }
+    if (!isEmailValid) {
+      validateEmailError();
+      return;
+    }
+    const signUpAuth = await signupAuth(
+      username,
+      email,
+      password,
+      passwordConfirm
+    );
+    console.log(signUpAuth);
+    //    if (resultLoginAuth) {
+    //      if (!resultLoginAuth.auth_token) {
+    //        loginError();
+    //        return;
+    //      }
+    //            history.push("/");
+    //    }
+    //    loginError();
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
       <Toaster position="top-center" />
-      <Header />
-      <View
-        backgroundColor="gray-200"
-        gridArea="content"
-        minHeight="84vh"
-        paddingTop="8vh"
-        paddingBottom="8vh"
-      >
-        <View margin="size-100">
-          <h3 id="label-3">プロフィール</h3>
+      <View backgroundColor="gray-200" gridArea="content" height="100vh">
+        <View marginStart="size-100" marginEnd="size-100" paddingTop="size-400">
+          <h3 id="label-3">サインアップ</h3>
           <Form aria-labelledby="label-3" necessityIndicator="icon">
             <TextField
+              type="string"
+              inputMode="text"
               label="ユーザー名"
               placeholder="アニマル一郎"
               value={username}
@@ -58,7 +82,8 @@ const Signup = (): JSX.Element => {
               onChange={setUsername}
             />
             <TextField
-              type="password"
+              type="email"
+              inputMode="email"
               label="メールアドレス"
               placeholder="example@biby.live"
               value={email}
@@ -67,27 +92,28 @@ const Signup = (): JSX.Element => {
             />
             <TextField
               type="password"
+              inputMode="text"
               label="パスワード"
-              placeholder="example@biby.live"
-              value={email}
+              placeholder=""
+              value={password}
               isRequired={true}
-              onChange={setEmail}
+              onChange={setPassword}
             />
             <TextField
               type="password"
+              inputMode="text"
               label="パスワード(確認)"
-              placeholder="example@biby.live"
-              value={email}
+              placeholder=""
+              value={passwordConfirm}
               isRequired={true}
-              onChange={setEmail}
+              onChange={setPasswordConfirm}
             />
-            <ActionButton staticColor="white" onPress={saveProfile}>
+            <ActionButton staticColor="white" onPress={signup}>
               登録
             </ActionButton>
           </Form>
         </View>
       </View>
-      <Footer />
     </Provider>
   );
 };
