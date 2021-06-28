@@ -2,10 +2,9 @@
 const backendHost = "http://127.0.0.1:8000/";
 const apiUrl = backendHost + "api/v1/";
 const authUrl = backendHost + "api/v1/auth/";
-const meUrl = authUrl + "users/me";
-const usersUrl = apiUrl + "users/";
-const loginUrl = authUrl + "token/login/";
-const logoutUrl = authUrl + "token/logout/";
-const signupUrl = usersUrl + "register";
-
-export { usersUrl, meUrl, loginUrl, logoutUrl, signupUrl };
+export const meUrl = authUrl + "users/me";
+export const usersUrl = apiUrl + "users/";
+export const loginUrl = authUrl + "token/login/";
+export const logoutUrl = authUrl + "token/logout/";
+export const signupUrl = usersUrl + "register";
+export const petsUrl = apiUrl + "pets/";

@@ -13,8 +13,17 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Edit from "@spectrum-icons/workflow/Edit";
 import { Link as RouterLink } from "react-router-dom";
+import { useEffect } from "react";
+import { useCookies } from "react-cookie";
+import { useHistory } from "react-router-dom";
 
 const Pets = (): JSX.Element => {
+  const [cookies, setCookie] = useCookies();
+  const history = useHistory();
+  //  useEffect(() => {
+  //
+  //  }, []);
+  if (!cookies.authToken) history.push("/login");
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
       <Header />
@@ -49,6 +58,15 @@ const Pets = (): JSX.Element => {
             </Flex>
           </Flex>
         </Well>
+        <View>
+          <Link variant="secondary" margin="size-100" isQuiet>
+            <RouterLink to="/pet/add">
+              <ActionButton bottom="size-0" width="calc(100% - size-200)">
+                <Text>追加</Text>
+              </ActionButton>
+            </RouterLink>
+          </Link>
+        </View>
       </View>
       <Footer />
     </Provider>
