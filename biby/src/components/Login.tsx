@@ -5,9 +5,8 @@ import {
   Form,
   TextField,
   ActionButton,
-  Text,
 } from "@adobe/react-spectrum";
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Toaster } from "react-hot-toast";
 import {
   validateNotEnteredError,
@@ -20,11 +19,12 @@ import { useCookies } from "react-cookie";
 import { loginAuth, getMe } from "../api/Authentication";
 
 const Login = (): JSX.Element => {
+  const [cookies, setCookie] = useCookies(["authToken"]);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [cookies, setCookie] = useCookies(["authToken"]);
   const isEmailValid = useMemo(() => emailValid.test(email), [email]);
   const history = useHistory();
+  if (cookies.authToken) history.push("/");
   const login = async () => {
     if (!(email && password)) {
       validateNotEnteredError();

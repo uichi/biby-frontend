@@ -6,18 +6,17 @@ import {
   TextField,
   ActionButton,
 } from "@adobe/react-spectrum";
-import { useState, useEffect, useMemo } from "react";
-import Header from "./Header";
-import Footer from "./Footer";
+import { useState, useMemo } from "react";
 import { Toaster } from "react-hot-toast";
 import {
   validateEmailError,
-  notifyErrorGet,
   validateNotEnteredError,
-  loginError,
+  notMatchPassword,
+  signupError,
 } from "./common/toast";
 import { emailValid } from "./common/validation";
-import { loginAuth, signupAuth } from "../api/Authentication";
+import { signupAuth } from "../api/Authentication";
+import { useHistory } from "react-router-dom";
 
 const Signup = (): JSX.Element => {
   const [username, setUsername] = useState<string>("");
@@ -25,21 +24,7 @@ const Signup = (): JSX.Element => {
   const [password, setPassword] = useState<string>("");
   const [passwordConfirm, setPasswordConfirm] = useState<string>("");
   const isEmailValid = useMemo(() => emailValid.test(email), [email]);
-  useEffect(() => {
-    (async () => {
-      //      const me = await getMe(cookies.authToken);
-      //      const profile: ProfileInterface | null = await getUser(
-      //        me.id,
-      //        cookies.authToken
-      //      );
-      //      if (profile) {
-      //        setUsername(profile.username);
-      //        setEmail(profile.email);
-      //        return;
-      //      }
-      //      notifyErrorGet();
-    })();
-  }, []);
+  const history = useHistory();
   const signup = async () => {
     if (!(username && email && password && passwordConfirm)) {
       validateNotEnteredError();
@@ -49,21 +34,20 @@ const Signup = (): JSX.Element => {
       validateEmailError();
       return;
     }
+    if (password !== passwordConfirm) {
+      notMatchPassword();
+      return;
+    }
     const signUpAuth = await signupAuth(
       username,
       email,
       password,
       passwordConfirm
     );
-    console.log(signUpAuth);
-    //    if (resultLoginAuth) {
-    //      if (!resultLoginAuth.auth_token) {
-    //        loginError();
-    //        return;
-    //      }
-    //            history.push("/");
-    //    }
-    //    loginError();
+    if (signUpAuth) {
+      history.push("/");
+    }
+    signupError();
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
