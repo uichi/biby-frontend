@@ -60,7 +60,7 @@ const CareCategories = (): JSX.Element => {
         <View>
           <Link variant="secondary" margin="size-100" isQuiet>
             <RouterLink to="/care/category/edit/1">
-              <ActionButton bottom="size-0">
+              <ActionButton bottom="size-0" width="calc(100% - size-200)">
                 <Text>追加</Text>
               </ActionButton>
             </RouterLink>
