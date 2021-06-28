@@ -62,7 +62,10 @@ export const signupAuth = (
     body,
   };
   return fetch(signupUrl, options)
-    .then((res) => res.json())
+    .then((res) => {
+      if (!res.ok) throw new Error();
+      return res.json();
+    })
     .then((json) => json)
     .catch(() => null);
 };

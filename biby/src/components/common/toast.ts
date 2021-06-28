@@ -75,3 +75,25 @@ export const loginError = (): string =>
     },
     duration: 3000,
   });
+
+export const notMatchPassword = (): string =>
+  toast.error("パスワードが一致しません", {
+    icon: "❌",
+    style: {
+      borderRadius: "10px",
+      background: "#333",
+      color: "#fff",
+    },
+    duration: 3000,
+  });
+
+export const signupError = (): string =>
+  toast.error("サインアップできませんでした", {
+    icon: "❌",
+    style: {
+      borderRadius: "10px",
+      background: "#333",
+      color: "#fff",
+    },
+    duration: 3000,
+  });
