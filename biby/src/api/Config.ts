@@ -8,3 +8,4 @@ export const loginUrl = authUrl + "token/login/";
 export const logoutUrl = authUrl + "token/logout/";
 export const signupUrl = usersUrl + "register";
 export const petsUrl = apiUrl + "pets/";
+export const petOwnerGroupUrl = apiUrl + "pet_owner_group/";

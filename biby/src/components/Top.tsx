@@ -14,7 +14,7 @@ import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 
 const Top = (): JSX.Element => {
-  const [cookies, setCookie] = useCookies();
+  const [cookies, setCookie] = useCookies(); // eslint-disable-line
   const history = useHistory();
   if (!cookies.authToken) history.push("/login");
   useEffect(() => {

@@ -27,7 +27,7 @@ import { useHistory } from "react-router-dom";
 import { getMe } from "../api/Authentication";
 
 const Profile = (): JSX.Element => {
-  const [cookies, setCookie] = useCookies();
+  const [cookies, setCookie] = useCookies(); // eslint-disable-line
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const isEmailValid = useMemo(() => emailValid.test(email), [email]);

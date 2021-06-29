@@ -6,7 +6,7 @@ import {
   TextField,
   ActionButton,
 } from "@adobe/react-spectrum";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { Toaster } from "react-hot-toast";
 import {
   validateNotEnteredError,
