@@ -17,18 +17,18 @@ import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 import { getPets } from "../api/Pet";
+import { Pet } from "../types";
 //import { IllustratedMessage } from "@adobe/react-spectrum";
 //import NotFound from "@spectrum-icons/illustrations/NotFound";
 
 const Pets = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
-  //  TODO: Pet型を作成する
-  const [pets, setPets] = useState<any[]>([]);
+  const [pets, setPets] = useState<{ pet: Pet }[]>([]);
   const history = useHistory();
   useEffect(() => {
     (async () => {
       const resultGetPets = await getPets(cookies.meId, cookies.authToken);
-      setPets(resultGetPets.results);
+      setPets(resultGetPets);
     })();
   }, []);
   if (!cookies.authToken) history.push("/login");
@@ -44,6 +44,7 @@ const Pets = (): JSX.Element => {
       >
         {pets.map((result, index) => (
           <Well key={index} margin="size-100">
+            {result.pet.name}
             <Flex>
               <Image
                 width="150px"
@@ -57,7 +58,7 @@ const Pets = (): JSX.Element => {
                 <Text>{result.pet.birthday}</Text>
                 <Text>{result.pet.welcome_day}</Text>
                 <Link variant="secondary" isQuiet>
-                  <RouterLink to={"/pet/edit/" + result.pet.share_id}>
+                  <RouterLink to={"/pet/edit/" + result.pet.id}>
                     <ActionButton bottom="size-0">
                       <Text>編集</Text>
                       <Edit />

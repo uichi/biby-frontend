@@ -12,4 +12,13 @@ export interface Me {
   email: string;
 }
 
-// export interface
+export interface Pet {
+  id: string;
+  name: string;
+  image: string;
+  gender: string;
+  birthday: string;
+  welcome_day: string;
+  share_id: string;
+  is_heaven: string;
+}
