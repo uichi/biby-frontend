@@ -13,6 +13,7 @@ import Profile from "./components/Profile";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import PetAdd from "./components/PetAdd";
+import PetSelect from "./components/PetSelect";
 
 function App(): JSX.Element {
   return (
@@ -24,6 +25,7 @@ function App(): JSX.Element {
           <Route exact path="/pet/edit/:id" component={PetEdit} />
           <Route exact path="/pets" component={Pets} />
           <Route exact path="/pet/add" component={PetAdd} />
+          <Route exact path="/pet/select" component={PetSelect} />
           <Route exact path="/settings" component={SettingApp} />
           <Route exact path="/care/log/edit/:id" component={CareLogEdit} />
           <Route exact path="/care/logs" component={CareLogs} />
