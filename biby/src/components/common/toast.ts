@@ -97,3 +97,14 @@ export const signupError = (): string =>
     },
     duration: 3000,
   });
+
+export const notifyEssentialValueIsEmpty = (): string =>
+  toast.error("必須の値を入力してください", {
+    icon: "❌",
+    style: {
+      borderRadius: "10px",
+      background: "#333",
+      color: "#fff",
+    },
+    duration: 3000,
+  });
