@@ -1,26 +1,29 @@
-import { petsUrl } from "./Config";
-import { Profile } from "../types";
+import { petsUrl, petOwnerGroupUrl } from "./Config";
 
-// export const getUser = (id: string, token: string): Promise<Profile> | null => {
-//   const options = {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: `Token ${token}`,
-//     },
-//   };
-//   return fetch(usersUrl + `${id}`, options)
-//     .then((res) => res.json())
-//     .then((json) => json)
-//     .catch(() => null);
-// };
+// TODO: Pet型をつくる
+export const getPets = (meId: string, token: string): Promise<any> | null => {
+  const query_params = new URLSearchParams({
+    user: meId,
+  });
+  const options = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+  return fetch(petOwnerGroupUrl + `?${query_params}`, options)
+    .then((res) => res.json())
+    .then((json) => json)
+    .catch(() => null);
+};
 
 export const postPet = (
   name: string,
   gender: string,
   birthday: string,
   welcome_day: string,
-  image: any,
+  image: File | undefined,
   token: string
 ): Promise<any> | null => {
   const formData = new FormData();

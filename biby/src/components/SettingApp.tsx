@@ -20,7 +20,7 @@ import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 
 const SettingApp = (): JSX.Element => {
-  const [cookies, setCookie, removeCookie] = useCookies();
+  const [cookies, setCookie, removeCookie] = useCookies(); // eslint-disable-line
   const history = useHistory();
   if (!cookies.authToken) history.push("/login");
   const logout = async () => {

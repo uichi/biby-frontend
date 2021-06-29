@@ -2,14 +2,11 @@ import {
   Provider,
   defaultTheme,
   View,
-  Image,
   Form,
   TextField,
   RadioGroup,
   Radio,
-  DialogTrigger,
   ActionButton,
-  AlertDialog,
 } from "@adobe/react-spectrum";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -22,7 +19,7 @@ import { validateNotEnteredError, notifyErrorSave } from "./common/toast";
 import { Toaster } from "react-hot-toast";
 
 const PetEdit = (): JSX.Element => {
-  const [cookies, setCookie] = useCookies();
+  const [cookies, setCookie] = useCookies(); // eslint-disable-line
   const [images, setImages] = useState([]);
   const [image, setImage] = useState<File>();
   const [name, setName] = useState<string>("");
@@ -53,10 +50,7 @@ const PetEdit = (): JSX.Element => {
     history.push("/pets");
   };
 
-  const uploadImage = (
-    imageList: ImageListType,
-    addUpdateIndex: number[] | undefined
-  ) => {
+  const uploadImage = (imageList: ImageListType) => {
     setImages(imageList as never[]);
     if (imageList[0]) setImage(imageList[0].file);
   };
@@ -83,8 +77,6 @@ const PetEdit = (): JSX.Element => {
               imageList,
               onImageUpload,
               onImageRemoveAll,
-              onImageUpdate,
-              onImageRemove,
               isDragging,
               dragProps,
             }) => (
