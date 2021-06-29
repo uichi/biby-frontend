@@ -6,19 +6,37 @@ import {
   Well,
   Flex,
   Image,
+  Link,
+  ActionButton,
 } from "@adobe/react-spectrum";
+import { Link as RouterLink } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
+import { getPet } from "../api/Pet";
 
 const Top = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
+  const [name, setName] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string>("");
+  const [birthday, setBirthday] = useState<string>("");
+  const [welcomeDay, setWelcomeDay] = useState<string>("");
   const history = useHistory();
   if (!cookies.authToken) history.push("/login");
   useEffect(() => {
-    //    if (!cookies.authToken) history.push("/login");
+    (async () => {
+      // FIXME: リロードするとcookies.selectedPetが消えてしまう
+      const pet = await getPet(cookies.selectedPet, cookies.authToken);
+      if (pet) {
+        setName(pet.name);
+        setImageUrl(pet.image);
+        // NOTE: undefinedになる可能性があるstateはsetしないように制御
+        if (pet.birthday) setBirthday(pet.birthday);
+        if (pet.welcome_day) setWelcomeDay(pet.welcome_day);
+      }
+    })();
   }, []);
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
@@ -33,22 +51,29 @@ const Top = (): JSX.Element => {
         <Well margin="size-100">
           <Flex>
             <Image
-              width="150px"
-              height="150px"
-              src="https://i.imgur.com/c3gTKSJ.jpg"
+              width="100px"
+              height="100px"
+              src={imageUrl}
               alt=""
               objectFit="cover"
             />
             <Flex direction="column" marginStart="size-100">
-              <Text>イッヌ</Text>
-              <Text>誕生日</Text>
-              <Text>家族になった日</Text>
+              <Text>{name}</Text>
+              <Text>{birthday}</Text>
+              <Text>{welcomeDay}</Text>
             </Flex>
           </Flex>
         </Well>
-        <Text marginStart="size-100" marginTop="size-500">
-          毎日の日課
-        </Text>
+        <View marginStart="size-100" marginBottom="size-200">
+          <Link variant="secondary" isQuiet>
+            <RouterLink to={"/pet/select/"}>
+              <ActionButton bottom="size-0" width="calc(100% - size-100)">
+                <Text>ペット選択</Text>
+              </ActionButton>
+            </RouterLink>
+          </Link>
+        </View>
+        <Text marginStart="size-100">毎日の日課</Text>
         <View
           alignSelf="center"
           backgroundColor="gray-400"

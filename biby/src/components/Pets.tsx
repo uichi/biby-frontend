@@ -44,7 +44,6 @@ const Pets = (): JSX.Element => {
       >
         {pets.map((result, index) => (
           <Well key={index} margin="size-100">
-            {result.pet.name}
             <Flex>
               <Image
                 width="150px"
@@ -69,7 +68,7 @@ const Pets = (): JSX.Element => {
             </Flex>
           </Well>
         ))}
-        <View marginTop="size-100">
+        <View marginTop="size-100" marginBottom="size-100">
           <Link variant="secondary" margin="size-100" isQuiet>
             <RouterLink to="/pet/add">
               <ActionButton bottom="size-0" width="calc(100% - size-200)">
