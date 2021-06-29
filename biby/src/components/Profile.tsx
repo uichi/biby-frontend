@@ -8,7 +8,7 @@ import {
   ActionButton,
   AlertDialog,
 } from "@adobe/react-spectrum";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import { getUser, patchUser } from "../api/Profile";
@@ -19,14 +19,27 @@ import {
   notifyErrorSave,
   notifyErrorGet,
   validateNotEnteredError,
+  validateEmailError,
 } from "./common/toast";
+import { emailValid } from "./common/validation";
+import { useCookies } from "react-cookie";
+import { useHistory } from "react-router-dom";
+import { getMe } from "../api/Authentication";
 
 const Profile = (): JSX.Element => {
+  const [cookies, setCookie] = useCookies(); // eslint-disable-line
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const isEmailValid = useMemo(() => emailValid.test(email), [email]);
+  const history = useHistory();
+  if (!cookies.authToken) history.push("/login");
   useEffect(() => {
     (async () => {
-      const profile: ProfileInterface | null = await getUser("1");
+      const me = await getMe(cookies.authToken);
+      const profile: ProfileInterface | null = await getUser(
+        me.id,
+        cookies.authToken
+      );
       if (profile) {
         setUsername(profile.username);
         setEmail(profile.email);
@@ -36,11 +49,20 @@ const Profile = (): JSX.Element => {
     })();
   }, []);
   const saveProfile = async () => {
-    if (!username && email) {
+    if (!(username && email)) {
       validateNotEnteredError();
       return;
     }
-    const patchedUser = await patchUser("1", username, email);
+    if (!isEmailValid) {
+      validateEmailError();
+      return;
+    }
+    const patchedUser = await patchUser(
+      cookies.meId,
+      username,
+      email,
+      cookies.authToken
+    );
     if (patchedUser) {
       notifySuccessSave();
       return;
@@ -62,18 +84,24 @@ const Profile = (): JSX.Element => {
           <h3 id="label-3">プロフィール</h3>
           <Form aria-labelledby="label-3" necessityIndicator="icon">
             <TextField
+              type="string"
+              inputMode="text"
               label="ユーザー名"
               placeholder="アニマル一郎"
               value={username}
               isRequired={true}
               onChange={setUsername}
+              validationState={username !== "" ? "valid" : "invalid"}
             />
             <TextField
+              type="email"
+              inputMode="email"
               label="メールアドレス"
               placeholder="example@biby.live"
               value={email}
               isRequired={true}
               onChange={setEmail}
+              validationState={isEmailValid ? "valid" : "invalid"}
             />
             <ActionButton staticColor="white" onPress={saveProfile}>
               保存

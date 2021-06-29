@@ -16,8 +16,17 @@ import { Link } from "@adobe/react-spectrum";
 import { Link as RouterLink } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
+import { useCookies } from "react-cookie";
+import { useHistory } from "react-router-dom";
 
 const SettingApp = (): JSX.Element => {
+  const [cookies, setCookie, removeCookie] = useCookies(); // eslint-disable-line
+  const history = useHistory();
+  if (!cookies.authToken) history.push("/login");
+  const logout = async () => {
+    removeCookie("authToken");
+    history.push("/login");
+  };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
       <Header />
@@ -37,6 +46,11 @@ const SettingApp = (): JSX.Element => {
                 <RealTimeCustomerProfile size="XS" marginEnd="size-100" />
                 <Text>プロフィール</Text>
               </RouterLink>
+            </Link>
+          </View>
+          <View>
+            <Link onPress={logout} variant="secondary" isQuiet>
+              ログアウト
             </Link>
           </View>
           <Text marginTop="size-200">フィードバック</Text>
