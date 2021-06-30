@@ -122,8 +122,8 @@ const PetEdit = (): JSX.Element => {
               onChange={setWelcomeDay}
             />
             <RadioGroup value={gender} onChange={setGender} label="性別">
-              <Radio value="1">オス</Radio>
-              <Radio value="2">メス</Radio>
+              <Radio value="male">オス</Radio>
+              <Radio value="female">メス</Radio>
             </RadioGroup>
             <ActionButton staticColor="white" onPress={addPet}>
               保存

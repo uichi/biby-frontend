@@ -39,7 +39,7 @@ const Header = (): JSX.Element => {
             gridArea="name"
             marginTop="size-100"
           >
-            <Text>ぽち</Text>
+            <Text>biby</Text>
           </View>
           <View
             alignSelf="center"

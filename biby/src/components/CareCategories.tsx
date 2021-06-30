@@ -9,8 +9,27 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { Link } from "@adobe/react-spectrum";
 import { Link as RouterLink } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useCookies } from "react-cookie";
+import { useHistory } from "react-router-dom";
+import { getCategories } from "../api/CareCategory";
+import { CareCategory } from "../types";
 
 const CareCategories = (): JSX.Element => {
+  const [cookies, setCookie] = useCookies(); // eslint-disable-line
+  const [careCategories, setCareCategories] = useState<CareCategory[]>(
+    []
+  );
+  const history = useHistory();
+  useEffect(() => {
+    (async () => {
+      const resultCareCategories = await getCategories(
+        cookies.meId,
+        cookies.authToken
+      );
+      setCareCategories(resultCareCategories);
+    })();
+  }, []);
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
       <Header />
@@ -25,39 +44,26 @@ const CareCategories = (): JSX.Element => {
         <Text marginStart="size-100" marginTop="size-500">
           カテゴリ一覧
         </Text>
-        <View
-          alignSelf="center"
-          backgroundColor="gray-400"
-          borderRadius="small"
-          padding="size-100"
-          margin="size-100"
-          height="size-300"
-        >
-          <Link variant="secondary" isQuiet>
-            <RouterLink to="/care/category/edit/1">
-              <View marginBottom="size-100">
-                <Text>散歩</Text>
-              </View>
-            </RouterLink>
-          </Link>
-        </View>
-        <View
-          alignSelf="center"
-          backgroundColor="gray-400"
-          borderRadius="small"
-          padding="size-100"
-          margin="size-100"
-          height="size-300"
-        >
-          <Link variant="secondary" isQuiet>
-            <RouterLink to="/care/category/edit/1">
-              <View marginBottom="size-100">
-                <Text>ごはん</Text>
-              </View>
-            </RouterLink>
-          </Link>
-        </View>
-        <View>
+        {careCategories.map((careCategory, index) => (
+          <View
+            alignSelf="center"
+            backgroundColor="gray-400"
+            borderRadius="small"
+            padding="size-100"
+            margin="size-100"
+            height="size-300"
+            key={index}
+          >
+            <Link variant="secondary" isQuiet>
+              <RouterLink to={"/care/category/edit/" + careCategory.id}>
+                <View marginBottom="size-100">
+                  <Text>{careCategory.name}</Text>
+                </View>
+              </RouterLink>
+            </Link>
+          </View>
+        ))}
+        <View marginBottom="size-100">
           <Link variant="secondary" margin="size-100" isQuiet>
             <RouterLink to="/care/category/edit/1">
               <ActionButton bottom="size-0" width="calc(100% - size-200)">
