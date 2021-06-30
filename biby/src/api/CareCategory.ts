@@ -23,3 +23,33 @@ export const getCategories = (
     .then((json) => json.results)
     .catch(() => []);
 };
+
+export const postCareCategory = (
+  name: string,
+  inputType: string,
+  unit: string,
+  meId: string,
+  token: string
+): Promise<any> | null => {
+  const body = JSON.stringify({
+    name,
+    input_type: inputType,
+    unit: unit,
+    user: meId,
+  });
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+    body,
+  };
+  return fetch(careCategoryUrl, options)
+    .then((res) => {
+      if (!res.ok) throw new Error();
+      return res.json();
+    })
+    .then((json) => json)
+    .catch(() => null);
+};

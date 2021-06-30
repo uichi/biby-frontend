@@ -4,9 +4,7 @@ import {
   View,
   Form,
   TextField,
-  DialogTrigger,
   ActionButton,
-  AlertDialog,
   Picker,
   Item,
 } from "@adobe/react-spectrum";
@@ -15,9 +13,18 @@ import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
+import { postCareCategory } from "../api/CareCategory";
+import {
+  notifySuccessSave,
+  notifyEssentialValueIsEmpty,
+  notifyErrorSave,
+} from "./common/toast";
+import { Toaster } from "react-hot-toast";
 
 const CareCategoryEdit = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
+  const [name, setName] = useState<string>("");
+  const [unit, setUnit] = useState<string>("");
   const [fieldTypeId, setFieldTypeId]: [
     string,
     Dispatch<SetStateAction<any>> // HACK: 型定義見直す
@@ -30,8 +37,32 @@ const CareCategoryEdit = (): JSX.Element => {
   ];
   const history = useHistory();
   if (!cookies.authToken) history.push("/login");
+  const onChangeInputType = (value: any): void => {
+    // TODO: 型指定変える
+    setFieldTypeId(value);
+    if (["text", "checkbox"].indexOf(value) !== -1) setUnit("");
+  };
+  const addCareCategory = async () => {
+    if (name === "" || fieldTypeId === "") {
+      notifyEssentialValueIsEmpty();
+      return;
+    }
+    const resultAddCareCategory = await postCareCategory(
+      name,
+      fieldTypeId,
+      unit,
+      cookies.meId,
+      cookies.authToken
+    );
+    if (!resultAddCareCategory) {
+      notifyErrorSave();
+      return;
+    }
+    notifySuccessSave();
+  };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
+      <Toaster position="top-center" />
       <Header />
       <View
         backgroundColor="gray-200"
@@ -43,34 +74,27 @@ const CareCategoryEdit = (): JSX.Element => {
         <View margin="size-100">
           <h3 id="label-3">カテゴリー追加</h3>
           <Form aria-labelledby="label-3" necessityIndicator="icon">
-            <TextField label="カテゴリ名" isRequired={true} />
+            <TextField
+              label="カテゴリ名"
+              isRequired={true}
+              onChange={setName}
+            />
             <Picker
               label="フィールドのタイプを選択してください"
               items={options}
               selectedKey={fieldTypeId}
-              onSelectionChange={setFieldTypeId}
+              onSelectionChange={onChangeInputType}
               isRequired={true}
             >
               {(item) => <Item>{item.name}</Item>}
             </Picker>
             {((): any => {
               if (["integer", "float"].indexOf(fieldTypeId) !== -1)
-                return <TextField label="単位" />;
+                return <TextField label="単位" onChange={setUnit} />;
             })()}
-            <ActionButton type="submit" staticColor="white">
+            <ActionButton staticColor="white" onPress={addCareCategory}>
               保存
             </ActionButton>
-            <DialogTrigger>
-              <ActionButton>削除</ActionButton>
-              <AlertDialog
-                variant="destructive"
-                title="削除しますか？"
-                primaryActionLabel="削除"
-                cancelLabel="キャンセル"
-              >
-                これまで記録したデータも削除されます。
-              </AlertDialog>
-            </DialogTrigger>
           </Form>
         </View>
       </View>
