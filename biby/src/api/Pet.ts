@@ -101,3 +101,20 @@ export const patchPet = (
     .then((json) => json)
     .catch(() => null);
 };
+
+export const deletePet = (petId: string, token: string): Promise<Pet> | null => {
+  const options = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+  return fetch(petsUrl + `${petId}/`, options)
+    .then((res) => {
+      if (!res.ok) throw new Error();
+      return res.json();
+    })
+    .then((json) => json)
+    .catch(() => null);
+};

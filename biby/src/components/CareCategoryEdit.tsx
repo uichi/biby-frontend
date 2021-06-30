@@ -22,7 +22,7 @@ import {
   notifyErrorGet,
 } from "./common/toast";
 import { Toaster } from "react-hot-toast";
-import { getCareCategory, patchCareCategory } from "../api/CareCategory";
+import { getCareCategory, patchCareCategory, deleteCareCategory } from "../api/CareCategory";
 
 const CareCategoryEdit = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
@@ -82,6 +82,10 @@ const CareCategoryEdit = (): JSX.Element => {
     }
     notifySuccessSave();
   };
+  const removeCareCategory = async () => {
+    const resultDeleteCareCategory = await deleteCareCategory(careCategoryId, cookies.meId);
+    history.push("/care/categories")
+  }
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
       <Toaster position="top-center" />
@@ -117,7 +121,6 @@ const CareCategoryEdit = (): JSX.Element => {
                 return (
                   <TextField label="単位" value={unit} onChange={setUnit} />
                 );
-              return;
             })()}
             <ActionButton staticColor="white" onPress={updateCareCategory}>
               保存
@@ -128,6 +131,7 @@ const CareCategoryEdit = (): JSX.Element => {
                 variant="destructive"
                 title="削除しますか？"
                 primaryActionLabel="削除"
+                onPrimaryAction={removeCareCategory}
                 cancelLabel="キャンセル"
               >
                 これまで記録したデータも削除されます。

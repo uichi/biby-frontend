@@ -104,3 +104,23 @@ export const patchCareCategory = (
     .then((json) => json)
     .catch(() => null);
 };
+
+export const deleteCareCategory = (
+  id: string,
+  token: string
+): Promise<CareCategory> | null => {
+  const options = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+  return fetch(careCategoryUrl + `${id}/`, options)
+    .then((res) => {
+      if (!res.ok) throw new Error();
+      return res.json();
+    })
+    .then((json) => json)
+    .catch(() => null);
+};
