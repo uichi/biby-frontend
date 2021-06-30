@@ -16,7 +16,7 @@ import Footer from "./Footer";
 import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
-import { getPet, patchPet } from "../api/Pet";
+import { getPet, patchPet, deletePet } from "../api/Pet";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 import {
   notifyErrorSave,
@@ -82,6 +82,10 @@ const PetEdit = (): JSX.Element => {
     setImages(imageList as never[]);
     if (imageList[0]) setImage(imageList[0].file);
   };
+  const removePet = async () => {
+    const resultDeletePet = await deletePet(petId, cookies.meId);
+    history.push("/pets")
+  }
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
       <Toaster position="top-center" />
@@ -175,6 +179,7 @@ const PetEdit = (): JSX.Element => {
                 variant="destructive"
                 title="削除しますか？"
                 primaryActionLabel="削除"
+                onPrimaryAction={removePet}
                 cancelLabel="キャンセル"
               >
                 これまで記録したデータも削除されます。
