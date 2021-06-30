@@ -19,6 +19,7 @@ const CareCategories = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
   const [careCategories, setCareCategories] = useState<CareCategory[]>([]);
   const history = useHistory();
+  if (!cookies.authToken) history.push("/login");
   useEffect(() => {
     (async () => {
       const resultCareCategories = await getCategories(
