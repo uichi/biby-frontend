@@ -7,27 +7,79 @@ import {
   DialogTrigger,
   ActionButton,
   AlertDialog,
-  TextArea,
+  Picker,
+  Item,
 } from "@adobe/react-spectrum";
-import { ComboBox, Item } from "@react-spectrum/combobox";
-import { useState, Dispatch, SetStateAction } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { useCookies } from "react-cookie";
 import Header from "./Header";
 import Footer from "./Footer";
+import { useHistory } from "react-router-dom";
+import {
+  notifySuccessSave,
+  notifyEssentialValueIsEmpty,
+  notifyErrorSave,
+} from "./common/toast";
+import { Toaster } from "react-hot-toast";
+import { getCareCategory, patchCareCategory } from "../api/CareCategory";
 
 const CareCategoryEdit = (): JSX.Element => {
+  const [cookies, setCookie] = useCookies(); // eslint-disable-line
+  const [name, setName] = useState<string>("");
+  const [unit, setUnit] = useState<string>("");
+  const [careCategoryId, setCareCategoryId] = useState<string>("");
+  const history = useHistory();
   const [fieldTypeId, setFieldTypeId]: [
-    number,
+    string,
     Dispatch<SetStateAction<any>> // HACK: 型定義見直す
-  ] = useState<number>(0);
+  ] = useState<string>("text");
   const options = [
-    { id: 1, name: "テキスト" },
-    { id: 2, name: "整数" },
-    { id: 3, name: "小数" },
-    { id: 4, name: "チェックボックス" },
+    { id: "text", name: "テキスト" },
+    { id: "integer", name: "整数" },
+    { id: "float", name: "小数" },
+    //    { id: 'checkbox', name: "チェックボックス" },
   ];
-
+  if (!cookies.authToken) history.push("/login");
+  useEffect(() => {
+    (async () => {
+      const selectedCareCategoryId = location.pathname.split("/").slice(-1)[0];
+      setCareCategoryId(selectedCareCategoryId);
+      const resultGetCareCategory = await getCareCategory(
+        selectedCareCategoryId,
+        cookies.authToken
+      );
+      setName(resultGetCareCategory.name);
+      setFieldTypeId(resultGetCareCategory.input_type);
+      setUnit(resultGetCareCategory.unit);
+    })();
+  }, []);
+  // HACK: 型指定見直す
+  const onChangeInputType = (value: any): void => {
+    setFieldTypeId(value);
+    if (["text", "checkbox"].indexOf(value) !== -1) setUnit("");
+  };
+  const updateCareCategory = async () => {
+    if (name === "" || fieldTypeId === "") {
+      notifyEssentialValueIsEmpty();
+      return;
+    }
+    const resultUpdateCareCategory = await patchCareCategory(
+      careCategoryId,
+      name,
+      fieldTypeId,
+      unit,
+      cookies.meId,
+      cookies.authToken
+    );
+    if (!resultUpdateCareCategory) {
+      notifyErrorSave();
+      return;
+    }
+    notifySuccessSave();
+  };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
+      <Toaster position="top-center" />
       <Header />
       <View
         backgroundColor="gray-200"
@@ -42,18 +94,26 @@ const CareCategoryEdit = (): JSX.Element => {
             <TextField
               label="タイトル"
               placeholder="タイトル"
+              value={name}
               isRequired={true}
+              onChange={setName}
             />
-            <p>This id is {fieldTypeId}</p>
-            <ComboBox
+            <Picker
               label="フィールドのタイプを選択してください"
-              defaultItems={options}
-              onSelectionChange={setFieldTypeId}
+              items={options}
+              selectedKey={fieldTypeId}
+              onSelectionChange={onChangeInputType}
+              isRequired={true}
             >
               {(item) => <Item>{item.name}</Item>}
-            </ComboBox>
-            <TextArea label="メモ" height="size-3000" />
-            <ActionButton type="submit" staticColor="white">
+            </Picker>
+            {((): any => {
+              if (["integer", "float"].indexOf(fieldTypeId) !== -1)
+                return (
+                  <TextField label="単位" value={unit} onChange={setUnit} />
+                );
+            })()}
+            <ActionButton staticColor="white" onPress={updateCareCategory}>
               保存
             </ActionButton>
             <DialogTrigger>

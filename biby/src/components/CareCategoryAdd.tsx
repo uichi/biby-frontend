@@ -37,8 +37,8 @@ const CareCategoryEdit = (): JSX.Element => {
   ];
   const history = useHistory();
   if (!cookies.authToken) history.push("/login");
+  // HACK: 型指定見直す
   const onChangeInputType = (value: any): void => {
-    // TODO: 型指定変える
     setFieldTypeId(value);
     if (["text", "checkbox"].indexOf(value) !== -1) setUnit("");
   };
