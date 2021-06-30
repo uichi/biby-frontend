@@ -19,6 +19,7 @@ import {
   notifySuccessSave,
   notifyEssentialValueIsEmpty,
   notifyErrorSave,
+  notifyErrorGet,
 } from "./common/toast";
 import { Toaster } from "react-hot-toast";
 import { getCareCategory, patchCareCategory } from "../api/CareCategory";
@@ -48,9 +49,13 @@ const CareCategoryEdit = (): JSX.Element => {
         selectedCareCategoryId,
         cookies.authToken
       );
-      setName(resultGetCareCategory.name);
-      setFieldTypeId(resultGetCareCategory.input_type);
-      setUnit(resultGetCareCategory.unit);
+      if (resultGetCareCategory) {
+        setName(resultGetCareCategory.name);
+        setFieldTypeId(resultGetCareCategory.input_type);
+        setUnit(resultGetCareCategory.unit);
+        return;
+      }
+      notifyErrorGet();
     })();
   }, []);
   // HACK: 型指定見直す
@@ -112,6 +117,7 @@ const CareCategoryEdit = (): JSX.Element => {
                 return (
                   <TextField label="単位" value={unit} onChange={setUnit} />
                 );
+              return;
             })()}
             <ActionButton staticColor="white" onPress={updateCareCategory}>
               保存
