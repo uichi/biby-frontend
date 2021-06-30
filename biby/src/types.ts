@@ -22,3 +22,13 @@ export interface Pet {
   share_id: string;
   is_heaven: string;
 }
+
+export interface CareCategory {
+  id: string;
+  name: string;
+  icon: string;
+  input_type: string;
+  unit: string;
+  is_daily_routine: string;
+  user: string;
+}
