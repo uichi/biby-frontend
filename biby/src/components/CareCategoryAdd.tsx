@@ -7,25 +7,29 @@ import {
   DialogTrigger,
   ActionButton,
   AlertDialog,
-  TextArea,
+  Picker,
+  Item,
 } from "@adobe/react-spectrum";
-import { ComboBox, Item } from "@react-spectrum/combobox";
 import { useState, Dispatch, SetStateAction } from "react";
+import { useCookies } from "react-cookie";
+import { useHistory } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 
 const CareCategoryEdit = (): JSX.Element => {
+  const [cookies, setCookie] = useCookies(); // eslint-disable-line
   const [fieldTypeId, setFieldTypeId]: [
-    number,
+    string,
     Dispatch<SetStateAction<any>> // HACK: 型定義見直す
-  ] = useState<number>(0);
+  ] = useState<string>("text");
   const options = [
-    { id: 1, name: "テキスト" },
-    { id: 2, name: "整数" },
-    { id: 3, name: "小数" },
-    { id: 4, name: "チェックボックス" },
+    { id: "text", name: "テキスト" },
+    { id: "integer", name: "整数" },
+    { id: "float", name: "小数" },
+    //    { id: 'checkbox', name: "チェックボックス" },
   ];
-
+  const history = useHistory();
+  if (!cookies.authToken) history.push("/login");
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
       <Header />
@@ -37,22 +41,22 @@ const CareCategoryEdit = (): JSX.Element => {
         paddingBottom="8vh"
       >
         <View margin="size-100">
-          <h3 id="label-3">記録</h3>
+          <h3 id="label-3">カテゴリー追加</h3>
           <Form aria-labelledby="label-3" necessityIndicator="icon">
-            <TextField
-              label="タイトル"
-              placeholder="タイトル"
-              isRequired={true}
-            />
-            <p>This id is {fieldTypeId}</p>
-            <ComboBox
+            <TextField label="カテゴリ名" isRequired={true} />
+            <Picker
               label="フィールドのタイプを選択してください"
-              defaultItems={options}
+              items={options}
+              selectedKey={fieldTypeId}
               onSelectionChange={setFieldTypeId}
+              isRequired={true}
             >
               {(item) => <Item>{item.name}</Item>}
-            </ComboBox>
-            <TextArea label="メモ" height="size-3000" />
+            </Picker>
+            {((): any => {
+              if (["integer", "float"].indexOf(fieldTypeId) !== -1)
+                return <TextField label="単位" />;
+            })()}
             <ActionButton type="submit" staticColor="white">
               保存
             </ActionButton>

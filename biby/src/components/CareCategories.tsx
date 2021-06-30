@@ -17,9 +17,7 @@ import { CareCategory } from "../types";
 
 const CareCategories = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
-  const [careCategories, setCareCategories] = useState<CareCategory[]>(
-    []
-  );
+  const [careCategories, setCareCategories] = useState<CareCategory[]>([]);
   const history = useHistory();
   useEffect(() => {
     (async () => {
@@ -65,7 +63,7 @@ const CareCategories = (): JSX.Element => {
         ))}
         <View marginBottom="size-100">
           <Link variant="secondary" margin="size-100" isQuiet>
-            <RouterLink to="/care/category/edit/1">
+            <RouterLink to="/care/category/add/">
               <ActionButton bottom="size-0" width="calc(100% - size-200)">
                 <Text>追加</Text>
               </ActionButton>

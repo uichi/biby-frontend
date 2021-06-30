@@ -9,6 +9,7 @@ import CareLogs from "./components/CareLogs";
 import CareLogEdit from "./components/CareLogEdit";
 import CareCategories from "./components/CareCategories";
 import CareCategoryEdit from "./components/CareCategoryEdit";
+import CareCategoryAdd from "./components/CareCategoryAdd";
 import Profile from "./components/Profile";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
@@ -30,6 +31,7 @@ function App(): JSX.Element {
           <Route exact path="/care/log/edit/:id" component={CareLogEdit} />
           <Route exact path="/care/logs" component={CareLogs} />
           <Route exact path="/care/categories" component={CareCategories} />
+          <Route exact path="/care/category/add" component={CareCategoryAdd} />
           <Route
             exact
             path="/care/category/edit/:id"
