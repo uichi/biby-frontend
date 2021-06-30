@@ -4,7 +4,7 @@ import { CareCategory } from "../types";
 export const getCareCategory = (
   id: string,
   token: string
-): Promise<any> | null => {
+): Promise<CareCategory> | null => {
   const options = {
     method: "GET",
     headers: {
@@ -50,7 +50,7 @@ export const postCareCategory = (
   unit: string,
   meId: string,
   token: string
-): Promise<any> | null => {
+): Promise<CareCategory> | null => {
   const body = JSON.stringify({
     name,
     input_type: inputType,
@@ -81,7 +81,7 @@ export const patchCareCategory = (
   unit: string,
   meId: string,
   token: string
-): Promise<any> | null => {
+): Promise<CareCategory> | null => {
   const body = JSON.stringify({
     name,
     input_type: inputType,
