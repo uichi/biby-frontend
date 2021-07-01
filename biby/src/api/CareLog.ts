@@ -26,6 +26,7 @@ export const postCareLog = (
   float: number | null,
   memo: string | null,
   user_pk: string | null,
+  pet_pk: string,
   token: string
 ): Promise<any> | null => {
   const body = JSON.stringify({
@@ -35,6 +36,7 @@ export const postCareLog = (
     integer,
     memo,
     user_pk,
+    pet_pk,
     float,
   });
   const options = {
@@ -86,6 +88,7 @@ export const patchCareLog = (
   float: number | null,
   memo: string | null,
   user_pk: string | null,
+  pet_pk: string,
   token: string
 ): Promise<any> | null => {
   const body = JSON.stringify({
@@ -96,6 +99,7 @@ export const patchCareLog = (
     memo,
     user_pk,
     float,
+    pet_pk,
   });
   const options = {
     method: "PATCH",
@@ -107,7 +111,7 @@ export const patchCareLog = (
   };
   return fetch(careLogUrl + `${id}/`, options)
     .then((res) => {
-      //       if (!res.ok) throw new Error();
+      if (!res.ok) throw new Error();
       return res.json();
     })
     .then((json) => json)
