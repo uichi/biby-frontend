@@ -83,9 +83,9 @@ const PetEdit = (): JSX.Element => {
     if (imageList[0]) setImage(imageList[0].file);
   };
   const removePet = async () => {
-    const resultDeletePet = await deletePet(petId, cookies.meId);
-    history.push("/pets")
-  }
+    await deletePet(petId, cookies.meId);
+    history.push("/pets");
+  };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
       <Toaster position="top-center" />

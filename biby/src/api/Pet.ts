@@ -102,7 +102,10 @@ export const patchPet = (
     .catch(() => null);
 };
 
-export const deletePet = (petId: string, token: string): Promise<Pet> | null => {
+export const deletePet = (
+  petId: string,
+  token: string
+): Promise<Pet> | null => {
   const options = {
     method: "DELETE",
     headers: {

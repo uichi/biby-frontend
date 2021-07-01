@@ -22,7 +22,11 @@ import {
   notifyErrorGet,
 } from "./common/toast";
 import { Toaster } from "react-hot-toast";
-import { getCareCategory, patchCareCategory, deleteCareCategory } from "../api/CareCategory";
+import {
+  getCareCategory,
+  patchCareCategory,
+  deleteCareCategory,
+} from "../api/CareCategory";
 
 const CareCategoryEdit = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
@@ -83,9 +87,9 @@ const CareCategoryEdit = (): JSX.Element => {
     notifySuccessSave();
   };
   const removeCareCategory = async () => {
-    const resultDeleteCareCategory = await deleteCareCategory(careCategoryId, cookies.meId);
-    history.push("/care/categories")
-  }
+    await deleteCareCategory(careCategoryId, cookies.meId);
+    history.push("/care/categories");
+  };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
       <Toaster position="top-center" />
