@@ -15,7 +15,7 @@ import { useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 
-const RecordEdit = (): JSX.Element => {
+const CareLogEdit = (): JSX.Element => {
   const [selected, setSelected] = useState<boolean>(false);
 
   return (
@@ -82,4 +82,4 @@ const RecordEdit = (): JSX.Element => {
   );
 };
 
-export default RecordEdit;
+export default CareLogEdit;

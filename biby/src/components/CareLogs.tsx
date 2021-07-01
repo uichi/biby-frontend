@@ -61,9 +61,9 @@ const CareLogs = (): JSX.Element => {
             <Text>30分</Text>
           </View>
         </View>
-        <View>
+        <View marginBottom="size-100">
           <Link variant="secondary" margin="size-100" isQuiet>
-            <RouterLink to="/care/log/edit/1">
+            <RouterLink to="/care/log/add">
               <ActionButton bottom="size-0" width="calc(100% - size-200)">
                 <Text>記録する</Text>
               </ActionButton>

@@ -6,6 +6,7 @@ import Pets from "./components/Pets";
 import PetEdit from "./components/PetEdit";
 import SettingApp from "./components/SettingApp";
 import CareLogs from "./components/CareLogs";
+import CareLogAdd from "./components/CareLogAdd";
 import CareLogEdit from "./components/CareLogEdit";
 import CareCategories from "./components/CareCategories";
 import CareCategoryEdit from "./components/CareCategoryEdit";
@@ -28,6 +29,7 @@ function App(): JSX.Element {
           <Route exact path="/pet/add" component={PetAdd} />
           <Route exact path="/pet/select" component={PetSelect} />
           <Route exact path="/settings" component={SettingApp} />
+          <Route exact path="/care/log/add" component={CareLogAdd} />
           <Route exact path="/care/log/edit/:id" component={CareLogEdit} />
           <Route exact path="/care/logs" component={CareLogs} />
           <Route exact path="/care/categories" component={CareCategories} />

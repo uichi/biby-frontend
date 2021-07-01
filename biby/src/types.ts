@@ -32,3 +32,13 @@ export interface CareCategory {
   is_daily_routine: string;
   user: string;
 }
+
+export interface CareLog {
+  id: string;
+  name: string;
+  icon: string;
+  input_type: string;
+  unit: string;
+  is_daily_routine: string;
+  user: string;
+}

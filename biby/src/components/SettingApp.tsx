@@ -25,6 +25,7 @@ const SettingApp = (): JSX.Element => {
   if (!cookies.authToken) history.push("/login");
   const logout = async () => {
     removeCookie("authToken");
+    removeCookie("meId");
     history.push("/login");
   };
   return (
