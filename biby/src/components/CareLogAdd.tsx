@@ -77,6 +77,7 @@ const CareLogAdd = (): JSX.Element => {
       inputType.name === "integer" ? integer : null,
       inputType.name === "float" ? float : null,
       memo,
+      cookies.meId,
       cookies.authToken
     );
     if (!resultAddCareLog) {
