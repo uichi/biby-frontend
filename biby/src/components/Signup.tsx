@@ -17,8 +17,11 @@ import {
 import { emailValid } from "./common/validation";
 import { signupAuth } from "../api/Authentication";
 import { useHistory } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import { loginAuth, getMe } from "../api/Authentication";
 
 const Signup = (): JSX.Element => {
+  const [cookies, setCookie] = useCookies(["authToken", "meId"]); // eslint-disable-line
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -45,6 +48,15 @@ const Signup = (): JSX.Element => {
       passwordConfirm
     );
     if (signUpAuth) {
+      const resultLoginAuth = await loginAuth(email, password);
+      //    if (resultLoginAuth) {
+      //      if (!resultLoginAuth.auth_token) {
+      //        loginError();
+      //        return;
+      //      }
+      setCookie("authToken", resultLoginAuth.auth_token);
+      const me = await getMe(resultLoginAuth.auth_token);
+      setCookie("meId", me.id);
       history.push("/");
     }
     signupError();

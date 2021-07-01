@@ -19,6 +19,7 @@ import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { getCategories } from "../api/CareCategory";
+import { getPets } from "../api/Pet";
 import { getCareLog, patchCareLog, deleteCareLog } from "../api/CareLog";
 import { CareCategory } from "../types";
 import {
@@ -43,15 +44,25 @@ const CareLogEdit = (): JSX.Element => {
     string,
     Dispatch<SetStateAction<any>> // HACK: 型定義見直す
   ] = useState<string>("");
+  const [pets, setPets] = useState<any[]>([]);
+  const [petId, setPetId] = useState<any>();
   if (!cookies.authToken) history.push("/login");
   useEffect(() => {
     (async () => {
+      const resultGetPets = await getPets(cookies.meId, cookies.authToken);
+      setPets(
+        resultGetPets.map((value) => ({
+          id: value.pet.id,
+          name: value.pet.name,
+        }))
+      );
       const selectedCareLogId = location.pathname.split("/").slice(-1)[0];
       setSelectedCareLogId(selectedCareLogId);
       const resultGetLog = await getCareLog(
         selectedCareLogId,
         cookies.authToken
       );
+      setPetId(resultGetLog.pet_pk);
       setText(resultGetLog.text);
       setInteger(resultGetLog.integer);
       setFloat(resultGetLog.float);
@@ -97,9 +108,9 @@ const CareLogEdit = (): JSX.Element => {
       inputType.name === "float" ? float : null,
       memo,
       cookies.meId,
+      petId,
       cookies.authToken
     );
-    console.log(resultUpdateCareLog);
     if (!resultUpdateCareLog) {
       notifyErrorSave();
       return;
@@ -115,6 +126,9 @@ const CareLogEdit = (): JSX.Element => {
     await deleteCareLog(selectedCareLogId, cookies.authToken);
     history.push("/care/logs");
   };
+  const onChangePet = (value: any): void => {
+    setPetId(value);
+  };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
       <Toaster position="top-center" />
@@ -127,8 +141,17 @@ const CareLogEdit = (): JSX.Element => {
         paddingBottom="8vh"
       >
         <View margin="size-100">
-          <h3 id="label-3">記録</h3>
+          <h3 id="label-3">記録編集</h3>
           <Form aria-labelledby="label-3" necessityIndicator="icon">
+            <Picker
+              label="ペットを選択してください"
+              items={pets}
+              selectedKey={petId}
+              onSelectionChange={onChangePet}
+              isRequired={true}
+            >
+              {(item) => <Item>{item.name}</Item>}
+            </Picker>
             <TextField
               type="datetime-local"
               label="日付"

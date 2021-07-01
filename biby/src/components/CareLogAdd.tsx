@@ -17,13 +17,14 @@ import Footer from "./Footer";
 import { useHistory } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { getCategories } from "../api/CareCategory";
-import { CareCategory } from "../types";
+import { Pet, CareCategory } from "../types";
 import { postCareLog } from "../api/CareLog";
 import {
   notifySuccessSave,
   notifyErrorSave,
   notifyEssentialValueIsEmpty,
 } from "./common/toast";
+import { getPets } from "../api/Pet";
 
 const CareLogAdd = (): JSX.Element => {
   const today = new Date();
@@ -43,6 +44,8 @@ const CareLogAdd = (): JSX.Element => {
   const [integer, setInteger] = useState<number | null>(null);
   const [float, setFloat] = useState<number | null>(null);
   const [memo, setMemo] = useState<string | null>(null);
+  const [pets, setPets] = useState<any[]>([]);
+  const [petId, setPetId] = useState<any>();
   const history = useHistory();
   const [fieldTypeId, setFieldTypeId]: [
     string,
@@ -51,6 +54,13 @@ const CareLogAdd = (): JSX.Element => {
   if (!cookies.authToken) history.push("/login");
   useEffect(() => {
     (async () => {
+      const resultGetPets = await getPets(cookies.meId, cookies.authToken);
+      setPets(
+        resultGetPets.map((value) => ({
+          id: value.pet.id,
+          name: value.pet.name,
+        }))
+      );
       const resultGetCareCategories = await getCategories(
         cookies.meId,
         cookies.authToken
@@ -78,6 +88,7 @@ const CareLogAdd = (): JSX.Element => {
       inputType.name === "float" ? float : null,
       memo,
       cookies.meId,
+      petId,
       cookies.authToken
     );
     if (!resultAddCareLog) {
@@ -91,6 +102,9 @@ const CareLogAdd = (): JSX.Element => {
     setInputType(inputTypes.find((value) => value.id === categoryId));
     setFieldTypeId(categoryId);
   };
+  const onChangePet = (value: any): void => {
+    setPetId(value);
+  };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
       <Toaster position="top-center" />
@@ -103,8 +117,17 @@ const CareLogAdd = (): JSX.Element => {
         paddingBottom="8vh"
       >
         <View margin="size-100">
-          <h3 id="label-3">記録</h3>
           <Form aria-labelledby="label-3" necessityIndicator="icon">
+            <h3 id="label-3">記録追加</h3>
+            <Picker
+              label="ペットを選択してください"
+              items={pets}
+              selectedKey={petId}
+              onSelectionChange={onChangePet}
+              isRequired={true}
+            >
+              {(item) => <Item>{item.name}</Item>}
+            </Picker>
             <TextField
               type="datetime-local"
               label="日付"

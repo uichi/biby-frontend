@@ -19,7 +19,7 @@ import { useCookies } from "react-cookie";
 import { loginAuth, getMe } from "../api/Authentication";
 
 const Login = (): JSX.Element => {
-  const [cookies, setCookie] = useCookies(["authToken"]);
+  const [cookies, setCookie] = useCookies(["authToken", "meId"]);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const isEmailValid = useMemo(() => emailValid.test(email), [email]);
