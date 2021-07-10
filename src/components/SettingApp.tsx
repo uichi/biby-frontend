@@ -10,8 +10,8 @@ import RealTimeCustomerProfile from "@spectrum-icons/workflow/RealTimeCustomerPr
 import Email from "@spectrum-icons/workflow/Email";
 import EditIn from "@spectrum-icons/workflow/EditIn";
 import UserLock from "@spectrum-icons/workflow/UserLock";
-import AnnotatePen from "@spectrum-icons/workflow/AnnotatePen";
-import Question from "@spectrum-icons/workflow/Question";
+//import AnnotatePen from "@spectrum-icons/workflow/AnnotatePen";
+//import Question from "@spectrum-icons/workflow/Question";
 import { Link } from "@adobe/react-spectrum";
 import { Link as RouterLink } from "react-router-dom";
 import Header from "./Header";
@@ -59,32 +59,42 @@ const SettingApp = (): JSX.Element => {
           <View>
             <Email size="XS" marginEnd="size-100" />
             <Link variant="secondary" isQuiet>
-              <a href="https://forms.gle/EJdXYLNWbeLfCccm9" target="_blank" rel="noreferrer">お問い合わせ</a>
+              <a
+                href="https://forms.gle/EJdXYLNWbeLfCccm9"
+                target="_blank"
+                rel="noreferrer"
+              >
+                お問い合わせ
+              </a>
             </Link>
           </View>
-          { /* <View>
+          {/* <View>
             <AnnotatePen size="XS" marginEnd="size-100" />
             <Text>アプリの感想</Text>
-          </View> */ }
+          </View> */}
 
           <Text marginTop="size-200">その他</Text>
           <Divider size="M" />
           <View>
             <EditIn size="XS" marginEnd="size-100" />
             <Link variant="secondary" isQuiet>
-              <a href="https://biby.live" target="_blank" rel="noreferrer">利用規約</a>
+              <a href="https://biby.live" target="_blank" rel="noreferrer">
+                利用規約
+              </a>
             </Link>
           </View>
           <View>
             <UserLock size="XS" marginEnd="size-100" />
             <Link variant="secondary" isQuiet>
-              <a href="https://biby.live" target="_blank" rel="noreferrer">プライバシーポリシー</a>
+              <a href="https://biby.live" target="_blank" rel="noreferrer">
+                プライバシーポリシー
+              </a>
             </Link>
           </View>
-          { /*<View>
+          {/*<View>
             <Question size="XS" marginEnd="size-100" />
             <Text>よくある質問</Text>
-          </View> */ }
+          </View> */}
           <Text>アプリバージョン 0.1.0</Text>
         </Flex>
       </View>

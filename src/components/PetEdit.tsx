@@ -35,8 +35,7 @@ const PetEdit = (): JSX.Element => {
   const [gender, setGender] = useState<string>("");
   const [birthday, setBirthday] = useState<string>("");
   const [welcomeDay, setWelcomeDay] = useState<string>("");
-  const [shareId, setShareId] = useState<string>("");
-  const [isHeaven, setIsHeaven] = useState<boolean>(false);
+  //  const [isHeaven, setIsHeaven] = useState<boolean>(false);
   const history = useHistory();
   const maxNumber = 1;
 
@@ -53,8 +52,7 @@ const PetEdit = (): JSX.Element => {
         if (pet.gender) setGender(pet.gender.toString());
         if (pet.birthday) setBirthday(pet.birthday);
         if (pet.welcome_day) setWelcomeDay(pet.welcome_day);
-        setShareId(pet.share_id);
-        setIsHeaven(pet.is_heaven === "true");
+        //        setIsHeaven(pet.is_heaven === "true");
       }
     })();
   }, []);
