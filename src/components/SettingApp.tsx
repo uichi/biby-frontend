@@ -58,7 +58,9 @@ const SettingApp = (): JSX.Element => {
           <Divider size="M" />
           <View>
             <Email size="XS" marginEnd="size-100" />
-            <Text>お問い合わせ</Text>
+            <Link variant="secondary" isQuiet>
+              <a href="https://forms.gle/EJdXYLNWbeLfCccm9" target="_blank" rel="noreferrer">お問い合わせ</a>
+            </Link>
           </View>
           <View>
             <AnnotatePen size="XS" marginEnd="size-100" />
