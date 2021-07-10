@@ -1,17 +1,21 @@
-import { Provider, defaultTheme, Grid, View } from "@adobe/react-spectrum";
-import Home from "@spectrum-icons/workflow/Home";
-import Feed from "@spectrum-icons/workflow/Feed";
-import AssetsModified from "@spectrum-icons/workflow/AssetsModified";
+import {
+  Provider,
+  defaultTheme,
+  Grid,
+  View,
+  Text,
+} from "@adobe/react-spectrum";
+import Settings from "@spectrum-icons/workflow/Settings";
 import { Link } from "@adobe/react-spectrum";
 import { Link as RouterLink } from "react-router-dom";
 
-const Footer = (): JSX.Element => {
+const Header = (): JSX.Element => {
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
       <View
         backgroundColor="gray-400"
         position="fixed"
-        bottom="size-0"
+        top="size-0"
         width="100vw"
         height="8vh"
       >
@@ -23,9 +27,9 @@ const Footer = (): JSX.Element => {
             marginTop="size-200"
             marginStart="size-200"
           >
-            <Link variant="secondary">
-              <RouterLink to="/">
-                <Home size="S" />
+            <Link variant="secondary" isQuiet>
+              <RouterLink to="/settings">
+                <View><Settings size="S" /></View>
               </RouterLink>
             </Link>
           </View>
@@ -33,25 +37,19 @@ const Footer = (): JSX.Element => {
             alignSelf="center"
             justifySelf="center"
             gridArea="name"
-            marginTop="size-200"
+            marginTop="size-100"
           >
-            <Link variant="secondary">
-              <RouterLink to="/care/logs">
-                <AssetsModified size="S" />
-              </RouterLink>
-            </Link>
+            <Text>biby</Text>
           </View>
           <View
             alignSelf="center"
             justifySelf="right"
             gridArea="add"
-            marginTop="size-200"
-            marginEnd="size-200"
+            marginTop="size-100"
+            marginEnd="size-100"
           >
-            <Link variant="secondary">
-              <RouterLink to="/care/categories">
-                <Feed size="S" />
-              </RouterLink>
+            <Link variant="secondary" isQuiet>
+              <RouterLink to="/pets">ペット一覧</RouterLink>
             </Link>
           </View>
         </Grid>
@@ -60,4 +58,4 @@ const Footer = (): JSX.Element => {
   );
 };
 
-export default Footer;
+export default Header;
