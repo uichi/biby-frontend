@@ -28,7 +28,10 @@ export const logoutAuth = (token: string): Promise<null> => {
     },
   };
   return fetch(logoutUrl, options)
-    .then((res) => res.json())
+    .then((res) => {
+      if (!res.ok) throw new Error();
+      return res.json();
+    })
     .then((json) => json)
     .catch(() => null);
 };
@@ -42,7 +45,10 @@ export const getMe = (token: string): Promise<Me> => {
     },
   };
   return fetch(meUrl, options)
-    .then((res) => res.json())
+    .then((res) => {
+      if (!res.ok) throw new Error();
+      return res.json();
+    })
     .then((json) => json)
     .catch(() => null);
 };

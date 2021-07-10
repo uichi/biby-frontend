@@ -9,7 +9,7 @@ export const getPet = (petId: string, token: string): Promise<Pet> | null => {
       Authorization: `Token ${token}`,
     },
   };
-  return fetch(petsUrl + `${petId}`, options)
+  return fetch(petsUrl + `${petId}/`, options)
     .then((res) => {
       if (!res.ok) throw new Error();
       return res.json();
