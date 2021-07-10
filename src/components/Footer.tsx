@@ -14,6 +14,7 @@ const Footer = (): JSX.Element => {
         bottom="size-0"
         width="100vw"
         height="8vh"
+        zIndex={1}
       >
         <Grid areas={["setting name add"]} columns={["1fr", "1fr", "1fr"]}>
           <View
