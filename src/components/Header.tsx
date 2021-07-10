@@ -29,7 +29,9 @@ const Header = (): JSX.Element => {
           >
             <Link variant="secondary" isQuiet>
               <RouterLink to="/settings">
-                <View><Settings size="S" /></View>
+                <View>
+                  <Settings size="S" />
+                </View>
               </RouterLink>
             </Link>
           </View>

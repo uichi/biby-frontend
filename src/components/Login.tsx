@@ -43,7 +43,7 @@ const Login = (): JSX.Element => {
       setCookie("authToken", resultLoginAuth.auth_token);
       const me = await getMe(resultLoginAuth.auth_token);
       setCookie("meId", me.id);
-//      history.push("/");
+      history.push("/");
     }
     loginError();
   };
