@@ -47,7 +47,7 @@ const PetSelect = (): JSX.Element => {
           defaultValue={cookies.selectedPet}
           value={cookies.selectedPet}
           onChange={(value) => {
-            setCookie("selectedPet", value);
+            setCookie("selectedPet", value, { path: '/' });
           }}
           isEmphasized
         >
