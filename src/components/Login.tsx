@@ -35,7 +35,6 @@ const Login = (): JSX.Element => {
       return;
     }
     const resultLoginAuth = await loginAuth(email, password);
-    console.log(resultLoginAuth)
     if (resultLoginAuth) {
       if (!resultLoginAuth.auth_token) {
         loginError();
