@@ -1,5 +1,5 @@
 // TODO: 環境変数から取得するようにする
-const backendHost = "https://f7579695504f.ngrok.io/";
+const backendHost = "https://a26940706ab6.ngrok.io/";
 const apiUrl = backendHost + "api/v1/";
 const authUrl = backendHost + "api/v1/auth/";
 export const meUrl = authUrl + "users/me";
