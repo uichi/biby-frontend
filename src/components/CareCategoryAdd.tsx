@@ -7,6 +7,7 @@ import {
   ActionButton,
   Picker,
   Item,
+  Checkbox,
 } from "@adobe/react-spectrum";
 import { useState, Dispatch, SetStateAction } from "react";
 import { useCookies } from "react-cookie";
@@ -25,6 +26,7 @@ const CareCategoryEdit = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
   const [name, setName] = useState<string>("");
   const [unit, setUnit] = useState<string>("");
+  const [isDailyRoutine, setIsDailyRoutine] = useState<boolean>(false);
   const [fieldTypeId, setFieldTypeId]: [
     string,
     Dispatch<SetStateAction<any>> // HACK: 型定義見直す
@@ -51,6 +53,7 @@ const CareCategoryEdit = (): JSX.Element => {
       name,
       fieldTypeId,
       unit,
+      isDailyRoutine,
       cookies.meId,
       cookies.authToken
     );
@@ -92,6 +95,9 @@ const CareCategoryEdit = (): JSX.Element => {
               if (["integer", "float"].indexOf(fieldTypeId) !== -1)
                 return <TextField label="単位" onChange={setUnit} />;
             })()}
+            <Checkbox isSelected={isDailyRoutine} onChange={setIsDailyRoutine}>
+              毎日の日課
+            </Checkbox>
             <ActionButton staticColor="white" onPress={addCareCategory}>
               保存
             </ActionButton>

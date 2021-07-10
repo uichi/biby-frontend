@@ -48,6 +48,7 @@ export const postCareCategory = (
   name: string,
   inputType: string,
   unit: string,
+  isDailyRoutine: boolean,
   meId: string,
   token: string
 ): Promise<CareCategory> | null => {
@@ -55,6 +56,7 @@ export const postCareCategory = (
     name,
     input_type: inputType,
     unit: unit,
+    is_daily_routine: isDailyRoutine,
     user: meId,
   });
   const options = {
@@ -79,6 +81,7 @@ export const patchCareCategory = (
   name: string,
   inputType: string,
   unit: string,
+  isDailyRoutine: boolean,
   meId: string,
   token: string
 ): Promise<CareCategory> | null => {
@@ -86,6 +89,7 @@ export const patchCareCategory = (
     name,
     input_type: inputType,
     unit: unit,
+    is_daily_routine: isDailyRoutine,
     user: meId,
   });
   const options = {

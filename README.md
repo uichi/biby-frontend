@@ -7,7 +7,7 @@ docker-compose build
 # Nodeプラグインのインストール
 
 ```commandline
-docker-compose run --rm node sh -c "cd biby && yarn install"
+docker-compose run --rm node sh -c "yarn install"
 ```
 
 # Docker ComposeとReactアプリの実行

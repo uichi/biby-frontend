@@ -25,7 +25,9 @@ const Footer = (): JSX.Element => {
           >
             <Link variant="secondary">
               <RouterLink to="/">
-                <View><Home size="S" /></View>
+                <View>
+                  <Home size="S" />
+                </View>
               </RouterLink>
             </Link>
           </View>
@@ -37,7 +39,9 @@ const Footer = (): JSX.Element => {
           >
             <Link variant="secondary">
               <RouterLink to="/care/logs">
-                <View><AssetsModified size="S" /></View>
+                <View>
+                  <AssetsModified size="S" />
+                </View>
               </RouterLink>
             </Link>
           </View>
@@ -50,7 +54,9 @@ const Footer = (): JSX.Element => {
           >
             <Link variant="secondary">
               <RouterLink to="/care/categories">
-                <View><Feed size="S" /></View>
+                <View>
+                  <Feed size="S" />
+                </View>
               </RouterLink>
             </Link>
           </View>

@@ -29,7 +29,7 @@ export interface CareCategory {
   icon: string;
   input_type: string;
   unit: string;
-  is_daily_routine: string;
+  is_daily_routine: boolean;
   user: string;
 }
 

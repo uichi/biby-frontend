@@ -9,6 +9,7 @@ import {
   AlertDialog,
   Picker,
   Item,
+  Checkbox,
 } from "@adobe/react-spectrum";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { useCookies } from "react-cookie";
@@ -32,6 +33,7 @@ const CareCategoryEdit = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
   const [name, setName] = useState<string>("");
   const [unit, setUnit] = useState<string>("");
+  const [isDailyRoutine, setIsDailyRoutine] = useState<boolean>(false);
   const [careCategoryId, setCareCategoryId] = useState<string>("");
   const history = useHistory();
   const [fieldTypeId, setFieldTypeId]: [
@@ -57,6 +59,7 @@ const CareCategoryEdit = (): JSX.Element => {
         setName(resultGetCareCategory.name);
         setFieldTypeId(resultGetCareCategory.input_type);
         setUnit(resultGetCareCategory.unit);
+        setIsDailyRoutine(resultGetCareCategory.is_daily_routine);
         return;
       }
       notifyErrorGet();
@@ -77,6 +80,7 @@ const CareCategoryEdit = (): JSX.Element => {
       name,
       fieldTypeId,
       unit,
+      isDailyRoutine,
       cookies.meId,
       cookies.authToken
     );
@@ -126,6 +130,9 @@ const CareCategoryEdit = (): JSX.Element => {
                   <TextField label="単位" value={unit} onChange={setUnit} />
                 );
             })()}
+            <Checkbox isSelected={isDailyRoutine} onChange={setIsDailyRoutine}>
+              毎日の日課
+            </Checkbox>
             <ActionButton staticColor="white" onPress={updateCareCategory}>
               保存
             </ActionButton>
