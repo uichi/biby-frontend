@@ -41,11 +41,13 @@ const PetEdit = (): JSX.Element => {
 
   if (!cookies.authToken) history.push("/login");
   useEffect(() => {
+    let cleanedUp = false;
     (async () => {
       const selectedPetId = location.pathname.split("/").slice(-1)[0];
       setPetId(selectedPetId);
       const pet = await getPet(selectedPetId, cookies.authToken);
       if (pet) {
+        if (cleanedUp) return;
         setName(pet.name);
         setImageUrl(pet.image);
         // NOTE: undefinedになる可能性があるstateはsetしないように制御
@@ -55,6 +57,10 @@ const PetEdit = (): JSX.Element => {
         //        setIsHeaven(pet.is_heaven === "true");
       }
     })();
+    const cleanup = () => {
+      cleanedUp = true;
+    };
+    return cleanup;
   }, []);
   const updatePet = async () => {
     if (name === "") {

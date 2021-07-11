@@ -21,10 +21,16 @@ const CareLogs = (): JSX.Element => {
   const history = useHistory();
   if (!cookies.authToken) history.push("/login");
   useEffect(() => {
+    let cleanedUp = false;
     (async () => {
       const resultCareLogs = await getCareLogs(cookies.meId, cookies.authToken);
+      if (cleanedUp) return;
       setCareLogs(resultCareLogs);
     })();
+    const cleanup = () => {
+      cleanedUp = true;
+    };
+    return cleanup;
   }, []);
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
