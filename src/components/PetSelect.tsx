@@ -62,17 +62,18 @@ const PetSelect = (): JSX.Element => {
           isEmphasized
         >
           {pets.map((result, index) => (
-            <Well key={index}>
+            <Well marginBottom="size-100" key={index}>
               <Radio value={result.pet.id.toString()} width="100%">
                 <Flex>
-                  <Image
-                    width="50px"
-                    height="50px"
-                    src={result.pet.image}
+                  {/* <Image
+                    width="60px"
+                    height="60px"
+                    src={"https://placehold.jp/100x100.png"}
+                    //                    src={'result.pet.image'}
                     alt={result.pet.name}
                     objectFit="cover"
-                  />
-                  <Text>{result.pet.name}</Text>
+                  /> */}
+                  <Text marginStart="size-200">{result.pet.name}</Text>
                 </Flex>
               </Radio>
             </Well>
