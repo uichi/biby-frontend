@@ -21,7 +21,7 @@ import {
   notifyErrorSave,
 } from "./common/toast";
 import { Toaster } from "react-hot-toast";
-import Loading from "./common/Loading"
+import Loading from "./common/Loading";
 
 const CareCategoryEdit = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line

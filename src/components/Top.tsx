@@ -8,7 +8,6 @@ import {
   Image,
   Link,
   ActionButton,
-  ProgressCircle,
 } from "@adobe/react-spectrum";
 import { Link as RouterLink } from "react-router-dom";
 import Header from "./Header";
@@ -19,12 +18,13 @@ import { useHistory } from "react-router-dom";
 import { getPet } from "../api/Pet";
 import { getCareLogs } from "../api/CareLog";
 import Loading from "./common/Loading";
+import SampleImage from "../assets/images/sample.png";
 
 const Top = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
   const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [name, setName] = useState<string>("");
-  const [imageUrl, setImageUrl] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string>(SampleImage);
   const [birthday, setBirthday] = useState<string>("");
   const [welcomeDay, setWelcomeDay] = useState<string>("");
   const [careLogs, setCareLogs] = useState<any[]>([]);
@@ -68,11 +68,12 @@ const Top = (): JSX.Element => {
             <Image
               width="100px"
               height="100px"
-              src={imageUrl}
+              src={"https://placehold.jp/100x100.png"}
+              //              src={imageUrl}
               alt=""
               objectFit="cover"
             />
-            <Flex direction="column" marginStart="size-100">
+            <Flex direction="column" marginStart="size-200">
               <Text>{name}</Text>
               <Text>{birthday}</Text>
               <Text>{welcomeDay}</Text>

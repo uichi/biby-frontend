@@ -53,12 +53,13 @@ const Pets = (): JSX.Element => {
         paddingBottom="8vh"
       >
         {pets.map((result, index) => (
-          <Well key={index} margin="size-100">
-            <Flex>
+          <Well key={index} margin="size-100" marginBottom="size-200">
+            <Flex marginBottom="size-100">
               <Image
-                width="150px"
-                height="150px"
-                src={result.pet.image}
+                width="100px"
+                height="100px"
+                src={"https://placehold.jp/100x100.png"}
+                //                src={result.pet.image}
                 alt={result.pet.name}
                 objectFit="cover"
               />
@@ -66,16 +67,15 @@ const Pets = (): JSX.Element => {
                 <Text>{result.pet.name}</Text>
                 <Text>{result.pet.birthday}</Text>
                 <Text>{result.pet.welcome_day}</Text>
-                <Link variant="secondary" isQuiet>
-                  <RouterLink to={"/pet/edit/" + result.pet.id}>
-                    <ActionButton bottom="size-0">
-                      <Text>編集</Text>
-                      <Edit />
-                    </ActionButton>
-                  </RouterLink>
-                </Link>
               </Flex>
             </Flex>
+              <Link variant="secondary" isQuiet>
+                <RouterLink to={"/pet/edit/" + result.pet.id}>
+                  <ActionButton width="100%">
+                    <Text>編集</Text>
+                  </ActionButton>
+                </RouterLink>
+              </Link>
           </Well>
         ))}
         <View marginTop="size-100" marginBottom="size-100">
