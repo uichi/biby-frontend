@@ -27,9 +27,11 @@ import {
   notifyErrorSave,
   notifyEssentialValueIsEmpty,
 } from "./common/toast";
+import Loading from "./common/Loading";
 
 const CareLogEdit = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
+  const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [inputType, setInputType] = useState<any>();
   const [inputTypes, setInputTypes] = useState<any[]>([]);
   const [categories, setCategories] = useState<CareCategory[]>([]);
@@ -50,20 +52,8 @@ const CareLogEdit = (): JSX.Element => {
   useEffect(() => {
     let cleanedUp = false;
     (async () => {
-      const resultGetPets = await getPets(cookies.meId, cookies.authToken);
-      if (!cleanedUp)
-        setPets(
-          resultGetPets.map((value) => ({
-            id: value.pet.id,
-            name: value.pet.name,
-          }))
-        );
-      const selectedCareLogId = location.pathname.split("/").slice(-1)[0];
-      if (!cleanedUp) setSelectedCareLogId(selectedCareLogId);
-      const resultGetLog = await getCareLog(
-        selectedCareLogId,
-        cookies.authToken
-      );
+      const careLogId = location.pathname.split("/").slice(-1)[0];
+      const resultGetLog = await getCareLog(careLogId, cookies.authToken);
       const today = new Date(resultGetLog.date_time);
       const year = today.getFullYear();
       const month = ("00" + (today.getMonth() + 1)).slice(-2);
@@ -74,7 +64,15 @@ const CareLogEdit = (): JSX.Element => {
         cookies.meId,
         cookies.authToken
       );
+      const resultGetPets = await getPets(cookies.meId, cookies.authToken);
       if (cleanedUp) return;
+      setPets(
+        resultGetPets.map((value) => ({
+          id: value.pet.id,
+          name: value.pet.name,
+        }))
+      );
+      setSelectedCareLogId(careLogId);
       setPetId(resultGetLog.pet_pk);
       setText(resultGetLog.text);
       setInteger(resultGetLog.integer);
@@ -95,6 +93,7 @@ const CareLogEdit = (): JSX.Element => {
           unit: value.unit,
         }))
       );
+      setIsLoaded(false);
     })();
     const cleanup = () => {
       cleanedUp = true;
@@ -138,6 +137,7 @@ const CareLogEdit = (): JSX.Element => {
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
+      {isLoaded && <Loading />}
       <Toaster position="top-center" />
       <Header />
       <View

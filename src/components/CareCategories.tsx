@@ -14,9 +14,11 @@ import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 import { getCategories } from "../api/CareCategory";
 import { CareCategory } from "../types";
+import Loading from "./common/Loading";
 
 const CareCategories = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
+  const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [careCategories, setCareCategories] = useState<CareCategory[]>([]);
   const history = useHistory();
   if (!cookies.authToken) history.push("/login");
@@ -29,6 +31,7 @@ const CareCategories = (): JSX.Element => {
       );
       if (cleanedUp) return;
       setCareCategories(resultCareCategories);
+      setIsLoaded(false);
     })();
     const cleanup = () => {
       cleanedUp = true;
@@ -37,6 +40,7 @@ const CareCategories = (): JSX.Element => {
   }, []);
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
+      {isLoaded && <Loading />}
       <Header />
       <View
         backgroundColor="gray-200"
@@ -44,7 +48,6 @@ const CareCategories = (): JSX.Element => {
         minHeight="84vh"
         paddingTop="8vh"
         paddingBottom="8vh"
-        marginTop="size-100"
       >
         <Text marginStart="size-100" marginTop="size-500">
           カテゴリ一覧

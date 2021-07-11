@@ -28,9 +28,11 @@ import {
   patchCareCategory,
   deleteCareCategory,
 } from "../api/CareCategory";
+import Loading from "./common/Loading";
 
 const CareCategoryEdit = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
+  const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [name, setName] = useState<string>("");
   const [unit, setUnit] = useState<string>("");
   const [isDailyRoutine, setIsDailyRoutine] = useState<boolean>(false);
@@ -62,6 +64,7 @@ const CareCategoryEdit = (): JSX.Element => {
         setFieldTypeId(resultGetCareCategory.input_type);
         setUnit(resultGetCareCategory.unit);
         setIsDailyRoutine(resultGetCareCategory.is_daily_routine);
+        setIsLoaded(false);
         return;
       }
       notifyErrorGet();
@@ -102,6 +105,7 @@ const CareCategoryEdit = (): JSX.Element => {
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
+      {isLoaded && <Loading />}
       <Toaster position="top-center" />
       <Header />
       <View

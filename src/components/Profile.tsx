@@ -25,9 +25,11 @@ import { emailValid } from "./common/validation";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 import { getMe } from "../api/Authentication";
+import Loading from "./common/Loading";
 
 const Profile = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
+  const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const isEmailValid = useMemo(() => emailValid.test(email), [email]);
@@ -45,6 +47,7 @@ const Profile = (): JSX.Element => {
         if (cleanedUp) return;
         setUsername(profile.username);
         setEmail(profile.email);
+        setIsLoaded(false);
         return;
       }
       notifyErrorGet();
@@ -77,6 +80,7 @@ const Profile = (): JSX.Element => {
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
+      {isLoaded && <Loading />}
       <Toaster position="top-center" />
       <Header />
       <View
