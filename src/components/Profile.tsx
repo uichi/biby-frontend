@@ -34,6 +34,7 @@ const Profile = (): JSX.Element => {
   const history = useHistory();
   if (!cookies.authToken) history.push("/login");
   useEffect(() => {
+    let cleanedUp = false;
     (async () => {
       const me = await getMe(cookies.authToken);
       const profile: ProfileInterface | null = await getUser(
@@ -41,12 +42,17 @@ const Profile = (): JSX.Element => {
         cookies.authToken
       );
       if (profile) {
+        if (cleanedUp) return;
         setUsername(profile.username);
         setEmail(profile.email);
         return;
       }
       notifyErrorGet();
     })();
+    const cleanup = () => {
+      cleanedUp = true;
+    };
+    return cleanup;
   }, []);
   const saveProfile = async () => {
     if (!(username && email)) {

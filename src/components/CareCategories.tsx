@@ -21,13 +21,19 @@ const CareCategories = (): JSX.Element => {
   const history = useHistory();
   if (!cookies.authToken) history.push("/login");
   useEffect(() => {
+    let cleanedUp = false;
     (async () => {
       const resultCareCategories = await getCategories(
         cookies.meId,
         cookies.authToken
       );
+      if (cleanedUp) return;
       setCareCategories(resultCareCategories);
     })();
+    const cleanup = () => {
+      cleanedUp = true;
+    };
+    return cleanup;
   }, []);
   return (
     <Provider theme={defaultTheme} colorScheme="dark">

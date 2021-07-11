@@ -48,14 +48,16 @@ const CareCategoryEdit = (): JSX.Element => {
   ];
   if (!cookies.authToken) history.push("/login");
   useEffect(() => {
+    let cleanedUp = false;
     (async () => {
       const selectedCareCategoryId = location.pathname.split("/").slice(-1)[0];
-      setCareCategoryId(selectedCareCategoryId);
       const resultGetCareCategory = await getCareCategory(
         selectedCareCategoryId,
         cookies.authToken
       );
       if (resultGetCareCategory) {
+        if (cleanedUp) return;
+        setCareCategoryId(selectedCareCategoryId);
         setName(resultGetCareCategory.name);
         setFieldTypeId(resultGetCareCategory.input_type);
         setUnit(resultGetCareCategory.unit);
@@ -64,6 +66,10 @@ const CareCategoryEdit = (): JSX.Element => {
       }
       notifyErrorGet();
     })();
+    const cleanup = () => {
+      cleanedUp = true;
+    };
+    return cleanup;
   }, []);
   // HACK: 型指定見直す
   const onChangeInputType = (value: any): void => {

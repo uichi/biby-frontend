@@ -28,10 +28,12 @@ const Top = (): JSX.Element => {
   const history = useHistory();
   if (!cookies.authToken) history.push("/login");
   useEffect(() => {
+    let cleanedUp = false;
     (async () => {
       // FIXME: リロードするとcookies.selectedPetが消えてしまう
       const pet = await getPet(cookies.selectedPet, cookies.authToken);
       if (pet) {
+        if (cleanedUp) return;
         setName(pet.name);
         setImageUrl(pet.image);
         // NOTE: undefinedになる可能性があるstateはsetしないように制御
@@ -41,6 +43,10 @@ const Top = (): JSX.Element => {
       const resultCareLogs = await getCareLogs(cookies.meId, cookies.authToken);
       setCareLogs(resultCareLogs);
     })();
+    const cleanup = () => {
+      cleanedUp = true;
+    };
+    return cleanup;
   }, []);
   return (
     <Provider theme={defaultTheme} colorScheme="dark">

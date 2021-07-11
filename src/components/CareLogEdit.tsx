@@ -48,31 +48,38 @@ const CareLogEdit = (): JSX.Element => {
   const [petId, setPetId] = useState<any>();
   if (!cookies.authToken) history.push("/login");
   useEffect(() => {
+    let cleanedUp = false;
     (async () => {
       const resultGetPets = await getPets(cookies.meId, cookies.authToken);
-      setPets(
-        resultGetPets.map((value) => ({
-          id: value.pet.id,
-          name: value.pet.name,
-        }))
-      );
+      if (!cleanedUp)
+        setPets(
+          resultGetPets.map((value) => ({
+            id: value.pet.id,
+            name: value.pet.name,
+          }))
+        );
       const selectedCareLogId = location.pathname.split("/").slice(-1)[0];
-      setSelectedCareLogId(selectedCareLogId);
+      if (!cleanedUp) setSelectedCareLogId(selectedCareLogId);
       const resultGetLog = await getCareLog(
         selectedCareLogId,
         cookies.authToken
       );
-      setPetId(resultGetLog.pet_pk);
-      setText(resultGetLog.text);
-      setInteger(resultGetLog.integer);
-      setFloat(resultGetLog.float);
-      setFieldTypeId(resultGetLog.care_category.id);
       const today = new Date(resultGetLog.date_time);
       const year = today.getFullYear();
       const month = ("00" + (today.getMonth() + 1)).slice(-2);
       const day = ("00" + today.getDate()).slice(-2);
       const hour = today.getHours();
       const minute = today.getMinutes();
+      const resultGetCareCategories = await getCategories(
+        cookies.meId,
+        cookies.authToken
+      );
+      if (cleanedUp) return;
+      setPetId(resultGetLog.pet_pk);
+      setText(resultGetLog.text);
+      setInteger(resultGetLog.integer);
+      setFloat(resultGetLog.float);
+      setFieldTypeId(resultGetLog.care_category.id);
       setDateTime(`${year}-${month}-${day}T${hour}:${minute}`);
       setMemo(resultGetLog.memo);
       setInputType({
@@ -80,10 +87,6 @@ const CareLogEdit = (): JSX.Element => {
         name: resultGetLog.care_category.input_type,
         unit: resultGetLog.care_category.unit,
       });
-      const resultGetCareCategories = await getCategories(
-        cookies.meId,
-        cookies.authToken
-      );
       setCategories(resultGetCareCategories);
       setInputTypes(
         resultGetCareCategories.map((value) => ({
@@ -93,6 +96,10 @@ const CareLogEdit = (): JSX.Element => {
         }))
       );
     })();
+    const cleanup = () => {
+      cleanedUp = true;
+    };
+    return cleanup;
   }, []);
   const updateCareLog = async () => {
     if (fieldTypeId === "" || dateTime === "") {

@@ -26,10 +26,16 @@ const Pets = (): JSX.Element => {
   const [pets, setPets] = useState<{ pet: Pet }[]>([]);
   const history = useHistory();
   useEffect(() => {
+    let cleanedUp = false;
     (async () => {
       const resultGetPets = await getPets(cookies.meId, cookies.authToken);
+      if (cleanedUp) return;
       setPets(resultGetPets);
     })();
+    const cleanup = () => {
+      cleanedUp = true;
+    };
+    return cleanup;
   }, []);
   if (!cookies.authToken) history.push("/login");
   return (

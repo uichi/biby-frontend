@@ -25,10 +25,16 @@ const PetSelect = (): JSX.Element => {
   const history = useHistory();
   if (!cookies.authToken) history.push("/login");
   useEffect(() => {
+    let cleanedUp = false;
     (async () => {
       const resultGetPets = await getPets(cookies.meId, cookies.authToken);
+      if (cleanedUp) return;
       setPets(resultGetPets);
     })();
+    const cleanup = () => {
+      cleanedUp = true;
+    };
+    return cleanup;
   }, []);
   if (!cookies.authToken) history.push("/login");
   return (
