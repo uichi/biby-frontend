@@ -21,9 +21,11 @@ import {
   notifyErrorSave,
 } from "./common/toast";
 import { Toaster } from "react-hot-toast";
+import Loading from "./common/Loading"
 
 const CareCategoryEdit = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
+  const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [name, setName] = useState<string>("");
   const [unit, setUnit] = useState<string>("");
   const [isDailyRoutine, setIsDailyRoutine] = useState<boolean>(false);

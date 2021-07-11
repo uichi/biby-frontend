@@ -14,9 +14,11 @@ import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 import { getCareLogs } from "../api/CareLog";
 //import { CareCategory } from "../types";
+import Loading from "./common/Loading";
 
 const CareLogs = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
+  const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [careLogs, setCareLogs] = useState<any[]>([]);
   const history = useHistory();
   if (!cookies.authToken) history.push("/login");
@@ -26,6 +28,7 @@ const CareLogs = (): JSX.Element => {
       const resultCareLogs = await getCareLogs(cookies.meId, cookies.authToken);
       if (cleanedUp) return;
       setCareLogs(resultCareLogs);
+      setIsLoaded(false);
     })();
     const cleanup = () => {
       cleanedUp = true;
@@ -34,6 +37,7 @@ const CareLogs = (): JSX.Element => {
   }, []);
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
+      {isLoaded && <Loading />}
       <Header />
       <View
         backgroundColor="gray-200"
@@ -41,7 +45,6 @@ const CareLogs = (): JSX.Element => {
         minHeight="84vh"
         paddingTop="8vh"
         paddingBottom="8vh"
-        marginTop="size-100"
       >
         <Text marginStart="size-100" marginTop="size-500">
           記録一覧

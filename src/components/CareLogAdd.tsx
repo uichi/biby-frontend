@@ -25,6 +25,7 @@ import {
   notifyEssentialValueIsEmpty,
 } from "./common/toast";
 import { getPets } from "../api/Pet";
+import Loading from "./common/Loading";
 
 const CareLogAdd = (): JSX.Element => {
   const today = new Date();
@@ -34,6 +35,7 @@ const CareLogAdd = (): JSX.Element => {
   const hour = today.getHours();
   const minute = today.getMinutes();
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
+  const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [inputType, setInputType] = useState<any>();
   const [inputTypes, setInputTypes] = useState<any[]>([]);
   const [categories, setCategories] = useState<CareCategory[]>([]);
@@ -73,6 +75,7 @@ const CareLogAdd = (): JSX.Element => {
           unit: value.unit,
         }))
       );
+      setIsLoaded(false);
     })();
   }, []);
   const addCareLog = async () => {
@@ -107,6 +110,7 @@ const CareLogAdd = (): JSX.Element => {
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
+      {isLoaded && <Loading />}
       <Toaster position="top-center" />
       <Header />
       <View

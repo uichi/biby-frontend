@@ -20,9 +20,11 @@ import { getPets } from "../api/Pet";
 import { Pet } from "../types";
 //import { IllustratedMessage } from "@adobe/react-spectrum";
 //import NotFound from "@spectrum-icons/illustrations/NotFound";
+import Loading from "./common/Loading";
 
 const Pets = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
+  const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [pets, setPets] = useState<{ pet: Pet }[]>([]);
   const history = useHistory();
   useEffect(() => {
@@ -31,6 +33,7 @@ const Pets = (): JSX.Element => {
       const resultGetPets = await getPets(cookies.meId, cookies.authToken);
       if (cleanedUp) return;
       setPets(resultGetPets);
+      setIsLoaded(false);
     })();
     const cleanup = () => {
       cleanedUp = true;
@@ -40,6 +43,7 @@ const Pets = (): JSX.Element => {
   if (!cookies.authToken) history.push("/login");
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
+      {isLoaded && <Loading />}
       <Header />
       <View
         backgroundColor="gray-200"

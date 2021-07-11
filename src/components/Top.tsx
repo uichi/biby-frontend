@@ -8,6 +8,7 @@ import {
   Image,
   Link,
   ActionButton,
+  ProgressCircle,
 } from "@adobe/react-spectrum";
 import { Link as RouterLink } from "react-router-dom";
 import Header from "./Header";
@@ -17,9 +18,11 @@ import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 import { getPet } from "../api/Pet";
 import { getCareLogs } from "../api/CareLog";
+import Loading from "./common/Loading";
 
 const Top = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
+  const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [name, setName] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
   const [birthday, setBirthday] = useState<string>("");
@@ -42,6 +45,7 @@ const Top = (): JSX.Element => {
       }
       const resultCareLogs = await getCareLogs(cookies.meId, cookies.authToken);
       setCareLogs(resultCareLogs);
+      setIsLoaded(false);
     })();
     const cleanup = () => {
       cleanedUp = true;
@@ -50,6 +54,7 @@ const Top = (): JSX.Element => {
   }, []);
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
+      {isLoaded && <Loading />}
       <Header />
       <View
         backgroundColor="gray-200"

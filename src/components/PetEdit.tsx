@@ -24,9 +24,11 @@ import {
   notifyEssentialValueIsEmpty,
 } from "./common/toast";
 import { Toaster } from "react-hot-toast";
+import Loading from "./common/Loading";
 
 const PetEdit = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
+  const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [name, setName] = useState<string>("");
   const [images, setImages] = useState([]);
   const [image, setImage] = useState<File>();
@@ -55,6 +57,7 @@ const PetEdit = (): JSX.Element => {
         if (pet.birthday) setBirthday(pet.birthday);
         if (pet.welcome_day) setWelcomeDay(pet.welcome_day);
         //        setIsHeaven(pet.is_heaven === "true");
+        setIsLoaded(false);
       }
     })();
     const cleanup = () => {
@@ -92,6 +95,7 @@ const PetEdit = (): JSX.Element => {
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
+      {isLoaded && <Loading />}
       <Toaster position="top-center" />
       <Header />
       <View
