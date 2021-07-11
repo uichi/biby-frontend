@@ -28,6 +28,7 @@ const Signup = (): JSX.Element => {
   const [passwordConfirm, setPasswordConfirm] = useState<string>("");
   const isEmailValid = useMemo(() => emailValid.test(email), [email]);
   const history = useHistory();
+  if (cookies.authToken && cookies.meId) history.push("/");
   const signup = async () => {
     if (!(username && email && password && passwordConfirm)) {
       validateNotEnteredError();
