@@ -3,7 +3,6 @@ import {
   defaultTheme,
   View,
   Text,
-  Well,
   Flex,
   Image,
   Link,
@@ -43,7 +42,12 @@ const Top = (): JSX.Element => {
         if (pet.birthday) setBirthday(pet.birthday);
         if (pet.welcome_day) setWelcomeDay(pet.welcome_day);
       }
-      const resultCareLogs = await getCareLogs(cookies.meId, cookies.authToken);
+      const resultCareLogs = await getCareLogs(
+        cookies.meId,
+        cookies.selectedPet,
+        "today",
+        cookies.authToken
+      );
       setCareLogs(resultCareLogs);
       setIsLoaded(false);
     })();
@@ -63,8 +67,16 @@ const Top = (): JSX.Element => {
         paddingTop="8vh"
         paddingBottom="8vh"
       >
-        <Well margin="size-100">
-          <Flex>
+        <View
+          margin="size-100"
+          marginTop="size-300"
+          borderWidth="thin"
+          borderColor="dark"
+          borderRadius="small"
+          backgroundColor="gray-400"
+          padding="size-100"
+        >
+          <Flex marginBottom="size-100">
             <Image
               width="100px"
               height="100px"
@@ -79,7 +91,7 @@ const Top = (): JSX.Element => {
               <Text>{welcomeDay}</Text>
             </Flex>
           </Flex>
-        </Well>
+        </View>
         <View marginStart="size-100" marginBottom="size-200">
           <Link variant="secondary" isQuiet>
             <RouterLink to={"/pet/select/"}>
@@ -89,61 +101,9 @@ const Top = (): JSX.Element => {
             </RouterLink>
           </Link>
         </View>
-        {/* <Text marginStart="size-100">毎日の日課</Text>
-        <View
-          alignSelf="center"
-          backgroundColor="gray-400"
-          borderRadius="small"
-          padding="size-100"
-          margin="size-100"
-          height="size-800"
-        >
-          <View marginBottom="size-100">
-            <Text>散歩</Text>
-          </View>
-          <View>
-            <Text>2021年7月1日 12:00:00</Text>
-          </View>
-          <View>
-            <Text>30分</Text>
-          </View>
+        <View marginStart="size-100">
+          <h3>今日の記録</h3>
         </View>
-        <View
-          alignSelf="center"
-          backgroundColor="gray-400"
-          borderRadius="small"
-          padding="size-100"
-          margin="size-100"
-          height="size-800"
-        >
-          <View marginBottom="size-100">
-            <Text>散歩</Text>
-          </View>
-          <View>
-            <Text>2021年7月1日 12:00:00</Text>
-          </View>
-          <View>
-            <Text>30分</Text>
-          </View>
-        </View>
-        <View
-          alignSelf="center"
-          backgroundColor="gray-400"
-          borderRadius="small"
-          padding="size-100"
-          margin="size-100"
-          height="size-800"
-        >
-          <View marginBottom="size-100">
-            <Text>散歩</Text>
-          </View>
-          <View>
-            <Text>2021年7月1日 12:00:00</Text>
-          </View>
-          <View>
-            <Text>30分</Text>
-          </View>
-        </View> */}
         {careLogs.map((careLog, index) => (
           <Link variant="secondary" key={index} isQuiet>
             <RouterLink to={"/care/log/edit/" + careLog.id}>
@@ -180,7 +140,7 @@ const Top = (): JSX.Element => {
                       const dateTime = new Date(careLog.date_time);
                       const year = dateTime.getFullYear();
                       const month = dateTime.getMonth() + 1;
-                      const day = dateTime.getMonth();
+                      const day = dateTime.getDate();
                       const hour = dateTime.getHours();
                       const minute = dateTime.getMinutes();
                       return (

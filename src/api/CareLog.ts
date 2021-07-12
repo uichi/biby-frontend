@@ -58,10 +58,14 @@ export const postCareLog = (
 
 export const getCareLogs = (
   meId: string,
+  petId: string,
+  dateTime: string,
   token: string
 ): Promise<any[]> | [] => {
   const query_params = new URLSearchParams({
     user: meId,
+    pet: petId,
+    date_time: dateTime,
   });
   const options = {
     method: "GET",

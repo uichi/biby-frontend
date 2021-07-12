@@ -116,7 +116,7 @@ const CareCategoryEdit = (): JSX.Element => {
         paddingBottom="8vh"
       >
         <View margin="size-100">
-          <h3 id="label-3">記録</h3>
+          <h3 id="label-3">カテゴリー編集</h3>
           <Form aria-labelledby="label-3" necessityIndicator="icon">
             <TextField
               label="タイトル"

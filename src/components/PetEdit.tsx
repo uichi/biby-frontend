@@ -105,6 +105,9 @@ const PetEdit = (): JSX.Element => {
         paddingTop="8vh"
         paddingBottom="8vh"
       >
+        <View marginStart="size-100">
+          <h3>ペット編集</h3>
+        </View>
         <View margin="size-100">
           <ImageUploading
             multiple
