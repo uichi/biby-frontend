@@ -1,9 +1,10 @@
 // TODO: 環境変数から取得するようにする
 const backendHost = "https://biby.live/";
-// const backendHost = "https://a26940706ab6.ngrok.io/";
+// const backendHost = "https://e9e9cf960a9d.ngrok.io/";
+// const backendHost = "http://localhost:8000/";
 const apiUrl = backendHost + "api/v1/";
 const authUrl = backendHost + "api/v1/auth/";
-export const meUrl = authUrl + "users/me";
+export const meUrl = authUrl + "users/me/";
 export const usersUrl = apiUrl + "users/";
 export const loginUrl = authUrl + "token/login/";
 export const logoutUrl = authUrl + "token/logout/";
