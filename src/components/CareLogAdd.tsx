@@ -32,8 +32,8 @@ const CareLogAdd = (): JSX.Element => {
   const year = today.getFullYear();
   const month = ("00" + (today.getMonth() + 1)).slice(-2);
   const day = ("00" + today.getDate()).slice(-2);
-  const hour = today.getHours();
-  const minute = today.getMinutes();
+  const hour = ("00" + today.getHours()).slice(-2);
+  const minute = ("00" + today.getMinutes()).slice(-2);
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
   const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [inputType, setInputType] = useState<any>();

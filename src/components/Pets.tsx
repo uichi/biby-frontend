@@ -52,6 +52,9 @@ const Pets = (): JSX.Element => {
         paddingTop="8vh"
         paddingBottom="8vh"
       >
+        <View marginStart="size-100">
+          <h3>ペット一覧</h3>
+        </View>
         {pets.map((result, index) => (
           <Well key={index} margin="size-100" marginBottom="size-200">
             <Flex marginBottom="size-100">
@@ -69,13 +72,13 @@ const Pets = (): JSX.Element => {
                 <Text>{result.pet.welcome_day}</Text>
               </Flex>
             </Flex>
-              <Link variant="secondary" isQuiet>
-                <RouterLink to={"/pet/edit/" + result.pet.id}>
-                  <ActionButton width="100%">
-                    <Text>編集</Text>
-                  </ActionButton>
-                </RouterLink>
-              </Link>
+            <Link variant="secondary" isQuiet>
+              <RouterLink to={"/pet/edit/" + result.pet.id}>
+                <ActionButton width="100%">
+                  <Text>編集</Text>
+                </ActionButton>
+              </RouterLink>
+            </Link>
           </Well>
         ))}
         <View marginTop="size-100" marginBottom="size-100">

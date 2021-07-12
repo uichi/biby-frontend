@@ -49,9 +49,9 @@ const CareCategories = (): JSX.Element => {
         paddingTop="8vh"
         paddingBottom="8vh"
       >
-        <Text marginStart="size-100" marginTop="size-500">
-          カテゴリ一覧
-        </Text>
+        <View marginStart="size-100">
+          <h3>カテゴリ一覧</h3>
+        </View>
         {careCategories.map((careCategory, index) => (
           <View
             alignSelf="center"

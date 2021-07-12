@@ -25,7 +25,12 @@ const CareLogs = (): JSX.Element => {
   useEffect(() => {
     let cleanedUp = false;
     (async () => {
-      const resultCareLogs = await getCareLogs(cookies.meId, cookies.authToken);
+      const resultCareLogs = await getCareLogs(
+        cookies.meId,
+        cookies.selectedPet,
+        '',
+        cookies.authToken
+      );
       if (cleanedUp) return;
       setCareLogs(resultCareLogs);
       setIsLoaded(false);
@@ -46,9 +51,9 @@ const CareLogs = (): JSX.Element => {
         paddingTop="8vh"
         paddingBottom="8vh"
       >
-        <Text marginStart="size-100" marginTop="size-500">
-          記録一覧
-        </Text>
+        <View marginStart="size-100">
+          <h3>記録一覧</h3>
+        </View>
         {careLogs.map((careLog, index) => (
           <Link variant="secondary" key={index} isQuiet>
             <RouterLink to={"/care/log/edit/" + careLog.id}>
@@ -85,7 +90,7 @@ const CareLogs = (): JSX.Element => {
                       const dateTime = new Date(careLog.date_time);
                       const year = dateTime.getFullYear();
                       const month = dateTime.getMonth() + 1;
-                      const day = dateTime.getMonth();
+                      const day = dateTime.getDate();
                       const hour = dateTime.getHours();
                       const minute = dateTime.getMinutes();
                       return (
