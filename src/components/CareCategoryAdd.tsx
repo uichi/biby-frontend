@@ -63,7 +63,8 @@ const CareCategoryEdit = (): JSX.Element => {
       notifyErrorSave();
       return;
     }
-    notifySuccessSave();
+    //    notifySuccessSave();
+    history.push("/care/categories");
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">

@@ -8,6 +8,7 @@ import {
   Image,
   ActionButton,
   Link,
+  Heading,
 } from "@adobe/react-spectrum";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -66,10 +67,37 @@ const Pets = (): JSX.Element => {
                 alt={result.pet.name}
                 objectFit="cover"
               />
-              <Flex direction="column" marginStart="size-100">
-                <Text>{result.pet.name}</Text>
-                <Text>{result.pet.birthday}</Text>
-                <Text>{result.pet.welcome_day}</Text>
+              <Flex direction="column" marginStart="size-150">
+                <Heading
+                  level={3}
+                  margin="size-0"
+                  marginTop="size-0"
+                  marginBottom="size-100"
+                >
+                  {result.pet.name}
+                </Heading>
+                {(() => {
+                  const date = new Date(result.pet.birthday);
+                  const year = date.getFullYear();
+                  const month = date.getMonth() + 1;
+                  const day = date.getDate();
+                  return (
+                    <Text>
+                      誕生日：{year}年{month}月{day}日
+                    </Text>
+                  );
+                })()}
+                {(() => {
+                  const date = new Date(result.pet.welcome_day);
+                  const year = date.getFullYear();
+                  const month = date.getMonth() + 1;
+                  const day = date.getDate();
+                  return (
+                    <Text>
+                      出生日：{year}年{month}月{day}日
+                    </Text>
+                  );
+                })()}
               </Flex>
             </Flex>
             <Link variant="secondary" isQuiet>

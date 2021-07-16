@@ -45,9 +45,9 @@ const CareCategories = (): JSX.Element => {
       <View
         backgroundColor="gray-200"
         gridArea="content"
-        minHeight="84vh"
+        minHeight="76vh"
         paddingTop="8vh"
-        paddingBottom="8vh"
+        paddingBottom="20vh"
       >
         <View marginStart="size-100">
           <h3>カテゴリ一覧</h3>
@@ -71,7 +71,7 @@ const CareCategories = (): JSX.Element => {
             </Link>
           </View>
         ))}
-        <View marginBottom="size-100">
+        <View position="fixed" width="100%" bottom="size-700">
           <Link variant="secondary" margin="size-100" isQuiet>
             <RouterLink to="/care/category/add/">
               <ActionButton bottom="size-0" width="calc(100% - size-200)">
