@@ -121,7 +121,8 @@ const CareLogEdit = (): JSX.Element => {
       notifyErrorSave();
       return;
     }
-    notifySuccessSave();
+    //    notifySuccessSave();
+    history.push("/care/logs");
   };
   // HACK: 型指定見直す
   const onChangeInputType = (categoryId: any): void => {

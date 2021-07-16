@@ -90,7 +90,7 @@ const PetEdit = (): JSX.Element => {
     if (imageList[0]) setImage(imageList[0].file);
   };
   const removePet = async () => {
-    await deletePet(petId, cookies.meId);
+    await deletePet(petId, cookies.authToken);
     history.push("/pets");
   };
   return (

@@ -47,7 +47,7 @@ const CareLogAdd = (): JSX.Element => {
   const [float, setFloat] = useState<number | null>(null);
   const [memo, setMemo] = useState<string | null>(null);
   const [pets, setPets] = useState<any[]>([]);
-  const [petId, setPetId] = useState<any>();
+  const [petId, setPetId] = useState<number>(cookies.selectedPet);
   const history = useHistory();
   const [fieldTypeId, setFieldTypeId]: [
     string,
@@ -91,14 +91,15 @@ const CareLogAdd = (): JSX.Element => {
       inputType.name === "float" ? float : null,
       memo,
       cookies.meId,
-      petId,
+      String(petId),
       cookies.authToken
     );
     if (!resultAddCareLog) {
       notifyErrorSave();
       return;
     }
-    notifySuccessSave();
+    //    notifySuccessSave();
+    history.push("/care/logs");
   };
   // HACK: 型指定見直す
   const onChangeInputType = (categoryId: any): void => {
@@ -126,7 +127,7 @@ const CareLogAdd = (): JSX.Element => {
             <Picker
               label="ペットを選択してください"
               items={pets}
-              selectedKey={petId}
+              selectedKey={5}
               onSelectionChange={onChangePet}
               isRequired={true}
             >

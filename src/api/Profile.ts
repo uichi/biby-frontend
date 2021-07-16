@@ -9,8 +9,11 @@ export const getUser = (id: string, token: string): Promise<Profile> | null => {
       Authorization: `Token ${token}`,
     },
   };
-  return fetch(usersUrl + `${id}`, options)
-    .then((res) => res.json())
+  return fetch(usersUrl + `${id}/`, options)
+    .then((res) => {
+      if (!res.ok) throw new Error();
+      return res.json();
+    })
     .then((json) => json)
     .catch(() => null);
 };
