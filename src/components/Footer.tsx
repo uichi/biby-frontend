@@ -21,7 +21,7 @@ const Footer = (): JSX.Element => {
             alignSelf="center"
             justifySelf="left"
             gridArea="setting"
-            marginTop="size-200"
+            paddingTop="size-150"
             marginStart="size-200"
           >
             <Link variant="secondary">
@@ -36,7 +36,7 @@ const Footer = (): JSX.Element => {
             alignSelf="center"
             justifySelf="center"
             gridArea="name"
-            marginTop="size-200"
+            paddingTop="size-150"
           >
             <Link variant="secondary">
               <RouterLink to="/care/logs">
@@ -50,7 +50,7 @@ const Footer = (): JSX.Element => {
             alignSelf="center"
             justifySelf="right"
             gridArea="add"
-            marginTop="size-200"
+            paddingTop="size-150"
             marginEnd="size-200"
           >
             <Link variant="secondary">

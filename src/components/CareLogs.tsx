@@ -5,6 +5,7 @@ import {
   Text,
   ActionButton,
   Link,
+  Heading,
 } from "@adobe/react-spectrum";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -28,7 +29,7 @@ const CareLogs = (): JSX.Element => {
       const resultCareLogs = await getCareLogs(
         cookies.meId,
         cookies.selectedPet,
-        '',
+        "",
         cookies.authToken
       );
       if (cleanedUp) return;
@@ -47,9 +48,9 @@ const CareLogs = (): JSX.Element => {
       <View
         backgroundColor="gray-200"
         gridArea="content"
-        minHeight="84vh"
+        minHeight="76vh"
         paddingTop="8vh"
-        paddingBottom="8vh"
+        paddingBottom="20vh"
       >
         <View marginStart="size-100">
           <h3>記録一覧</h3>
@@ -66,7 +67,9 @@ const CareLogs = (): JSX.Element => {
                 height="size-800"
               >
                 <View>
-                  <Text>{careLog.care_category.name}</Text>
+                  <Heading level={3} margin="size-0" marginBottom="size-50">
+                    {careLog.care_category.name}
+                  </Heading>
                 </View>
                 <View>
                   {(() => {
@@ -105,7 +108,7 @@ const CareLogs = (): JSX.Element => {
             </RouterLink>
           </Link>
         ))}
-        <View marginBottom="size-100">
+        <View position="fixed" width="100%" bottom="size-700">
           <Link variant="secondary" margin="size-100" isQuiet>
             <RouterLink to="/care/log/add">
               <ActionButton bottom="size-0" width="calc(100% - size-200)">

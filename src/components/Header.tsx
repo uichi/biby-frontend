@@ -25,7 +25,7 @@ const Header = (): JSX.Element => {
             alignSelf="center"
             justifySelf="left"
             gridArea="setting"
-            marginTop="size-200"
+            paddingTop="size-150"
             marginStart="size-200"
           >
             <Link variant="secondary" isQuiet>
