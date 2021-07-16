@@ -97,10 +97,11 @@ const CareCategoryEdit = (): JSX.Element => {
       notifyErrorSave();
       return;
     }
-    notifySuccessSave();
+    //    notifySuccessSave();
+    history.push("/care/categories");
   };
   const removeCareCategory = async () => {
-    await deleteCareCategory(careCategoryId, cookies.meId);
+    await deleteCareCategory(careCategoryId, cookies.authToken);
     history.push("/care/categories");
   };
   return (

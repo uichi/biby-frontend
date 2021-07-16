@@ -7,6 +7,7 @@ import {
   Image,
   Link,
   ActionButton,
+  Heading,
 } from "@adobe/react-spectrum";
 import { Link as RouterLink } from "react-router-dom";
 import Header from "./Header";
@@ -32,7 +33,6 @@ const Top = (): JSX.Element => {
   useEffect(() => {
     let cleanedUp = false;
     (async () => {
-      // FIXME: リロードするとcookies.selectedPetが消えてしまう
       const pet = await getPet(cookies.selectedPet, cookies.authToken);
       if (pet) {
         if (cleanedUp) return;
@@ -67,32 +67,69 @@ const Top = (): JSX.Element => {
         paddingTop="8vh"
         paddingBottom="8vh"
       >
+        {((): any => {
+          if (cookies.selectedPet)
+            return (
+              <View
+                margin="size-100"
+                marginTop="size-200"
+                borderWidth="thin"
+                borderColor="dark"
+                borderRadius="small"
+                backgroundColor="gray-400"
+                padding="size-100"
+              >
+                <Flex marginBottom="size-100">
+                  <Image
+                    width="100px"
+                    height="100px"
+                    src={"https://placehold.jp/100x100.png"}
+                    //              src={imageUrl}
+                    alt=""
+                    objectFit="cover"
+                  />
+
+                  <Flex direction="column" marginStart="size-200">
+                    <Heading
+                      level={3}
+                      margin="size-0"
+                      marginTop="size-0"
+                      marginBottom="size-100"
+                    >
+                      {name}
+                    </Heading>
+                    {(() => {
+                      const date = new Date(birthday);
+                      const year = date.getFullYear();
+                      const month = date.getMonth() + 1;
+                      const day = date.getDate();
+                      return (
+                        <Text>
+                          誕生日：{year}年{month}月{day}日
+                        </Text>
+                      );
+                    })()}
+                    {(() => {
+                      const date = new Date(welcomeDay);
+                      const year = date.getFullYear();
+                      const month = date.getMonth() + 1;
+                      const day = date.getDate();
+                      return (
+                        <Text>
+                          出生日：{year}年{month}月{day}日
+                        </Text>
+                      );
+                    })()}
+                  </Flex>
+                </Flex>
+              </View>
+            );
+        })()}
         <View
-          margin="size-100"
-          marginTop="size-300"
-          borderWidth="thin"
-          borderColor="dark"
-          borderRadius="small"
-          backgroundColor="gray-400"
-          padding="size-100"
+          marginStart="size-100"
+          marginBottom="size-200"
+          marginTop="size-100"
         >
-          <Flex marginBottom="size-100">
-            <Image
-              width="100px"
-              height="100px"
-              src={"https://placehold.jp/100x100.png"}
-              //              src={imageUrl}
-              alt=""
-              objectFit="cover"
-            />
-            <Flex direction="column" marginStart="size-200">
-              <Text>{name}</Text>
-              <Text>{birthday}</Text>
-              <Text>{welcomeDay}</Text>
-            </Flex>
-          </Flex>
-        </View>
-        <View marginStart="size-100" marginBottom="size-200">
           <Link variant="secondary" isQuiet>
             <RouterLink to={"/pet/select/"}>
               <ActionButton bottom="size-0" width="calc(100% - size-100)">
