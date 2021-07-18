@@ -62,8 +62,7 @@ const Pets = (): JSX.Element => {
               <Image
                 width="100px"
                 height="100px"
-                src={"https://placehold.jp/100x100.png"}
-                //                src={result.pet.image}
+                src={result.pet.image}
                 alt={result.pet.name}
                 objectFit="cover"
               />
