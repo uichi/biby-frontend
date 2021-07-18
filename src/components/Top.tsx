@@ -83,8 +83,7 @@ const Top = (): JSX.Element => {
                   <Image
                     width="100px"
                     height="100px"
-                    src={"https://placehold.jp/100x100.png"}
-                    //              src={imageUrl}
+                    src={imageUrl}
                     alt=""
                     objectFit="cover"
                   />
