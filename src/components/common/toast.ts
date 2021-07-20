@@ -108,3 +108,42 @@ export const notifyEssentialValueIsEmpty = (): string =>
     },
     duration: 3000,
   });
+
+export const notifySendResetPasswordConfirm = (): string =>
+  toast.error(
+    "パスワードリセットを送信しました。\nメールを確認してください。",
+    {
+      icon: "👏",
+      style: {
+        borderRadius: "10px",
+        background: "#333",
+        color: "#fff",
+      },
+      duration: 10000,
+    }
+  );
+
+export const notifySuccessSavePassword = (): string =>
+  toast.error(
+    "パスワードを再設定しました。\nログイン画面からログインしてください",
+    {
+      icon: "👏",
+      style: {
+        borderRadius: "10px",
+        background: "#333",
+        color: "#fff",
+      },
+      duration: 10000,
+    }
+  );
+
+export const notifyErrorSending = (): string =>
+  toast.error("送信に失敗しました", {
+    icon: "❌",
+    style: {
+      borderRadius: "10px",
+      background: "#333",
+      color: "#fff",
+    },
+    duration: 3000,
+  });

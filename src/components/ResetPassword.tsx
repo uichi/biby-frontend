@@ -13,22 +13,21 @@ import { Toaster } from "react-hot-toast";
 import {
   validateNotEnteredError,
   validateEmailError,
-  loginError,
+  notifySendResetPasswordConfirm,
 } from "./common/toast";
 import { useHistory } from "react-router-dom";
 import { emailValid } from "./common/validation";
 import { useCookies } from "react-cookie";
-import { loginAuth, getMe } from "../api/Authentication";
+import { resetPassword } from "../api/Authentication";
 
-const Login = (): JSX.Element => {
-  const [cookies, setCookie] = useCookies(["authToken", "meId"]);
+const ResetPassword = (): JSX.Element => {
+  const [cookies, setCookie] = useCookies(["authToken", "meId"]); // eslint-disable-line
   const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
   const isEmailValid = useMemo(() => emailValid.test(email), [email]);
   const history = useHistory();
   if (cookies.authToken && cookies.meId) history.push("/");
   const login = async () => {
-    if (!(email && password)) {
+    if (!email) {
       validateNotEnteredError();
       return;
     }
@@ -36,25 +35,15 @@ const Login = (): JSX.Element => {
       validateEmailError();
       return;
     }
-    const resultLoginAuth = await loginAuth(email, password);
-    if (resultLoginAuth) {
-      if (!resultLoginAuth.auth_token) {
-        loginError();
-        return;
-      }
-      setCookie("authToken", resultLoginAuth.auth_token);
-      const me = await getMe(resultLoginAuth.auth_token);
-      setCookie("meId", me.id);
-      history.push("/");
-    }
-    loginError();
+    await resetPassword(email);
+    notifySendResetPasswordConfirm();
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
       <Toaster position="top-center" />
       <View backgroundColor="gray-200" gridArea="content" height="100vh">
         <View marginStart="size-100" marginEnd="size-100" paddingTop="size-400">
-          <h3 id="label-3">bibyにログインする</h3>
+          <h3 id="label-3">bibyパスワードリセット</h3>
           <Form aria-labelledby="label-3" necessityIndicator="icon">
             <TextField
               inputMode="email"
@@ -65,21 +54,13 @@ const Login = (): JSX.Element => {
               onChange={setEmail}
               validationState={isEmailValid ? "valid" : "invalid"}
             />
-            <TextField
-              type="password"
-              inputMode="text"
-              label="パスワード"
-              value={password}
-              isRequired={true}
-              onChange={setPassword}
-            />
             <ActionButton staticColor="white" onPress={login}>
-              ログイン
+              送信
             </ActionButton>
             <Link variant="secondary" isQuiet>
-              <RouterLink to="/reset_password">
+              <RouterLink to="/login">
                 <ActionButton staticColor="white" width="100%">
-                  パスワードをお忘れの方
+                  ログイン画面へ戻る
                 </ActionButton>
               </RouterLink>
             </Link>
@@ -90,4 +71,4 @@ const Login = (): JSX.Element => {
   );
 };
 
-export default Login;
+export default ResetPassword;
