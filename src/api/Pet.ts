@@ -121,3 +121,29 @@ export const deletePet = (
     .then((json) => json)
     .catch(() => null);
 };
+
+export const getPetRelatedShareId = (
+  shareId: string,
+  token: string
+): Promise<Pet> | null => {
+  const query_params = new URLSearchParams({
+    share_id: shareId,
+  });
+  const options = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+  return (
+    fetch(petsUrl + `?${query_params}`, options)
+      .then((res) => {
+        if (!res.ok) throw new Error();
+        return res.json();
+      })
+      // NOTE: ペットが配列形式で返ってくるが一匹しか含まれないのでインデックス指定
+      .then((json) => json.results[0])
+      .catch(() => null)
+  );
+};

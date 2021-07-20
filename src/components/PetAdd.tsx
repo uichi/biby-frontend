@@ -7,12 +7,22 @@ import {
   RadioGroup,
   Radio,
   ActionButton,
+  Dialog,
+  DialogTrigger,
+  Divider,
+  Heading,
+  Flex,
+  Text,
+  Button,
+  ButtonGroup,
+  Content,
 } from "@adobe/react-spectrum";
 import Header from "./Header";
 import Footer from "./Footer";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
-import { postPet } from "../api/Pet";
+import { postPet, getPetRelatedShareId } from "../api/Pet";
+import { postPetOwnerGroup } from "../api/PetOwnerGroup";
 import { useState } from "react";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 import { validateNotEnteredError, notifyErrorSave } from "./common/toast";
@@ -22,6 +32,7 @@ const PetEdit = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
   const [images, setImages] = useState([]);
   const [image, setImage] = useState<File>();
+  const [shareId, setShareId] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [gender, setGender] = useState<string>("");
   const [birthday, setBirthday] = useState<string>("");
@@ -30,6 +41,17 @@ const PetEdit = (): JSX.Element => {
   const maxNumber = 1;
 
   if (!cookies.authToken) history.push("/login");
+  const addPetOwnerGroup = async (close: any) => {
+    const resultGetPet = await getPetRelatedShareId(shareId, cookies.authToken);
+    if (resultGetPet) {
+      const resultPostPetOwnerGroup = await postPetOwnerGroup(
+        cookies.meId,
+        resultGetPet.id,
+        cookies.authToken
+      );
+      console.log(resultPostPetOwnerGroup);
+    }
+  };
   const addPet = async () => {
     if (name === "") {
       validateNotEnteredError();
@@ -67,44 +89,81 @@ const PetEdit = (): JSX.Element => {
         paddingBottom="8vh"
       >
         <View marginStart="size-100">
-          <h3>ペット追加</h3>
+          <Flex justifyContent="space-between">
+            <Heading level={3}>ペット追加</Heading>
+            <DialogTrigger>
+              <ActionButton marginTop="size-150" marginEnd="size-100">
+                共有IDをお持ちの方
+              </ActionButton>
+              {(close) => (
+                <Dialog>
+                  <Heading>
+                    <Flex alignItems="center" gap="size-100">
+                      <Text>共有ID登録</Text>
+                    </Flex>
+                  </Heading>
+                  <Divider />
+                  <Content>
+                    <Form>
+                      <TextField
+                        label="共有ID"
+                        value={shareId}
+                        onChange={setShareId}
+                      />
+                    </Form>
+                  </Content>
+                  <ButtonGroup>
+                    <Button variant="secondary" onPress={close}>
+                      キャンセル
+                    </Button>
+                    <Button
+                      variant="cta"
+                      onPress={() => addPetOwnerGroup(close)}
+                    >
+                      登録
+                    </Button>
+                  </ButtonGroup>
+                </Dialog>
+              )}
+            </DialogTrigger>
+          </Flex>
         </View>
         <View margin="size-100">
-          <ImageUploading
-            multiple
-            value={images}
-            onChange={uploadImage}
-            maxNumber={maxNumber}
-          >
-            {({
-              imageList,
-              onImageUpload,
-              onImageRemoveAll,
-              isDragging,
-              dragProps,
-            }) => (
-              <div className="upload__image-wrapper">
-                {imageList.map((image, index) => (
-                  <div key={index} className="image-item">
-                    <img src={image.dataURL} alt="" width="100" />
-                  </div>
-                ))}
-                <button
-                  style={isDragging ? { color: "red" } : undefined}
-                  onClick={() => {
-                    onImageRemoveAll();
-                    onImageUpload();
-                  }}
-                  {...dragProps}
-                >
-                  画像選択
-                </button>
-                &nbsp;
-                <button onClick={onImageRemoveAll}>削除</button>
-              </div>
-            )}
-          </ImageUploading>
           <Form aria-labelledby="label-3" necessityIndicator="icon">
+            <ImageUploading
+              multiple
+              value={images}
+              onChange={uploadImage}
+              maxNumber={maxNumber}
+            >
+              {({
+                imageList,
+                onImageUpload,
+                onImageRemoveAll,
+                isDragging,
+                dragProps,
+              }) => (
+                <div className="upload__image-wrapper">
+                  {imageList.map((image, index) => (
+                    <div key={index} className="image-item">
+                      <img src={image.dataURL} alt="" width="100" />
+                    </div>
+                  ))}
+                  <button
+                    style={isDragging ? { color: "red" } : undefined}
+                    onClick={() => {
+                      onImageRemoveAll();
+                      onImageUpload();
+                    }}
+                    {...dragProps}
+                  >
+                    画像選択
+                  </button>
+                  &nbsp;
+                  <button onClick={onImageRemoveAll}>削除</button>
+                </div>
+              )}
+            </ImageUploading>
             <TextField
               label="名前"
               placeholder="ぽち"
