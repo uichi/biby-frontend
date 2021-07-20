@@ -1,4 +1,11 @@
-import { loginUrl, logoutUrl, meUrl, signupUrl } from "./Config";
+import {
+  loginUrl,
+  logoutUrl,
+  meUrl,
+  signupUrl,
+  resetPasswordUrl,
+  resetPasswordConfirmUrl,
+} from "./Config";
 import { AuthToken, Me } from "../types";
 
 export const loginAuth = (
@@ -73,5 +80,37 @@ export const signupAuth = (
       return res.json();
     })
     .then((json) => json)
+    .catch(() => null);
+};
+
+export const resetPassword = (email: string): Promise<any> => {
+  const body = JSON.stringify({ email });
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body,
+  };
+  return fetch(resetPasswordUrl, options);
+};
+
+export const resetPasswordConfirm = (
+  uid: string | null,
+  token: string | null,
+  new_password: string
+): Promise<any> => {
+  const body = JSON.stringify({ uid, token, new_password });
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body,
+  };
+  return fetch(resetPasswordConfirmUrl, options)
+    .then((res) => {
+      return res;
+    })
     .catch(() => null);
 };

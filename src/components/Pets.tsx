@@ -12,7 +12,6 @@ import {
 } from "@adobe/react-spectrum";
 import Header from "./Header";
 import Footer from "./Footer";
-import Edit from "@spectrum-icons/workflow/Edit";
 import { Link as RouterLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
