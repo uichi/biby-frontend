@@ -83,6 +83,9 @@ const Login = (): JSX.Element => {
                 </ActionButton>
               </RouterLink>
             </Link>
+            <Link variant="secondary">
+              <RouterLink to="/signup">アカウントをお持ちでない方</RouterLink>
+            </Link>
           </Form>
         </View>
       </View>

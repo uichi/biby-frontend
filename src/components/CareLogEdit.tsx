@@ -32,9 +32,8 @@ import Loading from "./common/Loading";
 const CareLogEdit = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
   const [isLoaded, setIsLoaded] = useState<boolean>(true);
-  const [inputType, setInputType] = useState<any>();
-  const [inputTypes, setInputTypes] = useState<any[]>([]);
-  const [categories, setCategories] = useState<CareCategory[]>([]);
+  const [careCategory, setCareCategory] = useState<any>();
+  const [careCategories, setCareCategories] = useState<CareCategory[]>([]);
   const [dateTime, setDateTime] = useState<string>("");
   const [text, setText] = useState<string | null>(null);
   const [integer, setInteger] = useState<number | null>(null);
@@ -60,7 +59,8 @@ const CareLogEdit = (): JSX.Element => {
       const day = ("00" + today.getDate()).slice(-2);
       const hour = ("00" + today.getHours()).slice(-2);
       const minute = ("00" + today.getMinutes()).slice(-2);
-      const resultGetCareCategories = await getCategories(
+      // NOTE: ログインユーザーの持っているカテゴリ全てを取得
+      const resultGetCareCategories: CareCategory[] = await getCategories(
         cookies.meId,
         cookies.authToken
       );
@@ -77,23 +77,39 @@ const CareLogEdit = (): JSX.Element => {
       setText(resultGetLog.text);
       setInteger(resultGetLog.integer);
       setFloat(resultGetLog.float);
-      setFieldTypeId(resultGetLog.care_category.id);
       setDateTime(`${year}-${month}-${day}T${hour}:${minute}`);
       setMemo(resultGetLog.memo);
-      setInputType({
+      setCareCategory({
         id: resultGetLog.care_category.id,
         name: resultGetLog.care_category.input_type,
         unit: resultGetLog.care_category.unit,
       });
-      setCategories(resultGetCareCategories);
-      setInputTypes(
-        resultGetCareCategories.map((value) => ({
-          id: value.id,
-          name: value.input_type,
-          unit: value.unit,
-        }))
+      // NOTE: 開いている記録が持っているカテゴリー
+      const resultGetCareCategory = resultGetLog.care_category;
+      const savedCareCategory: CareCategory = {
+        id: resultGetCareCategory.id,
+        name: resultGetCareCategory.name,
+        icon: resultGetCareCategory.icon,
+        input_type: resultGetCareCategory.input_type,
+        unit: resultGetCareCategory.unit,
+        is_daily_routine: resultGetCareCategory.is_daily_routine,
+        user: resultGetCareCategory.user,
+      };
+      const duplicateCareCategory = resultGetCareCategories.find(
+        (value) => value.name === savedCareCategory.name
       );
+      /* NOTE: ログインユーザーが持っているカテゴリと記録の持っているカテゴリが重複している場合、
+       * ログインユーザーの持っているカテゴリのIDをsetFieldTypeIdに入れる
+       */
+      if (duplicateCareCategory) {
+        setFieldTypeId(resultGetCareCategory.id);
+      } else {
+        setFieldTypeId(resultGetLog.care_category.id);
+        resultGetCareCategories.push(savedCareCategory);
+      }
+      setCareCategories(resultGetCareCategories);
       setIsLoaded(false);
+      console.log(resultGetCareCategories);
     })();
     const cleanup = () => {
       cleanedUp = true;
@@ -109,9 +125,9 @@ const CareLogEdit = (): JSX.Element => {
       selectedCareLogId,
       fieldTypeId,
       dateTime,
-      inputType.name === "text" ? text : null,
-      inputType.name === "integer" ? integer : null,
-      inputType.name === "float" ? float : null,
+      careCategory.input_type === "text" ? text : null,
+      careCategory.input_type === "integer" ? integer : null,
+      careCategory.input_type === "float" ? float : null,
       memo,
       cookies.meId,
       petId,
@@ -126,7 +142,7 @@ const CareLogEdit = (): JSX.Element => {
   };
   // HACK: 型指定見直す
   const onChangeInputType = (categoryId: any): void => {
-    setInputType(inputTypes.find((value) => value.id === categoryId));
+    setCareCategory(careCategories.find((value) => value.id === categoryId));
     setFieldTypeId(categoryId);
   };
   const removeCareLog = async () => {
@@ -169,7 +185,7 @@ const CareLogEdit = (): JSX.Element => {
             />
             <Picker
               label="カテゴリを選択してください"
-              items={categories.map((value) => ({
+              items={careCategories.map((value) => ({
                 id: value.id,
                 name: value.name,
                 input_type: value.input_type,
@@ -181,8 +197,8 @@ const CareLogEdit = (): JSX.Element => {
               {(item) => <Item>{item.name}</Item>}
             </Picker>
             {((): any => {
-              if (!inputType) return;
-              if (inputType.name === "text")
+              if (!careCategory) return;
+              if (careCategory.input_type === "text")
                 return (
                   <TextField
                     label="テキスト"
@@ -191,18 +207,18 @@ const CareLogEdit = (): JSX.Element => {
                     onChange={setText}
                   />
                 );
-              if (inputType.name === "integer")
+              if (careCategory.input_type === "integer")
                 return (
                   <NumberField
-                    label={"整数" + " (" + inputType.unit + ")"}
+                    label={"整数" + " (" + careCategory.unit + ")"}
                     defaultValue={!integer ? 0 : integer}
                     onChange={setInteger}
                   />
                 );
-              if (inputType.name === "float")
+              if (careCategory.input_type === "float")
                 return (
                   <NumberField
-                    label={"小数" + " (" + inputType.unit + ")"}
+                    label={"小数" + " (" + careCategory.unit + ")"}
                     defaultValue={!float ? 0 : float}
                     onChange={setFloat}
                   />

@@ -9,6 +9,10 @@ import {
   ActionButton,
   Link,
   Heading,
+  DialogTrigger,
+  Dialog,
+  Divider,
+  Content,
 } from "@adobe/react-spectrum";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -100,11 +104,26 @@ const Pets = (): JSX.Element => {
             </Flex>
             <Link variant="secondary" isQuiet>
               <RouterLink to={"/pet/edit/" + result.pet.id}>
-                <ActionButton width="100%">
+                <ActionButton marginBottom="size-50" width="100%">
                   <Text>編集</Text>
                 </ActionButton>
               </RouterLink>
             </Link>
+            <DialogTrigger isDismissable>
+              <ActionButton width="100%">ペット共有</ActionButton>
+              <Dialog>
+                <Heading>ペット共有</Heading>
+                <Divider />
+                <Content>
+                  <Text>
+                    下記のIDを他のユーザーに共有することで、ペットの情報共有ができます。
+                  </Text>
+                  <View>
+                    <Heading level={5}>{result.pet.share_id}</Heading>
+                  </View>
+                </Content>
+              </Dialog>
+            </DialogTrigger>
           </Well>
         ))}
         <View marginTop="size-100" marginBottom="size-100">
