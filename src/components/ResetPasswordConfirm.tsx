@@ -41,7 +41,7 @@ const ResetPasswordConfirm = (): JSX.Element => {
       searchParams.get("token"),
       password
     );
-    if (resultResetPasswordConfirm) {
+    if (!resultResetPasswordConfirm) {
       notifyErrorSending();
       return;
     }
