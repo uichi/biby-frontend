@@ -108,15 +108,33 @@ const CareLogs = (): JSX.Element => {
             </RouterLink>
           </Link>
         ))}
-        <View position="fixed" width="100%" bottom="size-700">
-          <Link variant="secondary" margin="size-100" isQuiet>
-            <RouterLink to="/care/log/add">
-              <ActionButton bottom="size-0" width="calc(100% - size-200)">
-                <Text>記録する</Text>
-              </ActionButton>
-            </RouterLink>
-          </Link>
-        </View>
+        {(() => {
+          if (careLogs.length !== 400) {
+            return (
+              <View position="fixed" width="100%" bottom="size-700">
+                <Link variant="secondary" margin="size-100" isQuiet>
+                  <RouterLink to="/care/log/add">
+                    <ActionButton bottom="size-0" width="calc(100% - size-200)">
+                      <Text>記録する</Text>
+                    </ActionButton>
+                  </RouterLink>
+                </Link>
+              </View>
+            );
+          } else {
+            return (
+              <View position="fixed" width="100%" bottom="size-700">
+                <ActionButton
+                  bottom="size-0"
+                  width="calc(100% - size-200)"
+                  isDisabled
+                >
+                  <Text>フリープランの場合登録は400までです</Text>
+                </ActionButton>
+              </View>
+            );
+          }
+        })()}
       </View>
       <Footer />
     </Provider>

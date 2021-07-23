@@ -126,15 +126,33 @@ const Pets = (): JSX.Element => {
             </DialogTrigger>
           </Well>
         ))}
-        <View marginTop="size-100" marginBottom="size-100">
-          <Link variant="secondary" margin="size-100" isQuiet>
-            <RouterLink to="/pet/add">
-              <ActionButton bottom="size-0" width="calc(100% - size-200)">
-                <Text>追加</Text>
-              </ActionButton>
-            </RouterLink>
-          </Link>
-        </View>
+        {(() => {
+          if (pets.length !== 5) {
+            return (
+              <View marginTop="size-100" marginBottom="size-100">
+                <Link variant="secondary" margin="size-100" isQuiet>
+                  <RouterLink to="/pet/add">
+                    <ActionButton bottom="size-0" width="calc(100% - size-200)">
+                      <Text>追加</Text>
+                    </ActionButton>
+                  </RouterLink>
+                </Link>
+              </View>
+            );
+          } else {
+            return (
+              <View margin="size-100">
+                <ActionButton
+                  bottom="size-0"
+                  width="calc(100% - size-200)"
+                  isDisabled
+                >
+                  <Text>フリープランの場合登録は5匹までです</Text>
+                </ActionButton>
+              </View>
+            );
+          }
+        })()}
       </View>
       <Footer />
     </Provider>
