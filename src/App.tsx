@@ -18,6 +18,7 @@ import PetAdd from "./components/PetAdd";
 import PetSelect from "./components/PetSelect";
 import ResetPassword from "./components/ResetPassword";
 import ResetPasswordConfirm from "./components/ResetPasswordConfirm";
+import Plan from "./components/Plan";
 
 function App(): JSX.Element {
   return (
@@ -49,6 +50,7 @@ function App(): JSX.Element {
             path="/reset_password_confirm"
             component={ResetPasswordConfirm}
           />
+          <Route exact path="/plan" component={Plan} />
         </Switch>
       </BrowserRouter>
     </CookiesProvider>

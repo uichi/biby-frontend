@@ -10,8 +10,8 @@ import RealTimeCustomerProfile from "@spectrum-icons/workflow/RealTimeCustomerPr
 import Email from "@spectrum-icons/workflow/Email";
 import EditIn from "@spectrum-icons/workflow/EditIn";
 import UserLock from "@spectrum-icons/workflow/UserLock";
-//import AnnotatePen from "@spectrum-icons/workflow/AnnotatePen";
-//import Question from "@spectrum-icons/workflow/Question";
+import LinkOut from "@spectrum-icons/workflow/LinkOut";
+import StarOutline from "@spectrum-icons/workflow/StarOutline";
 import { Link } from "@adobe/react-spectrum";
 import { Link as RouterLink } from "react-router-dom";
 import Header from "./Header";
@@ -43,6 +43,14 @@ const SettingApp = (): JSX.Element => {
           <Divider size="M" />
           <View>
             <Link variant="secondary" isQuiet>
+              <RouterLink to="/plan">
+                <StarOutline size="XS" marginEnd="size-100" />
+                <Text>プレミアムプラン</Text>
+              </RouterLink>
+            </Link>
+          </View>
+          <View>
+            <Link variant="secondary" isQuiet>
               <RouterLink to="/profile">
                 <RealTimeCustomerProfile size="XS" marginEnd="size-100" />
                 <Text>プロフィール</Text>
@@ -50,6 +58,7 @@ const SettingApp = (): JSX.Element => {
             </Link>
           </View>
           <View>
+            <LinkOut size="XS" marginEnd="size-100" />
             <Link onPress={logout} variant="secondary" isQuiet>
               ログアウト
             </Link>
