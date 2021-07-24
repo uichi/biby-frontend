@@ -49,8 +49,8 @@ const PetEdit = (): JSX.Element => {
         resultGetPet.id,
         cookies.authToken
       );
-      console.log(resultPostPetOwnerGroup);
     }
+    history.push("/pets");
   };
   const addPet = async () => {
     if (name === "") {
