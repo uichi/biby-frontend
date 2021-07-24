@@ -129,41 +129,41 @@ const PetEdit = (): JSX.Element => {
           </Flex>
         </View>
         <View margin="size-100">
+          <ImageUploading
+            multiple
+            value={images}
+            onChange={uploadImage}
+            maxNumber={maxNumber}
+          >
+            {({
+              imageList,
+              onImageUpload,
+              onImageRemoveAll,
+              isDragging,
+              dragProps,
+            }) => (
+              <div className="upload__image-wrapper">
+                {imageList.map((image, index) => (
+                  <div key={index} className="image-item">
+                    <img src={image.dataURL} alt="" width="100" />
+                  </div>
+                ))}
+                <button
+                  style={isDragging ? { color: "red" } : undefined}
+                  onClick={() => {
+                    onImageRemoveAll();
+                    onImageUpload();
+                  }}
+                  {...dragProps}
+                >
+                  画像選択
+                </button>
+                &nbsp;
+                <button onClick={onImageRemoveAll}>削除</button>
+              </div>
+            )}
+          </ImageUploading>
           <Form aria-labelledby="label-3" necessityIndicator="icon">
-            <ImageUploading
-              multiple
-              value={images}
-              onChange={uploadImage}
-              maxNumber={maxNumber}
-            >
-              {({
-                imageList,
-                onImageUpload,
-                onImageRemoveAll,
-                isDragging,
-                dragProps,
-              }) => (
-                <div className="upload__image-wrapper">
-                  {imageList.map((image, index) => (
-                    <div key={index} className="image-item">
-                      <img src={image.dataURL} alt="" width="100" />
-                    </div>
-                  ))}
-                  <button
-                    style={isDragging ? { color: "red" } : undefined}
-                    onClick={() => {
-                      onImageRemoveAll();
-                      onImageUpload();
-                    }}
-                    {...dragProps}
-                  >
-                    画像選択
-                  </button>
-                  &nbsp;
-                  <button onClick={onImageRemoveAll}>削除</button>
-                </div>
-              )}
-            </ImageUploading>
             <TextField
               label="名前"
               placeholder="ぽち"
