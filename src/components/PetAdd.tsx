@@ -22,10 +22,15 @@ import Footer from "./Footer";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 import { postPet, getPetRelatedShareId } from "../api/Pet";
-import { postPetOwnerGroup } from "../api/PetOwnerGroup";
+import { postPetOwnerGroup, getPetOwnerGroup } from "../api/PetOwnerGroup";
 import { useState } from "react";
 import ImageUploading, { ImageListType } from "react-images-uploading";
-import { validateNotEnteredError, notifyErrorSave } from "./common/toast";
+import {
+  validateNotEnteredError,
+  notifyErrorSave,
+  notifyNotExistShareId,
+  notifyRegisteredShareId,
+} from "./common/toast";
 import { Toaster } from "react-hot-toast";
 import scrollToTop from "./common/scrollToTop";
 
@@ -45,9 +50,20 @@ const PetEdit = (): JSX.Element => {
   if (!cookies.authToken) history.push("/login");
   const addPetOwnerGroup = async (close: any) => {
     const resultGetPet = await getPetRelatedShareId(shareId, cookies.authToken);
-    if (resultGetPet) {
-      await postPetOwnerGroup(cookies.meId, resultGetPet.id, cookies.authToken);
+    if (!resultGetPet) {
+      notifyNotExistShareId();
+      return;
     }
+    const resultGetPetOwnerGroup = await getPetOwnerGroup(
+      cookies.meId,
+      resultGetPet.id,
+      cookies.authToken
+    );
+    if (resultGetPetOwnerGroup) {
+      notifyRegisteredShareId();
+      return;
+    }
+    await postPetOwnerGroup(cookies.meId, resultGetPet.id, cookies.authToken);
     history.push("/pets");
   };
   const addPet = async () => {

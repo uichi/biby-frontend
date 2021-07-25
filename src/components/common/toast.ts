@@ -147,3 +147,25 @@ export const notifyErrorSending = (): string =>
     },
     duration: 3000,
   });
+
+export const notifyNotExistShareId = (): string =>
+  toast.error("送信した共有IDは存在しません", {
+    icon: "❌",
+    style: {
+      borderRadius: "10px",
+      background: "#333",
+      color: "#fff",
+    },
+    duration: 3000,
+  });
+
+export const notifyRegisteredShareId = (): string =>
+  toast.error("すでに登録しているペットIDです", {
+    icon: "❌",
+    style: {
+      borderRadius: "10px",
+      background: "#333",
+      color: "#fff",
+    },
+    duration: 3000,
+  });
