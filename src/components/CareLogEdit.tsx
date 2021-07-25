@@ -47,7 +47,7 @@ const CareLogEdit = (): JSX.Element => {
     Dispatch<SetStateAction<any>> // HACK: 型定義見直す
   ] = useState<string>("");
   const [pets, setPets] = useState<any[]>([]);
-  const [petId, setPetId] = useState<any>();
+  const [petId, setPetId] = useState<number>();
   scrollToTop();
   if (!cookies.authToken) history.push("/login");
   useEffect(() => {
@@ -111,7 +111,6 @@ const CareLogEdit = (): JSX.Element => {
       }
       setCareCategories(resultGetCareCategories);
       setIsLoaded(false);
-      console.log(resultGetCareCategories);
     })();
     const cleanup = () => {
       cleanedUp = true;
@@ -132,7 +131,7 @@ const CareLogEdit = (): JSX.Element => {
       careCategory.input_type === "float" ? float : null,
       memo,
       cookies.meId,
-      petId,
+      String(petId),
       cookies.authToken
     );
     if (!resultUpdateCareLog) {

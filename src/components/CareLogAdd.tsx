@@ -48,7 +48,7 @@ const CareLogAdd = (): JSX.Element => {
   const [float, setFloat] = useState<number | null>(null);
   const [memo, setMemo] = useState<string | null>(null);
   const [pets, setPets] = useState<any[]>([]);
-  const [petId, setPetId] = useState<number>(cookies.selectedPet);
+  const [petId, setPetId] = useState<number>();
   const history = useHistory();
   scrollToTop();
   const [fieldTypeId, setFieldTypeId]: [
@@ -79,6 +79,7 @@ const CareLogAdd = (): JSX.Element => {
       );
       setIsLoaded(false);
     })();
+    setPetId(Number(cookies.selectedPet));
   }, []);
   const addCareLog = async () => {
     if (fieldTypeId === "" || dateTime === "") {
@@ -129,7 +130,7 @@ const CareLogAdd = (): JSX.Element => {
             <Picker
               label="ペットを選択してください"
               items={pets}
-              selectedKey={5}
+              selectedKey={petId}
               onSelectionChange={onChangePet}
               isRequired={true}
             >
