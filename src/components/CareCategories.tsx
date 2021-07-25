@@ -15,12 +15,14 @@ import { useHistory } from "react-router-dom";
 import { getCategories } from "../api/CareCategory";
 import { CareCategory } from "../types";
 import Loading from "./common/Loading";
+import scrollToTop from "./common/scrollToTop";
 
 const CareCategories = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
   const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [careCategories, setCareCategories] = useState<CareCategory[]>([]);
   const history = useHistory();
+  scrollToTop();
   if (!cookies.authToken) history.push("/login");
   useEffect(() => {
     let cleanedUp = false;

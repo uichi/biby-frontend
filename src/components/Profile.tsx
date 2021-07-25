@@ -26,6 +26,7 @@ import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 import { getMe } from "../api/Authentication";
 import Loading from "./common/Loading";
+import scrollToTop from "./common/scrollToTop";
 
 const Profile = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
@@ -34,6 +35,7 @@ const Profile = (): JSX.Element => {
   const [email, setEmail] = useState<string>("");
   const isEmailValid = useMemo(() => emailValid.test(email), [email]);
   const history = useHistory();
+  scrollToTop();
   if (!cookies.authToken) history.push("/login");
   useEffect(() => {
     let cleanedUp = false;

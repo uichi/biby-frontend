@@ -18,10 +18,12 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
+import scrollToTop from "./common/scrollToTop";
 
 const SettingApp = (): JSX.Element => {
   const [cookies, setCookie, removeCookie] = useCookies(); // eslint-disable-line
   const history = useHistory();
+  scrollToTop();
   if (!cookies.authToken) history.push("/login");
   const logout = async () => {
     await removeCookie("authToken");

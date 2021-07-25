@@ -18,6 +18,7 @@ import { useHistory } from "react-router-dom";
 import { getPet } from "../api/Pet";
 import { getCareLogs } from "../api/CareLog";
 import Loading from "./common/Loading";
+import scrollToTop from "./common/scrollToTop";
 import SampleImage from "../assets/images/sample.png";
 
 const Top = (): JSX.Element => {
@@ -29,6 +30,7 @@ const Top = (): JSX.Element => {
   const [welcomeDay, setWelcomeDay] = useState<string>("");
   const [careLogs, setCareLogs] = useState<any[]>([]);
   const history = useHistory();
+  scrollToTop();
   if (!cookies.authToken) history.push("/login");
   useEffect(() => {
     let cleanedUp = false;
