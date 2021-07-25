@@ -85,6 +85,7 @@ const CareLogEdit = (): JSX.Element => {
         id: resultGetLog.care_category.id,
         name: resultGetLog.care_category.input_type,
         unit: resultGetLog.care_category.unit,
+        input_type: resultGetLog.care_category.input_type
       });
       // NOTE: 開いている記録が持っているカテゴリー
       const resultGetCareCategory = resultGetLog.care_category;
