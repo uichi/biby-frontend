@@ -89,7 +89,11 @@ const SettingApp = (): JSX.Element => {
           <View>
             <EditIn size="XS" marginEnd="size-100" />
             <Link variant="secondary" isQuiet>
-              <a href="https://uichi.notion.site/biby-a811eb02fe254ce89eeb705c38d839a2" target="_blank" rel="noreferrer">
+              <a
+                href="https://uichi.notion.site/biby-a811eb02fe254ce89eeb705c38d839a2"
+                target="_blank"
+                rel="noreferrer"
+              >
                 利用規約
               </a>
             </Link>
@@ -97,7 +101,11 @@ const SettingApp = (): JSX.Element => {
           <View>
             <UserLock size="XS" marginEnd="size-100" />
             <Link variant="secondary" isQuiet>
-              <a href="https://uichi.notion.site/09e338bb8de041e1836177042f669555" target="_blank" rel="noreferrer">
+              <a
+                href="https://uichi.notion.site/09e338bb8de041e1836177042f669555"
+                target="_blank"
+                rel="noreferrer"
+              >
                 プライバシーポリシー
               </a>
             </Link>
