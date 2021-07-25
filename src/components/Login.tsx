@@ -21,7 +21,7 @@ import { useCookies } from "react-cookie";
 import { loginAuth, getMe } from "../api/Authentication";
 
 const Login = (): JSX.Element => {
-  const [cookies, setCookie] = useCookies(["authToken", "meId"]);
+  const [cookies, setCookie] = useCookies();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const isEmailValid = useMemo(() => emailValid.test(email), [email]);
@@ -42,9 +42,9 @@ const Login = (): JSX.Element => {
         loginError();
         return;
       }
-      setCookie("authToken", resultLoginAuth.auth_token);
+      setCookie("authToken", resultLoginAuth.auth_token, { path: "/" });
       const me = await getMe(resultLoginAuth.auth_token);
-      setCookie("meId", me.id);
+      setCookie("meId", me.id, { path: "/" });
       history.push("/");
     }
     loginError();
