@@ -113,7 +113,6 @@ export const patchCareLog = (
     },
     body,
   };
-  console.log(body);
   return fetch(careLogUrl + `${id}/`, options)
     .then((res) => {
       if (!res.ok) throw new Error();

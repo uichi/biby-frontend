@@ -9,7 +9,6 @@ export const postPetOwnerGroup = (
     user_pk: meId,
     pet_pk: petId,
   });
-  console.log(body);
   const options = {
     method: "POST",
     headers: {
