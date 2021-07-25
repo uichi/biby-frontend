@@ -38,3 +38,19 @@ export const patchUser = (
     .then((json) => json)
     .catch(() => null);
 };
+
+export const deleteUser = (id: string, token: string): Promise<any> | null => {
+  const options = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+  return fetch(usersUrl + `${id}/`, options)
+    .then((res) => {
+      //       if (!res.ok) throw new Error();
+      return res.ok;
+    })
+    .catch(() => null);
+};
