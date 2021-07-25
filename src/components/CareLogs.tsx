@@ -94,10 +94,12 @@ const CareLogs = (): JSX.Element => {
                     {(() => {
                       const dateTime = new Date(careLog.date_time);
                       const year = dateTime.getFullYear();
-                      const month = dateTime.getMonth() + 1;
-                      const day = dateTime.getDate();
-                      const hour = dateTime.getHours();
-                      const minute = dateTime.getMinutes();
+                      const month = ("00" + (dateTime.getMonth() + 1)).slice(
+                        -2
+                      );
+                      const day = ("00" + dateTime.getDate()).slice(-2);
+                      const hour = ("00" + dateTime.getHours()).slice(-2);
+                      const minute = ("00" + dateTime.getMinutes()).slice(-2);
                       return (
                         <Text>
                           日時：{year}年{month}月{day}日 {hour}時{minute}分
