@@ -35,22 +35,24 @@ const Top = (): JSX.Element => {
   useEffect(() => {
     let cleanedUp = false;
     (async () => {
-      const pet = await getPet(cookies.selectedPet, cookies.authToken);
-      if (pet) {
-        if (cleanedUp) return;
-        setName(pet.name);
-        setImageUrl(pet.image);
-        // NOTE: undefinedになる可能性があるstateはsetしないように制御
-        if (pet.birthday) setBirthday(pet.birthday);
-        if (pet.welcome_day) setWelcomeDay(pet.welcome_day);
+      if (cookies.selectedPet) {
+        const pet = await getPet(cookies.selectedPet, cookies.authToken);
+        if (pet) {
+          if (cleanedUp) return;
+          setName(pet.name);
+          setImageUrl(pet.image);
+          // NOTE: undefinedになる可能性があるstateはsetしないように制御
+          if (pet.birthday) setBirthday(pet.birthday);
+          if (pet.welcome_day) setWelcomeDay(pet.welcome_day);
+        }
+        const resultCareLogs = await getCareLogs(
+          cookies.meId,
+          cookies.selectedPet,
+          "today",
+          cookies.authToken
+        );
+        setCareLogs(resultCareLogs);
       }
-      const resultCareLogs = await getCareLogs(
-        cookies.meId,
-        cookies.selectedPet,
-        "today",
-        cookies.authToken
-      );
-      setCareLogs(resultCareLogs);
       setIsLoaded(false);
     })();
     const cleanup = () => {

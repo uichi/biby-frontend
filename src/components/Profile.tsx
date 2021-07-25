@@ -11,7 +11,7 @@ import {
 import { useState, useEffect, useMemo } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
-import { getUser, patchUser } from "../api/Profile";
+import { getUser, patchUser, deleteUser } from "../api/Profile";
 import { Profile as ProfileInterface } from "../types";
 import { Toaster } from "react-hot-toast";
 import {
@@ -20,6 +20,7 @@ import {
   notifyErrorGet,
   validateNotEnteredError,
   validateEmailError,
+  notifyErrorDeleteUser,
 } from "./common/toast";
 import { emailValid } from "./common/validation";
 import { useCookies } from "react-cookie";
@@ -29,7 +30,7 @@ import Loading from "./common/Loading";
 import scrollToTop from "./common/scrollToTop";
 
 const Profile = (): JSX.Element => {
-  const [cookies, setCookie] = useCookies(); // eslint-disable-line
+  const [cookies, setCookie, removeCookie] = useCookies(); // eslint-disable-line
   const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -80,6 +81,18 @@ const Profile = (): JSX.Element => {
     }
     notifyErrorSave();
   };
+
+  const onPrimaryAction = async () => {
+    const resultDeleteUser = await deleteUser(cookies.meId, cookies.authToken);
+    if (!resultDeleteUser) {
+      notifyErrorDeleteUser();
+      return;
+    }
+    removeCookie("authToken", { path: "/" });
+    removeCookie("meId", { path: "/" });
+    removeCookie("selectedPet", { path: "/" });
+    history.push("/signup");
+  };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
       {isLoaded && <Loading />}
@@ -124,9 +137,11 @@ const Profile = (): JSX.Element => {
                 variant="destructive"
                 title="退会しますか？"
                 primaryActionLabel="退会"
+                onPrimaryAction={onPrimaryAction}
                 cancelLabel="キャンセル"
               >
                 これまで記録したデータの復元はできません。
+                ペットをすべて削除してから退会してください。
               </AlertDialog>
             </DialogTrigger>
           </Form>

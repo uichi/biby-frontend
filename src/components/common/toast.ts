@@ -180,3 +180,14 @@ export const notifyNeedAgreeTermsOfUse = (): string =>
     },
     duration: 3000,
   });
+
+export const notifyErrorDeleteUser = (): string =>
+  toast.error("退会に失敗しました", {
+    icon: "❌",
+    style: {
+      borderRadius: "10px",
+      background: "#333",
+      color: "#fff",
+    },
+    duration: 3000,
+  });
