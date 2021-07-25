@@ -26,10 +26,10 @@ const SettingApp = (): JSX.Element => {
   scrollToTop();
   if (!cookies.authToken) history.push("/login");
   const logout = async () => {
-    await removeCookie("authToken");
-    await removeCookie("meId");
-    await removeCookie("selectedPet");
-    history.push("/login");
+    removeCookie("authToken");
+    removeCookie("meId");
+    removeCookie("selectedPet");
+    window.location.reload();
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
