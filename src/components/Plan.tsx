@@ -29,10 +29,12 @@ import {
   Elements,
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import scrollToTop from "./common/scrollToTop";
 
 const PaymentForm = () => {
   const stripe = useStripe();
   const elements = useElements();
+  scrollToTop();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!stripe || !elements) {

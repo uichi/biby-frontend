@@ -29,6 +29,7 @@ import {
   deleteCareCategory,
 } from "../api/CareCategory";
 import Loading from "./common/Loading";
+import scrollToTop from "./common/scrollToTop";
 
 const CareCategoryEdit = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
@@ -48,6 +49,7 @@ const CareCategoryEdit = (): JSX.Element => {
     { id: "float", name: "小数" },
     //    { id: 'checkbox', name: "チェックボックス" },
   ];
+  scrollToTop();
   if (!cookies.authToken) history.push("/login");
   useEffect(() => {
     let cleanedUp = false;

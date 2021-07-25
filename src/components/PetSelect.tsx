@@ -19,12 +19,14 @@ import { Pet } from "../types";
 //import { IllustratedMessage } from "@adobe/react-spectrum";
 //import NotFound from "@spectrum-icons/illustrations/NotFound";
 import Loading from "./common/Loading";
+import scrollToTop from "./common/scrollToTop";
 
 const PetSelect = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
   const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [pets, setPets] = useState<{ pet: Pet }[]>([]);
   const history = useHistory();
+  scrollToTop();
   if (!cookies.authToken) history.push("/login");
   useEffect(() => {
     let cleanedUp = false;

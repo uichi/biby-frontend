@@ -22,6 +22,7 @@ import {
 } from "./common/toast";
 import { Toaster } from "react-hot-toast";
 import Loading from "./common/Loading";
+import scrollToTop from "./common/scrollToTop";
 
 const CareCategoryEdit = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
@@ -40,6 +41,7 @@ const CareCategoryEdit = (): JSX.Element => {
     //    { id: 'checkbox', name: "チェックボックス" },
   ];
   const history = useHistory();
+  scrollToTop();
   if (!cookies.authToken) history.push("/login");
   // HACK: 型指定見直す
   const onChangeInputType = (value: any): void => {
