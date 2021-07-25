@@ -15,18 +15,14 @@ import { useHistory } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import { postCareCategory } from "../api/CareCategory";
-import {
-  notifySuccessSave,
-  notifyEssentialValueIsEmpty,
-  notifyErrorSave,
-} from "./common/toast";
+import { notifyEssentialValueIsEmpty, notifyErrorSave } from "./common/toast";
 import { Toaster } from "react-hot-toast";
-import Loading from "./common/Loading";
+//import Loading from "./common/Loading";
 import scrollToTop from "./common/scrollToTop";
 
 const CareCategoryEdit = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
-  const [isLoaded, setIsLoaded] = useState<boolean>(true);
+  //  const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [name, setName] = useState<string>("");
   const [unit, setUnit] = useState<string>("");
   const [isDailyRoutine, setIsDailyRoutine] = useState<boolean>(false);

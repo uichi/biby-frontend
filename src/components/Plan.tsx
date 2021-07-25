@@ -5,19 +5,10 @@ import {
   Heading,
   Text,
 } from "@adobe/react-spectrum";
-import { useState, useEffect, useMemo } from "react";
+import { useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
-import { getUser, patchUser } from "../api/Profile";
-import { Profile as ProfileInterface } from "../types";
 import { Toaster } from "react-hot-toast";
-import {
-  notifySuccessSave,
-  notifyErrorSave,
-  notifyErrorGet,
-  validateNotEnteredError,
-  validateEmailError,
-} from "./common/toast";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 //import { getMe } from "../api/Authentication";
