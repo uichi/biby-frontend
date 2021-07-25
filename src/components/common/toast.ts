@@ -169,3 +169,14 @@ export const notifyRegisteredShareId = (): string =>
     },
     duration: 3000,
   });
+
+export const notifyNeedAgreeTermsOfUse = (): string =>
+  toast.error("ご利用には利用規約に同意する必要があります", {
+    icon: "❌",
+    style: {
+      borderRadius: "10px",
+      background: "#333",
+      color: "#fff",
+    },
+    duration: 3000,
+  });

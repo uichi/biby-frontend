@@ -6,6 +6,7 @@ import {
   TextField,
   ActionButton,
   Link,
+  Checkbox,
 } from "@adobe/react-spectrum";
 import { Link as RouterLink } from "react-router-dom";
 import { useState, useMemo } from "react";
@@ -15,6 +16,7 @@ import {
   validateNotEnteredError,
   notMatchPassword,
   signupError,
+  notifyNeedAgreeTermsOfUse,
 } from "./common/toast";
 import { emailValid } from "./common/validation";
 import { signupAuth } from "../api/Authentication";
@@ -28,6 +30,7 @@ const Signup = (): JSX.Element => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [passwordConfirm, setPasswordConfirm] = useState<string>("");
+  const [agree, setAgree] = useState<boolean>(false);
   const isEmailValid = useMemo(() => emailValid.test(email), [email]);
   const history = useHistory();
   if (cookies.authToken && cookies.meId) history.push("/");
@@ -44,6 +47,10 @@ const Signup = (): JSX.Element => {
       notMatchPassword();
       return;
     }
+    if (!agree) {
+      notifyNeedAgreeTermsOfUse();
+      return;
+    }
     const signUpAuth = await signupAuth(
       username,
       email,
@@ -57,9 +64,9 @@ const Signup = (): JSX.Element => {
       //        loginError();
       //        return;
       //      }
-      setCookie("authToken", resultLoginAuth.auth_token, {path: '/'});
+      setCookie("authToken", resultLoginAuth.auth_token, { path: "/" });
       const me = await getMe(resultLoginAuth.auth_token);
-      setCookie("meId", me.id, {path: '/'});
+      setCookie("meId", me.id, { path: "/" });
       history.push("/");
     }
     signupError();
@@ -107,6 +114,18 @@ const Signup = (): JSX.Element => {
               isRequired={true}
               onChange={setPasswordConfirm}
             />
+            <Checkbox isSelected={agree} onChange={setAgree} isEmphasized>
+              利用規約に同意する
+            </Checkbox>
+            <Link variant="secondary">
+              <a
+                href="https://uichi.notion.site/biby-a811eb02fe254ce89eeb705c38d839a2"
+                target="_blank"
+                rel="noreferrer"
+              >
+                利用規約はこちら
+              </a>
+            </Link>
             <ActionButton staticColor="white" onPress={signup}>
               サインアップ
             </ActionButton>
