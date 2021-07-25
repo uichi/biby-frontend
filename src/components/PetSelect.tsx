@@ -41,7 +41,6 @@ const PetSelect = (): JSX.Element => {
     };
     return cleanup;
   }, []);
-  if (!cookies.authToken) history.push("/login");
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
       {isLoaded && <Loading />}
