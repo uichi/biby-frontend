@@ -1,5 +1,4 @@
 import { petOwnerGroupUrl } from "./Config";
-import { Pet } from "../types";
 
 export const postPetOwnerGroup = (
   meId: string,

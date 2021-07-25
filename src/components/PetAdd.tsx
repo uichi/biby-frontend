@@ -46,11 +46,7 @@ const PetEdit = (): JSX.Element => {
   const addPetOwnerGroup = async (close: any) => {
     const resultGetPet = await getPetRelatedShareId(shareId, cookies.authToken);
     if (resultGetPet) {
-      const resultPostPetOwnerGroup = await postPetOwnerGroup(
-        cookies.meId,
-        resultGetPet.id,
-        cookies.authToken
-      );
+      await postPetOwnerGroup(cookies.meId, resultGetPet.id, cookies.authToken);
     }
     history.push("/pets");
   };

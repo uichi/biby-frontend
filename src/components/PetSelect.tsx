@@ -5,7 +5,7 @@ import {
   Text,
   Well,
   Flex,
-  Image,
+  //  Image,
   RadioGroup,
   Radio,
 } from "@adobe/react-spectrum";
