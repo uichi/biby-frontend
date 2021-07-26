@@ -113,7 +113,7 @@ const CareLogs = (): JSX.Element => {
           </Link>
         ))}
         {(() => {
-          if (careLogs.length <= 400) {
+          if (careLogs.length < 400) {
             return (
               <View position="fixed" width="100%" bottom="size-700">
                 <Link variant="secondary" margin="size-100" isQuiet>
