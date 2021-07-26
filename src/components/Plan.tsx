@@ -91,15 +91,15 @@ const Plan = (): JSX.Element => {
         >
           <View>
             <Heading level={4} marginTop="size-0" marginBottom="size-100">
-              ペットの登録無制限
+              ペットの登録数無制限
             </Heading>
-            <Text>登録できるペット数が5匹から無制限になります。</Text>
+            <Text>登録できるペット数が無制限になります。</Text>
           </View>
           <View marginTop="size-200">
             <Heading level={4} marginTop="size-0" marginBottom="size-100">
-              ペットの記録登録無制限
+              ペットの記録登録数無制限
             </Heading>
-            <Text>登録できるペット数が5匹から無制限になります。</Text>
+            <Text>登録できるペットの記録が無制限になります。</Text>
           </View>
         </View>
         {/* <View margin="size-100">
