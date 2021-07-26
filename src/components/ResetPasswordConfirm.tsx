@@ -81,7 +81,7 @@ const ResetPasswordConfirm = (): JSX.Element => {
             <Link variant="secondary" isQuiet>
               <RouterLink to="/login">
                 <ActionButton staticColor="white" width="100%">
-                  ログイン
+                  ログイン画面
                 </ActionButton>
               </RouterLink>
             </Link>
