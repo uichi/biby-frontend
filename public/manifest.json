@@ -1,9 +1,9 @@
 {
   "short_name": "biby diary",
-  "name": "ペットの成長記録ノート",
+  "name": "biby diary",
   "icons": [
     {
-      "src": "heart.png",
+      "src": "favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },

@@ -91,11 +91,7 @@ const SettingApp = (): JSX.Element => {
           <View>
             <Search size="XS" marginEnd="size-100" />
             <Link variant="secondary" isQuiet>
-              <a
-                href="https://biby.live/"
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a href="https://biby.live/" target="_blank" rel="noreferrer">
                 ホスピタル
               </a>
             </Link>

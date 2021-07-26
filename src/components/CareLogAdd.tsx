@@ -18,7 +18,7 @@ import { useHistory } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { getCategories } from "../api/CareCategory";
 import { Pet, CareCategory } from "../types";
-import { postCareLog } from "../api/CareLog";
+import { getCareLogs, postCareLog } from "../api/CareLog";
 import {
   notifySuccessSave,
   notifyErrorSave,
@@ -58,6 +58,13 @@ const CareLogAdd = (): JSX.Element => {
   if (!cookies.authToken) history.push("/login");
   useEffect(() => {
     (async () => {
+      const resultCareLogs = await getCareLogs(
+        cookies.meId,
+        cookies.selectedPet,
+        "",
+        cookies.authToken
+      );
+      if (resultCareLogs.length >= 400) history.push("/care/logs");
       const resultGetPets = await getPets(cookies.meId, cookies.authToken);
       setPets(
         resultGetPets.map((value) => ({

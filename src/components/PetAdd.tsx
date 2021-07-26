@@ -21,9 +21,9 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
-import { postPet, getPetRelatedShareId } from "../api/Pet";
+import { getPets, postPet, getPetRelatedShareId } from "../api/Pet";
 import { postPetOwnerGroup, getPetOwnerGroup } from "../api/PetOwnerGroup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 import {
   validateNotEnteredError,
@@ -46,6 +46,13 @@ const PetEdit = (): JSX.Element => {
   const history = useHistory();
   const maxNumber = 1;
   scrollToTop();
+
+  useEffect(() => {
+    (async () => {
+      const resultGetPets = await getPets(cookies.meId, cookies.authToken);
+      if (resultGetPets.length >= 5) history.push("/pets");
+    })();
+  }, []);
 
   if (!cookies.authToken) history.push("/login");
   const addPetOwnerGroup = async (close: any) => {

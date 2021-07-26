@@ -129,7 +129,7 @@ const Pets = (): JSX.Element => {
           </Well>
         ))}
         {(() => {
-          if (pets.length <= 5) {
+          if (pets.length < 5) {
             return (
               <View marginTop="size-100" marginBottom="size-100">
                 <Link variant="secondary" margin="size-100" isQuiet>
