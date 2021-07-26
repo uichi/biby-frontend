@@ -127,6 +127,7 @@ const Profile = (): JSX.Element => {
               isRequired={true}
               onChange={setEmail}
               validationState={isEmailValid ? "valid" : "invalid"}
+              isReadOnly
             />
             <ActionButton staticColor="white" onPress={saveProfile}>
               保存
