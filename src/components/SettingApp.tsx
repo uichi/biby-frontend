@@ -6,12 +6,14 @@ import {
   Flex,
   Divider,
 } from "@adobe/react-spectrum";
-import RealTimeCustomerProfile from "@spectrum-icons/workflow/RealTimeCustomerProfile";
+import User from "@spectrum-icons/workflow/User";
 import Email from "@spectrum-icons/workflow/Email";
 import EditIn from "@spectrum-icons/workflow/EditIn";
 import UserLock from "@spectrum-icons/workflow/UserLock";
 import LinkOut from "@spectrum-icons/workflow/LinkOut";
-import StarOutline from "@spectrum-icons/workflow/StarOutline";
+import Star from "@spectrum-icons/workflow/Star";
+import Book from "@spectrum-icons/workflow/Book";
+import Search from "@spectrum-icons/workflow/Search";
 import { Link } from "@adobe/react-spectrum";
 import { Link as RouterLink } from "react-router-dom";
 import Header from "./Header";
@@ -47,7 +49,7 @@ const SettingApp = (): JSX.Element => {
           <View>
             <Link variant="secondary" isQuiet>
               <RouterLink to="/plan">
-                <StarOutline size="XS" marginEnd="size-100" />
+                <Star size="XS" marginEnd="size-100" />
                 <Text>プレミアムプラン</Text>
               </RouterLink>
             </Link>
@@ -55,7 +57,7 @@ const SettingApp = (): JSX.Element => {
           <View>
             <Link variant="secondary" isQuiet>
               <RouterLink to="/profile">
-                <RealTimeCustomerProfile size="XS" marginEnd="size-100" />
+                <User size="XS" marginEnd="size-100" />
                 <Text>プロフィール</Text>
               </RouterLink>
             </Link>
@@ -84,6 +86,32 @@ const SettingApp = (): JSX.Element => {
             <AnnotatePen size="XS" marginEnd="size-100" />
             <Text>アプリの感想</Text>
           </View> */}
+          <Text marginTop="size-200">biby検索</Text>
+          <Divider size="M" />
+          <View>
+            <Search size="XS" marginEnd="size-100" />
+            <Link variant="secondary" isQuiet>
+              <a
+                href="https://biby.live/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                ホスピタル
+              </a>
+            </Link>
+          </View>
+          <View>
+            <Book size="XS" marginEnd="size-100" />
+            <Link variant="secondary" isQuiet>
+              <a
+                href="https://biby.live/red_list/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                レッドリスト(日本)
+              </a>
+            </Link>
+          </View>
           <Text marginTop="size-200">その他</Text>
           <Divider size="M" />
           <View>
