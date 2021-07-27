@@ -105,7 +105,7 @@ const CareLogEdit = (): JSX.Element => {
        * ログインユーザーの持っているカテゴリのIDをsetFieldTypeIdに入れる
        */
       if (duplicateCareCategory) {
-        setFieldTypeId(resultGetCareCategory.id);
+        setFieldTypeId(duplicateCareCategory.id);
       } else {
         setFieldTypeId(resultGetLog.care_category.id);
         resultGetCareCategories.push(savedCareCategory);
