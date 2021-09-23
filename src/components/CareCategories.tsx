@@ -47,12 +47,12 @@ const CareCategories = (): JSX.Element => {
       <View
         backgroundColor="gray-200"
         gridArea="content"
-        minHeight="76vh"
+        minHeight="92vh"
         paddingTop="8vh"
-        paddingBottom="20vh"
+        // paddingBottom="20vh"
       >
-        <View marginStart="size-100">
-          <h3>カテゴリ一覧</h3>
+        <View marginStart="size-100" marginTop="size-100">
+          <h2>カテゴリ一覧</h2>
         </View>
         {careCategories.map((careCategory, index) => (
           <View
@@ -60,13 +60,14 @@ const CareCategories = (): JSX.Element => {
             backgroundColor="gray-400"
             borderRadius="small"
             padding="size-100"
+            paddingTop="size-115"
             margin="size-100"
-            height="size-300"
+            minHeight="size-500"
             key={index}
           >
             <Link variant="secondary" isQuiet>
               <RouterLink to={"/care/category/edit/" + careCategory.id}>
-                <View marginBottom="size-100">
+                <View>
                   <Text>{careCategory.name}</Text>
                 </View>
               </RouterLink>

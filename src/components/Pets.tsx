@@ -58,7 +58,7 @@ const Pets = (): JSX.Element => {
         paddingTop="8vh"
         paddingBottom="8vh"
       >
-        <View marginStart="size-100">
+        <View marginStart="size-100" marginTop="size-100">
           <h3>ペット一覧</h3>
         </View>
         {pets.map((result, index) => (

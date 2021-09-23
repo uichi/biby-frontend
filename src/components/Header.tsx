@@ -41,6 +41,7 @@ const Header = (): JSX.Element => {
             justifySelf="center"
             gridArea="name"
             marginTop="size-100"
+            paddingTop="size-40"
           >
             <Text>biby</Text>
           </View>
@@ -50,6 +51,7 @@ const Header = (): JSX.Element => {
             gridArea="add"
             marginTop="size-100"
             marginEnd="size-100"
+            paddingTop="size-40"
           >
             <Link variant="secondary" isQuiet>
               <RouterLink to="/pets">ペット一覧</RouterLink>

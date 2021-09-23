@@ -114,9 +114,9 @@ const CareCategoryEdit = (): JSX.Element => {
       <View
         backgroundColor="gray-200"
         gridArea="content"
-        minHeight="84vh"
+        minHeight="92vh"
         paddingTop="8vh"
-        paddingBottom="8vh"
+        // paddingBottom="8vh"
       >
         <View margin="size-100">
           <h3 id="label-3">カテゴリー編集</h3>
