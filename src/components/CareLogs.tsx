@@ -54,8 +54,8 @@ const CareLogs = (): JSX.Element => {
         paddingTop="8vh"
         paddingBottom="20vh"
       >
-        <View marginStart="size-100">
-          <h3>記録一覧</h3>
+        <View marginStart="size-100" marginTop="size-100">
+          <h2>記録一覧</h2>
         </View>
         {careLogs.map((careLog, index) => (
           <Link variant="secondary" key={index} isQuiet>
@@ -66,7 +66,7 @@ const CareLogs = (): JSX.Element => {
                 borderRadius="small"
                 padding="size-100"
                 margin="size-100"
-                height="size-800"
+                minHeight="size-800"
               >
                 <View>
                   <Heading level={3} margin="size-0" marginBottom="size-50">
