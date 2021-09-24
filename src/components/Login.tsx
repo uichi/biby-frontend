@@ -26,7 +26,7 @@ const Login = (): JSX.Element => {
   const [password, setPassword] = useState<string>("");
   const isEmailValid = useMemo(() => emailValid.test(email), [email]);
   const history = useHistory();
-  if (cookies.authToken && cookies.meId) history.push("/");
+  if (cookies.authToken && cookies.meId) history.push("/dashboard/top");
   const login = async () => {
     if (!(email && password)) {
       validateNotEnteredError();
@@ -45,7 +45,7 @@ const Login = (): JSX.Element => {
       setCookie("authToken", resultLoginAuth.auth_token, { path: "/" });
       const me = await getMe(resultLoginAuth.auth_token);
       setCookie("meId", me.id, { path: "/" });
-      history.push("/");
+      history.push("/dashboard/top");
     }
     loginError();
   };
