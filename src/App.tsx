@@ -19,6 +19,11 @@ import PetSelect from "./components/PetSelect";
 import ResetPassword from "./components/ResetPassword";
 import ResetPasswordConfirm from "./components/ResetPasswordConfirm";
 import Plan from "./components/Plan";
+import Blogs from "./components/Blogs";
+import BlogCreate from "./components/BlogCreate";
+import BlogEdit from "./components/BlogEdit";
+import GeneralBlogsTop from "./components/general/BlogsTop";
+import GeneralBlog from "./components/general/Blog";
 
 function App(): JSX.Element {
   return (
@@ -43,14 +48,18 @@ function App(): JSX.Element {
             component={CareCategoryEdit}
           />
           <Route exact path="/profile" component={Profile} />
-          <Route exact path="/" component={Top} />
+          <Route exact path="/dashboard/top" component={Top} />
           <Route exact path="/reset_password" component={ResetPassword} />
           <Route
             exact
             path="/reset_password_confirm"
             component={ResetPasswordConfirm}
           />
-          <Route exact path="/plan" component={Plan} />
+          <Route exact path="/blogs" component={Blogs} />
+          <Route exact path="/blog/create" component={BlogCreate} />
+          <Route exact path="/blog/edit" component={BlogEdit} />
+          <Route exact path="/blog/:id" component={GeneralBlog} />
+          <Route exact path="/" component={GeneralBlogsTop} />
         </Switch>
       </BrowserRouter>
     </CookiesProvider>
