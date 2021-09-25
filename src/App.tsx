@@ -24,6 +24,7 @@ import BlogCreate from "./components/BlogCreate";
 import BlogEdit from "./components/BlogEdit";
 import GeneralBlogsTop from "./components/general/BlogsTop";
 import GeneralBlog from "./components/general/Blog";
+import GeneralCategory from "./components/general/Category";
 
 function App(): JSX.Element {
   return (
@@ -55,11 +56,13 @@ function App(): JSX.Element {
             path="/reset_password_confirm"
             component={ResetPasswordConfirm}
           />
+          <Route exact path="/plan" component={Plan} />
           <Route exact path="/blogs" component={Blogs} />
           <Route exact path="/blog/create" component={BlogCreate} />
           <Route exact path="/blog/edit" component={BlogEdit} />
           <Route exact path="/blog/:id" component={GeneralBlog} />
           <Route exact path="/" component={GeneralBlogsTop} />
+          <Route exact path="/category/:id" component={GeneralCategory} />
         </Switch>
       </BrowserRouter>
     </CookiesProvider>
