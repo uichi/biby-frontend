@@ -43,7 +43,7 @@ const BlogsTop = (): JSX.Element => {
         </RouterLink>
       </div>
     </div>
-  )
+  );
 };
 
 export default BlogsTop;

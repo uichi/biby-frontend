@@ -20,7 +20,7 @@ import ResetPassword from "./components/ResetPassword";
 import ResetPasswordConfirm from "./components/ResetPasswordConfirm";
 import Plan from "./components/Plan";
 import Blogs from "./components/Blogs";
-import BlogCreate from "./components/BlogCreate";
+import BlogAdd from "./components/BlogAdd";
 import BlogEdit from "./components/BlogEdit";
 import GeneralBlogsTop from "./components/general/BlogsTop";
 import GeneralBlog from "./components/general/Blog";
@@ -58,7 +58,7 @@ function App(): JSX.Element {
           />
           <Route exact path="/plan" component={Plan} />
           <Route exact path="/blogs" component={Blogs} />
-          <Route exact path="/blog/create" component={BlogCreate} />
+          <Route exact path="/blog/add" component={BlogAdd} />
           <Route exact path="/blog/edit" component={BlogEdit} />
           <Route exact path="/blog/:id" component={GeneralBlog} />
           <Route exact path="/" component={GeneralBlogsTop} />
