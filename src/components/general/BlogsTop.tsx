@@ -7,9 +7,7 @@ const BlogsTop = (): JSX.Element => {
   return (
     <div className="container w-full pt-20">
       <Header />
-      <div className="w-full font-bold text-2xl px-1 pb-2">
-        新着記事
-      </div>
+      <div className="w-full font-bold text-2xl px-1 pb-2">新着記事</div>
       <div className="pb-8">
         <RouterLink className="w-full" to="/blog/2">
           <img
@@ -43,26 +41,84 @@ const BlogsTop = (): JSX.Element => {
         </RouterLink>
       </div>
       <div className="px-2 pb-8">
-        <div className="w-full font-bold text-2xl pb-2">
-          カテゴリー
-        </div>
+        <div className="w-full font-bold text-2xl pb-2">カテゴリー</div>
         <div className="pr-2 flex flex-wrap">
-          <RouterLink to='/category/dog' className="bg-gray-200 border-1 font-bold rounded px-5 py-3 mr-1 mb-2 whitespace-nowrap">犬</RouterLink>
-          <RouterLink to='/category/dog' className="bg-gray-200 border-1 font-bold rounded px-5 py-3 mr-1 mb-2 whitespace-nowrap">猫</RouterLink>
-          <RouterLink to='/category/dog' className="bg-gray-200 border-1 font-bold rounded px-5 py-3 mr-1 mb-2 whitespace-nowrap">カワウソ</RouterLink>
-          <RouterLink to='/category/dog' className="bg-gray-200 border-1 font-bold rounded px-5 py-3 mr-1 mb-2 whitespace-nowrap">熱帯魚</RouterLink>
-          <RouterLink to='/category/dog' className="bg-gray-200 border-1 font-bold rounded px-5 py-3 mr-1 mb-2 whitespace-nowrap">ワニ</RouterLink>
-          <RouterLink to='/category/dog' className="bg-gray-200 border-1 font-bold rounded px-5 py-3 mr-1 mb-2 whitespace-nowrap">豚</RouterLink>
-          <RouterLink to='/category/dog' className="bg-gray-200 border-1 font-bold rounded px-5 py-3 mr-1 mb-2 whitespace-nowrap">牛</RouterLink>
-          <RouterLink to='/category/dog' className="bg-gray-200 border-1 font-bold rounded px-5 py-3 mr-1 mb-2 whitespace-nowrap">馬</RouterLink>
-          <RouterLink to='/category/dog' className="bg-gray-200 border-1 font-bold rounded px-5 py-3 mr-1 mb-2 whitespace-nowrap">虫</RouterLink>
-          <RouterLink to='/category/dog' className="bg-gray-200 border-1 font-bold rounded px-5 py-3 mr-1 mb-2 whitespace-nowrap">メガネザル</RouterLink>
-          <RouterLink to='/category/dog' className="bg-gray-200 border-1 font-bold rounded px-5 py-3 mr-1 mb-2 whitespace-nowrap">海水魚</RouterLink>
-          <RouterLink to='/category/dog' className="bg-gray-200 border-1 font-bold rounded px-5 py-3 mr-1 mb-2 whitespace-nowrap">深海魚</RouterLink>
+          <RouterLink
+            to="/category/dog"
+            className="bg-gray-200 border-1 font-bold rounded px-5 py-3 mr-1 mb-2 whitespace-nowrap"
+          >
+            犬
+          </RouterLink>
+          <RouterLink
+            to="/category/dog"
+            className="bg-gray-200 border-1 font-bold rounded px-5 py-3 mr-1 mb-2 whitespace-nowrap"
+          >
+            猫
+          </RouterLink>
+          <RouterLink
+            to="/category/dog"
+            className="bg-gray-200 border-1 font-bold rounded px-5 py-3 mr-1 mb-2 whitespace-nowrap"
+          >
+            カワウソ
+          </RouterLink>
+          <RouterLink
+            to="/category/dog"
+            className="bg-gray-200 border-1 font-bold rounded px-5 py-3 mr-1 mb-2 whitespace-nowrap"
+          >
+            熱帯魚
+          </RouterLink>
+          <RouterLink
+            to="/category/dog"
+            className="bg-gray-200 border-1 font-bold rounded px-5 py-3 mr-1 mb-2 whitespace-nowrap"
+          >
+            ワニ
+          </RouterLink>
+          <RouterLink
+            to="/category/dog"
+            className="bg-gray-200 border-1 font-bold rounded px-5 py-3 mr-1 mb-2 whitespace-nowrap"
+          >
+            豚
+          </RouterLink>
+          <RouterLink
+            to="/category/dog"
+            className="bg-gray-200 border-1 font-bold rounded px-5 py-3 mr-1 mb-2 whitespace-nowrap"
+          >
+            牛
+          </RouterLink>
+          <RouterLink
+            to="/category/dog"
+            className="bg-gray-200 border-1 font-bold rounded px-5 py-3 mr-1 mb-2 whitespace-nowrap"
+          >
+            馬
+          </RouterLink>
+          <RouterLink
+            to="/category/dog"
+            className="bg-gray-200 border-1 font-bold rounded px-5 py-3 mr-1 mb-2 whitespace-nowrap"
+          >
+            虫
+          </RouterLink>
+          <RouterLink
+            to="/category/dog"
+            className="bg-gray-200 border-1 font-bold rounded px-5 py-3 mr-1 mb-2 whitespace-nowrap"
+          >
+            メガネザル
+          </RouterLink>
+          <RouterLink
+            to="/category/dog"
+            className="bg-gray-200 border-1 font-bold rounded px-5 py-3 mr-1 mb-2 whitespace-nowrap"
+          >
+            海水魚
+          </RouterLink>
+          <RouterLink
+            to="/category/dog"
+            className="bg-gray-200 border-1 font-bold rounded px-5 py-3 mr-1 mb-2 whitespace-nowrap"
+          >
+            深海魚
+          </RouterLink>
         </div>
       </div>
     </div>
-  )
+  );
 };
 
 export default BlogsTop;

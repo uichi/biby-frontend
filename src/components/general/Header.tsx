@@ -14,7 +14,12 @@ const Header = (): JSX.Element => {
         </RouterLink>
       </div>
       <div className="w-1/2 p-3 pull-right">
-        <RouterLink to="/login" className="bg-green-500 hover:bg-green-700 text-white hover:text-white py-1 px-2 rounded float-right">ログイン</RouterLink>
+        <RouterLink
+          to="/login"
+          className="bg-green-500 hover:bg-green-700 text-white hover:text-white py-1 px-2 rounded float-right"
+        >
+          ログイン
+        </RouterLink>
       </div>
     </div>
   );
