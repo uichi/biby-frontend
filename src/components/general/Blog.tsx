@@ -27,6 +27,24 @@ const Blog = (): JSX.Element => {
           <path d="M12 20l-7 -7a4 4 0 0 1 6.5 -6a.9 .9 0 0 0 1 0a4 4 0 0 1 6.5 6l-7 7" />
         </svg>
       </button>
+      <div className="px-2 pb-2 text-2lx font-bold">
+        コメント
+      </div>
+      <div className="px-2 pb-4 divide-y">
+        <div className="w-full py-2">
+          Hello World!
+        </div>
+        <div className="w-full py-2">
+          Hello World!
+        </div>
+        <div className="w-full py-2">
+          Hello World!
+        </div>
+      </div>
+      <form className="px-2 pb-8">
+        <textarea className="w-full p-2 border border-gray-400 rounded"></textarea>
+        <button className="w-full bg-green-500 hover:bg-green-700 text-white hover:text-white py-1 px-2 rounded">投稿</button>
+      </form>
       <div className="px-2 pb-1 text-2lx font-bold">
         このペットの他の記事を見る
       </div>
