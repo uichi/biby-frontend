@@ -32,7 +32,6 @@ import {
   notifyRegisteredShareId,
 } from "./common/toast";
 import { Toaster } from "react-hot-toast";
-import scrollToTop from "./common/scrollToTop";
 
 const PetEdit = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
@@ -45,7 +44,6 @@ const PetEdit = (): JSX.Element => {
   const [welcomeDay, setWelcomeDay] = useState<string>("");
   const history = useHistory();
   const maxNumber = 1;
-  scrollToTop();
 
   useEffect(() => {
     (async () => {
