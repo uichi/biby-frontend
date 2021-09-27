@@ -25,9 +25,7 @@ import {
 } from "./common/toast";
 import { getPets } from "../api/Pet";
 import Loading from "./common/Loading";
-import scrollToTop from "./common/scrollToTop";
 import { EditorState, RichUtils, AtomicBlockUtils } from "draft-js";
-// import Editor from '@draft-js-plugins/editor';
 import createImagePlugin from '@draft-js-plugins/image';
 import "draft-js/dist/Draft.css";
 import Editor from '@draft-js-plugins/editor';
@@ -58,7 +56,6 @@ const BlogAdd = (): JSX.Element => {
     EditorState.createEmpty()
   );
   const history = useHistory();
-  scrollToTop();
   const [fieldTypeId, setFieldTypeId]: [
     string,
     Dispatch<SetStateAction<any>> // HACK: 型定義見直す
@@ -246,7 +243,7 @@ const BlogAdd = (): JSX.Element => {
         gridArea="content"
         minHeight="92vh"
         paddingTop="8vh"
-        // paddingBottom="8vh"
+        paddingBottom="8vh"
       >
         <View margin="size-100">
           <Form
@@ -380,7 +377,7 @@ const BlogAdd = (): JSX.Element => {
               {/* <div className="border border-gray-300 p-1 mr-2 mb-2 whitespace-nowrap rounded" onClick={underlineText}>下線</div> */}
               {/* <div className="border border-gray-300 p-1 mr-2 mb-2 whitespace-nowrap rounded" onClick={underlineText}>下線</div> */}
             </div>
-            <div className="border border-gray-600 bg-black text-base p-2 m-0 h-40 rounded">
+            <div className="border border-gray-600 bg-black text-base p-2 mb-1 h-auto min-h-200 rounded">
               <Editor editorState={editorState} onChange={setEditorState} plugins={[imagePlugin]} />
             </div>
             <ActionButton staticColor="white" onPress={addCareLog}>

@@ -25,7 +25,6 @@ import {
 } from "./common/toast";
 import { Toaster } from "react-hot-toast";
 import Loading from "./common/Loading";
-import scrollToTop from "./common/scrollToTop";
 
 const PetEdit = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
@@ -41,7 +40,6 @@ const PetEdit = (): JSX.Element => {
   //  const [isHeaven, setIsHeaven] = useState<boolean>(false);
   const history = useHistory();
   const maxNumber = 1;
-  scrollToTop();
 
   if (!cookies.authToken) history.push("/login");
   useEffect(() => {

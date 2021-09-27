@@ -26,7 +26,6 @@ import {
 } from "./common/toast";
 import { getPets } from "../api/Pet";
 import Loading from "./common/Loading";
-import scrollToTop from "./common/scrollToTop";
 
 const CareLogAdd = (): JSX.Element => {
   const today = new Date();
@@ -50,7 +49,6 @@ const CareLogAdd = (): JSX.Element => {
   const [pets, setPets] = useState<any[]>([]);
   const [petId, setPetId] = useState<number>();
   const history = useHistory();
-  scrollToTop();
   const [fieldTypeId, setFieldTypeId]: [
     string,
     Dispatch<SetStateAction<any>> // HACK: 型定義見直す

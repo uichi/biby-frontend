@@ -28,7 +28,6 @@ import {
   notifyEssentialValueIsEmpty,
 } from "./common/toast";
 import Loading from "./common/Loading";
-import scrollToTop from "./common/scrollToTop";
 
 const CareLogEdit = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
@@ -48,7 +47,6 @@ const CareLogEdit = (): JSX.Element => {
   ] = useState<string>("");
   const [pets, setPets] = useState<any[]>([]);
   const [petId, setPetId] = useState<number>();
-  scrollToTop();
   if (!cookies.authToken) history.push("/login");
   useEffect(() => {
     let cleanedUp = false;
