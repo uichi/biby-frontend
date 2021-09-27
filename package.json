@@ -19,6 +19,7 @@
     "@types/react-router-dom": "^5.1.7",
     "autoprefixer": "^9",
     "draft-js": "^0.11.7",
+    "draft-js-export-html": "^1.4.1",
     "postcss": "^7",
     "react": "^17.0.2",
     "react-cookie": "^4.0.3",

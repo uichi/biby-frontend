@@ -13,3 +13,6 @@ export const petsUrl = apiUrl + "pets/";
 export const petOwnerGroupUrl = apiUrl + "pet_owner_group/";
 export const careCategoryUrl = apiUrl + "care_category/";
 export const careLogUrl = apiUrl + "pet_care_log/";
+export const blogsUrl = apiUrl + "blogs/";
+export const likeBlogUrl = apiUrl + "like_blog/";
+export const blogCommentUrl = apiUrl + "blog_comment/";
