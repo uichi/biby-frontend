@@ -5,9 +5,9 @@ import {
   Form,
   TextField,
   ActionButton,
-  NumberField,
   Picker,
   Item,
+  Checkbox,
 } from "@adobe/react-spectrum";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { useCookies } from "react-cookie";
@@ -16,20 +16,21 @@ import Footer from "./Footer";
 import { useHistory } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { getCategories } from "../api/CareCategory";
-import { Pet, CareCategory } from "../types";
-import { getCareLogs, postCareLog } from "../api/CareLog";
+import { getCareLogs } from "../api/CareLog";
 import {
   notifySuccessSave,
   notifyErrorSave,
   notifyEssentialValueIsEmpty,
+  validateNotEnteredError,
 } from "./common/toast";
+import { postBlog } from "../api/Blog";
 import { getPets } from "../api/Pet";
 import Loading from "./common/Loading";
 import { EditorState, RichUtils, AtomicBlockUtils } from "draft-js";
 import createImagePlugin from '@draft-js-plugins/image';
 import "draft-js/dist/Draft.css";
 import Editor from '@draft-js-plugins/editor';
-
+import {stateToHTML} from 'draft-js-export-html';
 
 const BlogAdd = (): JSX.Element => {
   const today = new Date();
@@ -40,26 +41,18 @@ const BlogAdd = (): JSX.Element => {
   const minute = ("00" + today.getMinutes()).slice(-2);
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
   const [isLoaded, setIsLoaded] = useState<boolean>(true);
-  const [inputType, setInputType] = useState<any>();
-  const [inputTypes, setInputTypes] = useState<any[]>([]);
-  const [categories, setCategories] = useState<CareCategory[]>([]);
-  const [dateTime, setDateTime] = useState<string>(
-    `${year}-${month}-${day}T${hour}:${minute}`
-  );
-  const [text, setText] = useState<string | null>(null);
-  const [integer, setInteger] = useState<number | null>(null);
-  const [float, setFloat] = useState<number | null>(null);
-  const [memo, setMemo] = useState<string | null>(null);
   const [pets, setPets] = useState<any[]>([]);
   const [petId, setPetId] = useState<number>();
+  const [title, setTitle] = useState<string | null>(null);
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
+  const [image, setImage] = useState<File | null>(null)
+  const [isPublished, setIsPublished] = useState<boolean>(false);
+  const [publishDateTime, setPublishDateTime] = useState<string>(
+    `${year}-${month}-${day}T${hour}:${minute}`
+  );
   const history = useHistory();
-  const [fieldTypeId, setFieldTypeId]: [
-    string,
-    Dispatch<SetStateAction<any>> // HACK: 型定義見直す
-  ] = useState<string>("");
   const imagePlugin = createImagePlugin();
   if (!cookies.authToken) history.push("/login");
   useEffect(() => {
@@ -82,45 +75,30 @@ const BlogAdd = (): JSX.Element => {
         cookies.meId,
         cookies.authToken
       );
-      setCategories(resultGetCareCategories);
-      setInputTypes(
-        resultGetCareCategories.map((value) => ({
-          id: value.id,
-          name: value.input_type,
-          unit: value.unit,
-        }))
-      );
       setIsLoaded(false);
     })();
     setPetId(Number(cookies.selectedPet));
   }, []);
-  const addCareLog = async () => {
-    if (fieldTypeId === "" || dateTime === "") {
-      notifyEssentialValueIsEmpty();
+  const addBlog = async () => {
+    // history.push("/care/logs");
+    if (!petId) {
+      validateNotEnteredError();
       return;
     }
-    const resultAddCareLog = await postCareLog(
-      fieldTypeId,
-      dateTime,
-      inputType.name === "text" ? text : null,
-      inputType.name === "integer" ? integer : null,
-      inputType.name === "float" ? float : null,
-      memo,
+    const resultAddBlog = await postBlog(
+      petId,
+      title,
+      stateToHTML(editorState.getCurrentContent()),
+      image,
+      isPublished,
+      publishDateTime,
       cookies.meId,
-      String(petId),
       cookies.authToken
     );
-    if (!resultAddCareLog) {
+    if (!resultAddBlog) {
       notifyErrorSave();
       return;
     }
-    //    notifySuccessSave();
-    history.push("/care/logs");
-  };
-  // HACK: 型指定見直す
-  const onChangeInputType = (categoryId: any): void => {
-    setInputType(inputTypes.find((value) => value.id === categoryId));
-    setFieldTypeId(categoryId);
   };
   const onChangePet = (value: any): void => {
     setPetId(value);
@@ -200,10 +178,7 @@ const BlogAdd = (): JSX.Element => {
     setEditorState(nextOrderedListItemState);
   };
   const handlePastedFiles = (e: React.ChangeEvent<HTMLInputElement>): any => {
-    const formData = new FormData();
-    // formData.append('file',files[0]) 
     if (e.target.files && e.target.files[0]) {
-      console.log(e.target.files[0])
       const file = e.target.files[0]
       const reader = new FileReader()
       reader.onload = (e: any) => {
@@ -223,7 +198,6 @@ const BlogAdd = (): JSX.Element => {
     // })
   }
   const insertImage = (url: string) => {
-    console.log(url)
     const contentState = editorState.getCurrentContent();
     const contentStateWithEntity = contentState.createEntity(
         'IMAGE',
@@ -232,6 +206,9 @@ const BlogAdd = (): JSX.Element => {
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
     const newEditorState = EditorState.set( editorState,{ currentContent: contentStateWithEntity });
     return AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, ' ');
+  };
+  const uploadImage = (e: any) => {
+    setImage(e.target.files[0]);
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
@@ -262,53 +239,19 @@ const BlogAdd = (): JSX.Element => {
               {(item) => <Item>{item.name}</Item>}
             </Picker>
             <TextField
-              type="datetime-local"
-              label="公開日"
-              value={dateTime}
-              onChange={setDateTime}
-              isRequired={true}
+              label="タイトル"
+              onChange={setTitle}
             />
-            <Picker
-              label="ペットカテゴリーを選択してください"
-              items={categories.map((value) => ({
-                id: value.id,
-                name: value.name,
-                input_type: value.input_type,
-              }))}
-              selectedKey={fieldTypeId}
-              onSelectionChange={onChangeInputType}
-              isRequired={true}
-            >
-              {(item) => <Item>{item.name}</Item>}
-            </Picker>
-            {((): any => {
-              if (!inputType) return;
-              if (inputType.name === "text")
-                return (
-                  <TextField
-                    label="テキスト"
-                    placeholder="テキスト"
-                    onChange={setText}
-                  />
-                );
-              if (inputType.name === "integer")
-                return (
-                  <NumberField
-                    label={"整数" + " (" + inputType.unit + ")"}
-                    defaultValue={0}
-                    onChange={setInteger}
-                  />
-                );
-              if (inputType.name === "float")
-                return (
-                  <NumberField
-                    label={"小数" + " (" + inputType.unit + ")"}
-                    defaultValue={0}
-                    onChange={setFloat}
-                  />
-                );
-            })()}
-            {/* <TextArea label="メモ" height="size-1600" onChange={setMemo} /> */}
+            <TextField
+              type="datetime-local"
+              label="公開日時"
+              value={publishDateTime}
+              onChange={setPublishDateTime}
+            />
+            <div className="mb-1">
+              <label className="text-sm font-bold text-gray-400">サムネイル</label>
+              <input type='file' className="pt-1" onChange={uploadImage} />
+            </div>
             <div className="text-sm font-bold text-gray-400">本文</div>
             <div className="flex flex-wrap">
               <div
@@ -371,7 +314,11 @@ const BlogAdd = (): JSX.Element => {
               >
                 番号付きリスト
               </div>
-              <input type="file" onChange={handlePastedFiles} />
+              <label
+                className="border border-gray-300 p-1 mr-2 mb-2 whitespace-nowrap rounded">
+                <span className="">画像挿入</span>
+                <input type="file" className="hidden" onChange={handlePastedFiles} />
+              </label>
               {/* <div className="border border-gray-300 p-1 mr-2 mb-2 whitespace-nowrap rounded" onClick={underlineText}>下線</div> */}
               {/* <div className="border border-gray-300 p-1 mr-2 mb-2 whitespace-nowrap rounded" onClick={underlineText}>下線</div> */}
               {/* <div className="border border-gray-300 p-1 mr-2 mb-2 whitespace-nowrap rounded" onClick={underlineText}>下線</div> */}
@@ -380,7 +327,10 @@ const BlogAdd = (): JSX.Element => {
             <div className="border border-gray-600 bg-black text-base p-2 mb-1 h-auto min-h-200 rounded">
               <Editor editorState={editorState} onChange={setEditorState} plugins={[imagePlugin]} />
             </div>
-            <ActionButton staticColor="white" onPress={addCareLog}>
+            <Checkbox isSelected={isPublished} onChange={setIsPublished}>
+              公開する
+            </Checkbox>
+            <ActionButton staticColor="white" onPress={addBlog}>
               保存
             </ActionButton>
           </Form>

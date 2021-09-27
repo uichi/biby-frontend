@@ -42,3 +42,14 @@ export interface CareLog {
   is_daily_routine: string;
   user: string;
 }
+
+export interface Blog {
+  id: string;
+  pet: string;
+  title: string | null;
+  image: string | null;
+  is_published: string;
+  publish_date_time: string | null;
+  create_user: string | null;
+  update_user: string | null;
+}

@@ -52,7 +52,7 @@ const CareLogs = (): JSX.Element => {
         gridArea="content"
         minHeight="92vh"
         paddingTop="8vh"
-        // paddingBottom="20vh"
+        paddingBottom="20vh"
       >
         <View marginStart="size-100" marginTop="size-100">
           <h2>記録一覧</h2>
