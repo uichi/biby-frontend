@@ -59,7 +59,7 @@ function App(): JSX.Element {
           <Route exact path="/plan" component={Plan} />
           <Route exact path="/blogs" component={Blogs} />
           <Route exact path="/blog/add" component={BlogAdd} />
-          <Route exact path="/blog/edit" component={BlogEdit} />
+          <Route exact path="/blog/edit/:id" component={BlogEdit} />
           <Route exact path="/blog/:id" component={GeneralBlog} />
           <Route exact path="/" component={GeneralBlogsTop} />
           <Route exact path="/category/:id" component={GeneralCategory} />

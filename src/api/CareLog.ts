@@ -1,5 +1,5 @@
 import { careLogUrl } from "./Config";
-import { Pet } from "../types";
+// import { Pet } from "../types";
 
 export const getCareLog = (id: string, token: string): Promise<any> | null => {
   const options = {

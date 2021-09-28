@@ -17,7 +17,7 @@ import Footer from "./Footer";
 import { useHistory } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { getCategories } from "../api/CareCategory";
-import { Pet, CareCategory } from "../types";
+import { CareCategory } from "../types";
 import { getCareLogs, postCareLog } from "../api/CareLog";
 import {
   notifySuccessSave,
@@ -106,7 +106,7 @@ const CareLogAdd = (): JSX.Element => {
       notifyErrorSave();
       return;
     }
-    //    notifySuccessSave();
+    notifySuccessSave();
     history.push("/care/logs");
   };
   // HACK: 型指定見直す

@@ -9,28 +9,22 @@ import {
   Item,
   Checkbox,
 } from "@adobe/react-spectrum";
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import Header from "./Header";
 import Footer from "./Footer";
 import { useHistory } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import { getCategories } from "../api/CareCategory";
 import { getCareLogs } from "../api/CareLog";
-import {
-  notifySuccessSave,
-  notifyErrorSave,
-  notifyEssentialValueIsEmpty,
-  validateNotEnteredError,
-} from "./common/toast";
+import { notifyErrorSave, notifyEssentialValueIsEmpty } from "./common/toast";
 import { postBlog } from "../api/Blog";
 import { getPets } from "../api/Pet";
 import Loading from "./common/Loading";
 import { EditorState, RichUtils, AtomicBlockUtils } from "draft-js";
-import createImagePlugin from '@draft-js-plugins/image';
+import createImagePlugin from "@draft-js-plugins/image";
 import "draft-js/dist/Draft.css";
-import Editor from '@draft-js-plugins/editor';
-import {stateToHTML} from 'draft-js-export-html';
+import Editor from "@draft-js-plugins/editor";
+import { stateToHTML } from "draft-js-export-html";
 
 const BlogAdd = (): JSX.Element => {
   const today = new Date();
@@ -47,7 +41,7 @@ const BlogAdd = (): JSX.Element => {
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
-  const [image, setImage] = useState<File | null>(null)
+  const [image, setImage] = useState<File | null>(null);
   const [isPublished, setIsPublished] = useState<boolean>(false);
   const [publishDateTime, setPublishDateTime] = useState<string>(
     `${year}-${month}-${day}T${hour}:${minute}`
@@ -71,18 +65,13 @@ const BlogAdd = (): JSX.Element => {
           name: value.pet.name,
         }))
       );
-      const resultGetCareCategories = await getCategories(
-        cookies.meId,
-        cookies.authToken
-      );
       setIsLoaded(false);
     })();
     setPetId(Number(cookies.selectedPet));
   }, []);
   const addBlog = async () => {
-    // history.push("/care/logs");
     if (!petId) {
-      validateNotEnteredError();
+      notifyEssentialValueIsEmpty();
       return;
     }
     const resultAddBlog = await postBlog(
@@ -99,6 +88,7 @@ const BlogAdd = (): JSX.Element => {
       notifyErrorSave();
       return;
     }
+    history.push("/blogs");
   };
   const onChangePet = (value: any): void => {
     setPetId(value);
@@ -179,33 +169,36 @@ const BlogAdd = (): JSX.Element => {
   };
   const handlePastedFiles = (e: React.ChangeEvent<HTMLInputElement>): any => {
     if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0]
-      const reader = new FileReader()
+      const file = e.target.files[0];
+      const reader = new FileReader();
       reader.onload = (e: any) => {
-        setEditorState(insertImage(e.target.result))
-      }
-      reader.readAsDataURL(file)
+        setEditorState(insertImage(e.target.result));
+      };
+      reader.readAsDataURL(file);
     }
-    // fetch('/api/uploads', 
+    // fetch('/api/uploads',
     // {method: 'POST', body: formData})
     // .then(res => res.json())
     // .then(data => {
-    //   if (data.file) { 
+    //   if (data.file) {
     //      setEditorState(insertImage(data.file)) //created below
     //   }
     // }).catch(err => {
-    //     console.log(err) 
+    //     console.log(err)
     // })
-  }
+  };
   const insertImage = (url: string) => {
     const contentState = editorState.getCurrentContent();
     const contentStateWithEntity = contentState.createEntity(
-        'IMAGE',
-        'IMMUTABLE',
-        { src: url },)
+      "IMAGE",
+      "IMMUTABLE",
+      { src: url }
+    );
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-    const newEditorState = EditorState.set( editorState,{ currentContent: contentStateWithEntity });
-    return AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, ' ');
+    const newEditorState = EditorState.set(editorState, {
+      currentContent: contentStateWithEntity,
+    });
+    return AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, " ");
   };
   const uploadImage = (e: any) => {
     setImage(e.target.files[0]);
@@ -238,10 +231,7 @@ const BlogAdd = (): JSX.Element => {
             >
               {(item) => <Item>{item.name}</Item>}
             </Picker>
-            <TextField
-              label="タイトル"
-              onChange={setTitle}
-            />
+            <TextField label="タイトル" onChange={setTitle} />
             <TextField
               type="datetime-local"
               label="公開日時"
@@ -249,8 +239,10 @@ const BlogAdd = (): JSX.Element => {
               onChange={setPublishDateTime}
             />
             <div className="mb-1">
-              <label className="text-sm font-bold text-gray-400">サムネイル</label>
-              <input type='file' className="pt-1" onChange={uploadImage} />
+              <label className="text-sm font-bold text-gray-400">
+                サムネイル
+              </label>
+              <input type="file" className="pt-1" onChange={uploadImage} />
             </div>
             <div className="text-sm font-bold text-gray-400">本文</div>
             <div className="flex flex-wrap">
@@ -314,10 +306,13 @@ const BlogAdd = (): JSX.Element => {
               >
                 番号付きリスト
               </div>
-              <label
-                className="border border-gray-300 p-1 mr-2 mb-2 whitespace-nowrap rounded">
+              <label className="border border-gray-300 p-1 mr-2 mb-2 whitespace-nowrap rounded">
                 <span className="">画像挿入</span>
-                <input type="file" className="hidden" onChange={handlePastedFiles} />
+                <input
+                  type="file"
+                  className="hidden"
+                  onChange={handlePastedFiles}
+                />
               </label>
               {/* <div className="border border-gray-300 p-1 mr-2 mb-2 whitespace-nowrap rounded" onClick={underlineText}>下線</div> */}
               {/* <div className="border border-gray-300 p-1 mr-2 mb-2 whitespace-nowrap rounded" onClick={underlineText}>下線</div> */}
@@ -325,7 +320,11 @@ const BlogAdd = (): JSX.Element => {
               {/* <div className="border border-gray-300 p-1 mr-2 mb-2 whitespace-nowrap rounded" onClick={underlineText}>下線</div> */}
             </div>
             <div className="border border-gray-600 bg-black text-base p-2 mb-1 h-auto min-h-200 rounded">
-              <Editor editorState={editorState} onChange={setEditorState} plugins={[imagePlugin]} />
+              <Editor
+                editorState={editorState}
+                onChange={setEditorState}
+                plugins={[imagePlugin]}
+              />
             </div>
             <Checkbox isSelected={isPublished} onChange={setIsPublished}>
               公開する
