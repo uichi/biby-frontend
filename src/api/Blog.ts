@@ -1,6 +1,48 @@
 import { blogsUrl, likeBlogUrl, blogCommentUrl } from "./Config";
-import { EditorState, RichUtils, AtomicBlockUtils } from "draft-js";
 import { Blog } from "../types";
+
+export const getBlog = (
+  blogId: string,
+  token: string
+): Promise<Blog> | null => {
+  const options = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+  return fetch(blogsUrl + `${blogId}/`, options)
+    .then((res) => {
+      if (!res.ok) throw new Error();
+      return res.json();
+    })
+    .then((json) => json)
+    .catch(() => null);
+};
+
+export const getBlogs = (
+  meId: string,
+  token: string
+): Promise<{ pet: Blog }[]> | [] => {
+  const query_params = new URLSearchParams({
+    user: meId,
+  });
+  const options = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+  return fetch(blogsUrl + `?${query_params}`, options)
+    .then((res) => {
+      if (!res.ok) throw new Error();
+      return res.json();
+    })
+    .then((json) => json.results)
+    .catch(() => []);
+};
 
 export const postBlog = (
   petId: number,

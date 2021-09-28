@@ -45,10 +45,24 @@ export interface CareLog {
 
 export interface Blog {
   id: string;
-  pet: string;
+  pet: {
+    id: string;
+    name: string;
+    image: string | null;
+    gender: string;
+    birthday: string;
+    welcome_day: string;
+    share_id: string;
+    is_heaven: boolean;
+    created_at: string;
+    updated_at: string;
+    category: number;
+    owners: number[];
+  };
   title: string | null;
+  content: string;
   image: string | null;
-  is_published: string;
+  is_published: boolean;
   publish_date_time: string | null;
   create_user: string | null;
   update_user: string | null;
