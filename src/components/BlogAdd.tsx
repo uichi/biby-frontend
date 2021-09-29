@@ -20,6 +20,7 @@ import { notifyErrorSave, notifyEssentialValueIsEmpty } from "./common/toast";
 import { postBlog } from "../api/Blog";
 import { getPets } from "../api/Pet";
 import Loading from "./common/Loading";
+import UploadingBar from "./common/UploadingBar";
 import { upload } from "../api/S3";
 import { EditorState, RichUtils, AtomicBlockUtils } from "draft-js";
 import createImagePlugin from "@draft-js-plugins/image";
@@ -48,6 +49,7 @@ const BlogAdd = (): JSX.Element => {
   const [publishDateTime, setPublishDateTime] = useState<string>(
     `${year}-${month}-${day}T${hour}:${minute}`
   );
+  const [isUploading, setIsUploading] = useState<boolean>(false);
   const history = useHistory();
   const imagePlugin = createImagePlugin();
   if (!cookies.authToken) history.push("/login");
@@ -170,10 +172,15 @@ const BlogAdd = (): JSX.Element => {
     setEditorState(nextOrderedListItemState);
   };
   const handlePastedFiles = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsUploading(true);
     if (e.target.files && e.target.files[0]) {
-      const resultUploadS3 = await upload(e.target.files[0], `blog_content_images/${cookies.meId}`);
+      const resultUploadS3 = await upload(
+        e.target.files[0],
+        `blog_content_images/${cookies.meId}`
+      );
       setEditorState(insertImage(resultUploadS3.Location));
     }
+    setIsUploading(false);
   };
   const insertImage = (url: string) => {
     const contentState = editorState.getCurrentContent();
@@ -193,8 +200,8 @@ const BlogAdd = (): JSX.Element => {
       const file = e.target.files[0];
       const reader = new FileReader();
       reader.onload = () => {
-        setImageUri(reader.result)
-      }
+        setImageUri(reader.result);
+      };
       reader.readAsDataURL(file);
     }
   };
@@ -239,7 +246,7 @@ const BlogAdd = (): JSX.Element => {
               </label>
               <input type="file" className="pt-1" onChange={uploadImage} />
             </div>
-            <img src={imageUri ? imageUri : ''} />
+            <img src={imageUri ? imageUri : ""} />
             <div className="text-sm font-bold text-gray-400">本文</div>
             <div className="flex flex-wrap">
               <div
@@ -314,6 +321,7 @@ const BlogAdd = (): JSX.Element => {
               {/* <div className="border border-gray-300 p-1 mr-2 mb-2 whitespace-nowrap rounded" onClick={underlineText}>下線</div> */}
               {/* <div className="border border-gray-300 p-1 mr-2 mb-2 whitespace-nowrap rounded" onClick={underlineText}>下線</div> */}
               {/* <div className="border border-gray-300 p-1 mr-2 mb-2 whitespace-nowrap rounded" onClick={underlineText}>下線</div> */}
+              {isUploading && <UploadingBar />}
             </div>
             <div className="border border-gray-600 bg-black text-base p-2 mb-1 h-auto min-h-200 rounded">
               <Editor
