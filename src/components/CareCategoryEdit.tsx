@@ -97,7 +97,7 @@ const CareCategoryEdit = (): JSX.Element => {
       notifyErrorSave();
       return;
     }
-    //    notifySuccessSave();
+    notifySuccessSave();
     history.push("/care/categories");
   };
   const removeCareCategory = async () => {
