@@ -1,15 +1,11 @@
 import { blogsUrl, likeBlogUrl, blogCommentUrl } from "./Config";
 import { Blog } from "../types";
 
-export const getBlog = (
-  blogId: string,
-  token: string
-): Promise<Blog> | null => {
+export const getBlog = (blogId: string): Promise<Blog> | null => {
   const options = {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Token ${token}`,
     },
   };
   return fetch(blogsUrl + `${blogId}/`, options)
@@ -23,16 +19,18 @@ export const getBlog = (
 
 export const getBlogs = (
   petId: string,
-  token: string
+  isPublished?: boolean
 ): Promise<{ pet: Blog }[]> | [] => {
   const query_params = new URLSearchParams({
     pet: petId,
   });
+  if (typeof isPublished !== "undefined") {
+    query_params.append("is_published", isPublished ? "true" : "false");
+  }
   const options = {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Token ${token}`,
     },
   };
   return fetch(blogsUrl + `?${query_params}`, options)
@@ -122,6 +120,77 @@ export const deleteBlog = (id: string, token: string): Promise<Blog> | null => {
     },
   };
   return fetch(blogsUrl + `${id}/`, options)
+    .then((res) => {
+      if (!res.ok) throw new Error();
+      return res.json();
+    })
+    .then((json) => json)
+    .catch(() => null);
+};
+
+export const getLikeBlog = (
+  blogId: string,
+  meId: string,
+  token: string
+): Promise<any> | null => {
+  const query_params = new URLSearchParams({
+    user: meId,
+    blog: blogId,
+  });
+  const options = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+  return fetch(likeBlogUrl + `?${query_params}`, options)
+    .then((res) => {
+      if (!res.ok) throw new Error();
+      return res.json();
+    })
+    .then((json) => json)
+    .catch(() => null);
+};
+
+export const postLikeBlog = (
+  blogId: string,
+  meId: string,
+  token: string
+): Promise<any> | null => {
+  const body = JSON.stringify({
+    user_pk: meId,
+    blog_pk: blogId,
+  });
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+    body,
+  };
+  return fetch(likeBlogUrl, options)
+    .then((res) => {
+      if (!res.ok) throw new Error();
+      return res.json();
+    })
+    .then((json) => json)
+    .catch(() => null);
+};
+
+export const deleteLikeBlog = (
+  id: string,
+  token: string
+): Promise<any> | null => {
+  const options = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+  return fetch(likeBlogUrl + `${id}/`, options)
     .then((res) => {
       if (!res.ok) throw new Error();
       return res.json();

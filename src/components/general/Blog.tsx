@@ -1,30 +1,113 @@
+import { useState, useEffect } from "react";
 import Header from "./Header";
 import scrollToTop from "../common/scrollToTop";
-import { Link as RouterLink } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import {
+  getBlogs,
+  getBlog,
+  getLikeBlog,
+  postLikeBlog,
+  deleteLikeBlog,
+} from "../../api/Blog";
+import Footer from "./Footer";
 
 const Blog = (): JSX.Element => {
+  const [blogId, setBlogId] = useState<string>("");
+  const [title, setTitle] = useState<string | null>(null);
+  const [petName, setPetName] = useState<string | null>(null);
+  const [imageUri, setImageUri] = useState<any>(null);
+  const [publishDateTime, setPublishDateTime] = useState<string>();
+  const [content, setContent] = useState<string>("");
+  const [blogs, setBlogs] = useState<any[]>([]);
+  const [likeBlogId, setLikeBlogId] = useState<string | null>(null);
+  const [cookies, setCookie] = useCookies(); // eslint-disable-line
   scrollToTop();
+  useEffect(() => {
+    let cleanedUp = false;
+    (async () => {
+      const selectedBlogId = location.pathname.split("/").slice(-1)[0];
+      const resultBlog = await getBlog(selectedBlogId);
+      if (!resultBlog) return;
+      let resultLikeBlog = null;
+      if (cookies.authToken) {
+        resultLikeBlog = await getLikeBlog(
+          selectedBlogId,
+          cookies.meId,
+          cookies.authToken
+        );
+      }
+      const resultBlogs = await getBlogs(resultBlog.pet.id, true);
+      const dateTime = new Date(
+        resultBlog.publish_date_time ? resultBlog.publish_date_time : ""
+      );
+      const year = dateTime.getFullYear();
+      const month = ("00" + (dateTime.getMonth() + 1)).slice(-2);
+      const day = ("00" + dateTime.getDate()).slice(-2);
+      const hour = ("00" + dateTime.getHours()).slice(-2);
+      const minute = ("00" + dateTime.getMinutes()).slice(-2);
+      if (cleanedUp) return;
+      if (resultLikeBlog && resultLikeBlog.results.length)
+        setLikeBlogId(resultLikeBlog.results[0].id);
+      setBlogs(resultBlogs);
+      setPublishDateTime(`${year}年${month}月${day}日 ${hour}:${minute}`);
+      setBlogId(resultBlog.id);
+      setTitle(resultBlog.title);
+      setPetName(resultBlog.pet.name);
+      setImageUri(resultBlog.image);
+      setContent(resultBlog.content);
+    })();
+    const cleanup = () => {
+      cleanedUp = true;
+    };
+    return cleanup;
+  }, []);
+  const handleLikeBlog = async () => {
+    if (!cookies.authToken) {
+      alert("いいねをするには、ログインしてください。");
+      return;
+    }
+    if (likeBlogId) {
+      const resultDeleteBlog = await deleteLikeBlog(
+        likeBlogId,
+        cookies.authToken
+      );
+      if (!resultDeleteBlog) setLikeBlogId(resultDeleteBlog);
+    } else {
+      const resultPostLikeBlog = await postLikeBlog(
+        blogId,
+        cookies.meId,
+        cookies.authToken
+      );
+      if (resultPostLikeBlog) setLikeBlogId(resultPostLikeBlog.id);
+    }
+  };
   return (
     <div className="container w-full pt-20">
       <Header />
-      <div className="w-full font-bold text-2xl px-1 pb-2">
-        タイトルタイトルタイトル
-      </div>
+      <div className="w-full font-bold text-2xl px-1 pb-2">{title}</div>
       <img
-        className="w-full"
-        src="https://source.unsplash.com/random/1600x900/"
-        alt="Sunset in the mountains"
+        className="w-full object-cover h-56"
+        src={imageUri}
+        alt="ブログ画像"
       ></img>
       <div className="px-2 py-1">
-        <div className="w-full text-sm">2021年9月23日</div>
-        <div className="w-full text-sm">uichi</div>
+        <div className="w-full text-sm">{publishDateTime}</div>
+        <div className="w-full text-sm">{petName}</div>
       </div>
       <div className="px-2 pt-4 pb-10 text-base tracking-wide leading-7">
-        恥の多い生涯を送って来ました。自分には、人間の生活というものが、見当つかないのです。自分は東北の田舎に生れましたので、汽車をはじめて見たのは、よほど大きくなってからでした。自分は停車場のブリッジを、上って、降りて、そうしてそれが線路をまたぎ越えるために造られたものだという事には全然気づかず、ただそれは停車場の構内を外国の遊戯場みたいに、複雑に楽しく、ハイカラにするためにのみ、設備せられてあるものだとばかり思っていました。しかも、かなり永い間そう思っていたのです。ブリッジの上ったり降りたりは、自分にはむしろ、ずいぶん垢抜けのした遊戯で、それは鉄道のサーヴィスの中でも、最も気のきいたサーヴィスの一つだと思っていたのですが、のちにそれはただ旅客が線路をまたぎ越えるための頗る実利的な階段に過ぎないのを発見して、にわかに興が覚めました。また、自分は子供の頃、絵本で地下鉄道というものを見て、これもやは
+        <div dangerouslySetInnerHTML={{ __html: content }} />
       </div>
-      <button className="bg-white border-2 border-pink-500 text-white font-bold fixed z-10 rounded-full h-14 w-14 bottom-2 right-2 flex items-center justify-center">
+      <button
+        className={
+          `${likeBlogId ? "bg-pink-500 " : "bg-white "}` +
+          `${"border-2 border-pink-500 font-bold fixed z-10 rounded-full h-14 w-14 bottom-2 right-2 flex items-center justify-center"}`
+        }
+        onClick={handleLikeBlog}
+      >
         <svg
-          className="h-8 w-8 text-pink-500"
+          className={
+            likeBlogId ? "h-8 w-8 text-white" : "h-8 w-8 text-pink-500"
+          }
           width="24"
           height="24"
           viewBox="0 0 24 24"
@@ -34,12 +117,11 @@ const Blog = (): JSX.Element => {
           strokeLinecap="round"
           strokeLinejoin="round"
         >
-          {" "}
           <path stroke="none" d="M0 0h24v24H0z" />
           <path d="M12 20l-7 -7a4 4 0 0 1 6.5 -6a.9 .9 0 0 0 1 0a4 4 0 0 1 6.5 6l-7 7" />
         </svg>
       </button>
-      <div className="px-2 pb-2 text-2lx font-bold">コメント</div>
+      {/* <div className="px-2 pb-2 text-2lx font-bold">コメント</div>
       <div className="px-2 pb-4 divide-y">
         <div className="w-full py-2">Hello World!</div>
         <div className="w-full py-2">Hello World!</div>
@@ -50,42 +132,49 @@ const Blog = (): JSX.Element => {
         <button className="w-full bg-green-500 hover:bg-green-700 text-white hover:text-white py-1 px-2 rounded">
           投稿
         </button>
-      </form>
-      <div className="px-2 pb-1 text-2lx font-bold">
-        このペットの他の記事を見る
-      </div>
-      <div className="pb-8">
-        <RouterLink className="w-full" to="/blog/2">
-          <img
-            className="w-full"
-            src="https://source.unsplash.com/random/1600x900/"
-            alt="Sunset in the mountains"
-          ></img>
-          <div className="w-full font-bold text-xl px-2">
-            タイトルタイトルタイトル
-          </div>
-          <div className="px-2">
-            <div className="w-full text-sm">2021年9月23日</div>
-            <div className="w-full text-sm">uichi</div>
-          </div>
-        </RouterLink>
-      </div>
-      <div className="pb-8">
-        <RouterLink className="w-full" to="/blog/2">
-          <img
-            className="w-full"
-            src="https://source.unsplash.com/random/1600x900/"
-            alt="Sunset in the mountains"
-          ></img>
-          <div className="w-full font-bold text-xl px-2">
-            タイトルタイトルタイトル
-          </div>
-          <div className="px-2">
-            <div className="w-full text-sm">2021年9月23日</div>
-            <div className="w-full text-sm">uichi</div>
-          </div>
-        </RouterLink>
-      </div>
+      </form> */}
+      {(() => {
+        if (blogs.length)
+          return (
+            <div className="pt-8 px-2 pb-1 text-2lx font-bold">
+              このペットの他の記事を見る
+            </div>
+          );
+      })()}
+      {blogs.map((blog, index) => (
+        <>
+          <a key={index} className="w-full" href={`/blog/${blog.id}`}>
+            {(() => {
+              if (blog.image)
+                return (
+                  <img
+                    className="w-full object-cover h-56 pb-2"
+                    src={blog.image}
+                    alt="ブログ画像"
+                  />
+                );
+            })()}
+            <div className="w-full font-bold text-xl px-2">{blog.title}</div>
+            <div className="px-2">
+              {(() => {
+                const dateTime = new Date(blog.publish_date_time);
+                const year = dateTime.getFullYear();
+                const month = ("00" + (dateTime.getMonth() + 1)).slice(-2);
+                const day = ("00" + dateTime.getDate()).slice(-2);
+                const hour = ("00" + dateTime.getHours()).slice(-2);
+                const minute = ("00" + dateTime.getMinutes()).slice(-2);
+                return (
+                  <div className="w-full text-sm">
+                    {year}年{month}月{day}日 {hour}時{minute}分
+                  </div>
+                );
+              })()}
+              <div className="w-full text-sm">{blog.pet.name}</div>
+            </div>
+          </a>
+          <hr className="border-1 border-gray-300 mt-8 mb-6" />
+        </>
+      ))}
     </div>
   );
 };

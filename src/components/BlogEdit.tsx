@@ -61,10 +61,12 @@ const BlogEdit = (): JSX.Element => {
   const imagePlugin = createImagePlugin();
   if (!cookies.authToken) history.push("/login");
   useEffect(() => {
+    let cleanedUp = false;
     (async () => {
       const selectedBlogId = location.pathname.split("/").slice(-1)[0];
+      if (cleanedUp) return;
       setBlogId(selectedBlogId);
-      const resultBlog = await getBlog(selectedBlogId, cookies.authToken);
+      const resultBlog = await getBlog(selectedBlogId);
       if (!resultBlog) return;
       const today = resultBlog.publish_date_time
         ? new Date(resultBlog.publish_date_time)
@@ -90,6 +92,10 @@ const BlogEdit = (): JSX.Element => {
       );
       setIsLoaded(false);
     })();
+    const cleanup = () => {
+      cleanedUp = true;
+    };
+    return cleanup;
   }, []);
   const updateBlog = async () => {
     if (!petId) {
