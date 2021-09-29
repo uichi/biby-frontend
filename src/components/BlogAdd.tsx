@@ -20,13 +20,12 @@ import { notifyErrorSave, notifyEssentialValueIsEmpty } from "./common/toast";
 import { postBlog } from "../api/Blog";
 import { getPets } from "../api/Pet";
 import Loading from "./common/Loading";
+import { upload } from "../api/S3";
 import { EditorState, RichUtils, AtomicBlockUtils } from "draft-js";
 import createImagePlugin from "@draft-js-plugins/image";
 import "draft-js/dist/Draft.css";
 import Editor from "@draft-js-plugins/editor";
 import { stateToHTML } from "draft-js-export-html";
-import AWS from "aws-sdk";
-import S3 from "aws-sdk/clients/s3";
 
 const BlogAdd = (): JSX.Element => {
   const today = new Date();
@@ -170,25 +169,11 @@ const BlogAdd = (): JSX.Element => {
     );
     setEditorState(nextOrderedListItemState);
   };
-  const handlePastedFiles = (e: React.ChangeEvent<HTMLInputElement>): any => {
+  const handlePastedFiles = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        setEditorState(insertImage(e.target.result));
-      };
-      reader.readAsDataURL(file);
+      const resultUploadS3 = await upload(e.target.files[0], `blog_content_images/${cookies.meId}`);
+      setEditorState(insertImage(resultUploadS3.Location));
     }
-    // fetch('/api/uploads',
-    // {method: 'POST', body: formData})
-    // .then(res => res.json())
-    // .then(data => {
-    //   if (data.file) {
-    //      setEditorState(insertImage(data.file)) //created below
-    //   }
-    // }).catch(err => {
-    //     console.log(err)
-    // })
   };
   const insertImage = (url: string) => {
     const contentState = editorState.getCurrentContent();
@@ -203,33 +188,15 @@ const BlogAdd = (): JSX.Element => {
     });
     return AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, " ");
   };
-  const uploadImage = async (e: any) => {
-    const file = e.target.files[0];
-    setImage(file);
-    const reader = new FileReader();
-    reader.onload = () => {
-      setImageUri(reader.result)
+  const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImageUri(reader.result)
+      }
+      reader.readAsDataURL(file);
     }
-    reader.readAsDataURL(file);
-    // const splitFileName = file.name.split('.');
-    // const extend = splitFileName[splitFileName.length - 1]
-    // const S="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-    // const N=32
-    // const randomString = Array.from(Array(N)).map(()=>S[Math.floor(Math.random()*S.length)]).join('');
-    // const s3 = new AWS.S3({
-    //   accessKeyId: process.env.REACT_APP_AWS_S3_ACCESS_KEY,
-    //   secretAccessKey: process.env.REACT_APP_AWS_S3_SECRET_KEY,
-    //   region: process.env.REACT_APP_AWS_S3_REGION,
-    // });
-    // const bucket = process.env.REACT_APP_AWS_S3_BUCKET;
-    // const key = "blog_thumbnails/" + randomString + '.' + extend;
-    // const uploadPrams: S3.Types.PutObjectRequest = {
-    //   Bucket: bucket ? bucket : "",
-    //   Key: key,
-    //   ContentType: file.type,
-    //   Body: file,
-    // };
-    // await s3.upload(uploadPrams).promise();
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">

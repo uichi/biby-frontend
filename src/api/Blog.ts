@@ -62,7 +62,7 @@ export const postBlog = (
   formData.append("is_published", isPublished.toString());
   if (publishDateTime) formData.append("publish_date_time", publishDateTime);
   formData.append("create_user_pk", meId);
-  console.log(formData)
+  console.log(formData);
   const options = {
     method: "POST",
     headers: {
