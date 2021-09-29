@@ -112,3 +112,20 @@ export const patchBlog = (
     .then((json) => json)
     .catch(() => null);
 };
+
+export const deleteBlog = (id: string, token: string): Promise<Blog> | null => {
+  const options = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+  return fetch(blogsUrl + `${id}/`, options)
+    .then((res) => {
+      if (!res.ok) throw new Error();
+      return res.json();
+    })
+    .then((json) => json)
+    .catch(() => null);
+};

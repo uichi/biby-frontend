@@ -8,6 +8,8 @@ import {
   Picker,
   Item,
   Checkbox,
+  DialogTrigger,
+  AlertDialog,
 } from "@adobe/react-spectrum";
 import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
@@ -20,7 +22,7 @@ import {
   notifyErrorSave,
   notifyEssentialValueIsEmpty,
 } from "./common/toast";
-import { patchBlog, getBlog } from "../api/Blog";
+import { patchBlog, getBlog, deleteBlog } from "../api/Blog";
 import { getPets } from "../api/Pet";
 import Loading from "./common/Loading";
 import UploadingBar from "./common/UploadingBar";
@@ -223,6 +225,10 @@ const BlogEdit = (): JSX.Element => {
       reader.readAsDataURL(file);
     }
   };
+  const removeBlog = async () => {
+    await deleteBlog(blogId, cookies.authToken);
+    history.push("/blogs");
+  };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
       {isLoaded && <Loading />}
@@ -358,6 +364,18 @@ const BlogEdit = (): JSX.Element => {
             <ActionButton staticColor="white" onPress={updateBlog}>
               保存
             </ActionButton>
+            <DialogTrigger>
+              <ActionButton>削除</ActionButton>
+              <AlertDialog
+                variant="destructive"
+                title="削除しますか？"
+                primaryActionLabel="削除"
+                onPrimaryAction={removeBlog}
+                cancelLabel="キャンセル"
+              >
+                一度削除すると復元はできません。
+              </AlertDialog>
+            </DialogTrigger>
           </Form>
         </View>
       </View>
