@@ -16,13 +16,15 @@ import Footer from "./Footer";
 import { useHistory } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import {
-  // notifySuccessSave,
-  // notifyErrorSave,
-  validateNotEnteredError,
+  notifySuccessSave,
+  notifyErrorSave,
+  notifyEssentialValueIsEmpty,
 } from "./common/toast";
-import { postBlog, getBlog } from "../api/Blog";
+import { patchBlog, getBlog } from "../api/Blog";
 import { getPets } from "../api/Pet";
 import Loading from "./common/Loading";
+import UploadingBar from "./common/UploadingBar";
+import { upload } from "../api/S3";
 import { EditorState, RichUtils, AtomicBlockUtils } from "draft-js";
 import createImagePlugin from "@draft-js-plugins/image";
 import "draft-js/dist/Draft.css";
@@ -46,11 +48,13 @@ const BlogEdit = (): JSX.Element => {
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
-  const [image, setImage] = useState<string | null>(null);
+  const [image, setImage] = useState<File | null>(null);
+  const [imageUri, setImageUri] = useState<any>(null);
   const [isPublished, setIsPublished] = useState<boolean>(false);
   const [publishDateTime, setPublishDateTime] = useState<string>(
     `${year}-${month}-${day}T${hour}:${minute}`
   );
+  const [isUploading, setIsUploading] = useState<boolean>(false);
   const history = useHistory();
   const imagePlugin = createImagePlugin();
   if (!cookies.authToken) history.push("/login");
@@ -71,7 +75,7 @@ const BlogEdit = (): JSX.Element => {
       setPublishDateTime(`${year}-${month}-${day}T${hour}:${minute}`);
       setPetId(Number(resultBlog.pet.id));
       setTitle(resultBlog.title);
-      setImage(resultBlog.image);
+      setImageUri(resultBlog.image);
       const contentState = stateFromHTML(resultBlog.content);
       setEditorState(EditorState.createWithContent(contentState));
       setIsPublished(resultBlog.is_published);
@@ -87,20 +91,25 @@ const BlogEdit = (): JSX.Element => {
   }, []);
   const updateBlog = async () => {
     if (!petId) {
-      validateNotEnteredError();
+      notifyEssentialValueIsEmpty();
       return;
     }
-    // const resultAddBlog = await postBlog(
-    //   petId,
-    //   title,
-    //   stateToHTML(editorState.getCurrentContent()),
-    //   image,
-    //   isPublished,
-    //   publishDateTime,
-    //   cookies.meId,
-    //   cookies.authToken
-    // );
-    history.push("/blogs");
+    const resultAddBlog = await patchBlog(
+      blogId,
+      petId,
+      title,
+      stateToHTML(editorState.getCurrentContent()),
+      image,
+      isPublished,
+      publishDateTime,
+      cookies.meId,
+      cookies.authToken
+    );
+    if (!resultAddBlog) {
+      notifyErrorSave();
+      return;
+    }
+    notifySuccessSave();
   };
   const onChangePet = (value: any): void => {
     setPetId(value);
@@ -179,25 +188,16 @@ const BlogEdit = (): JSX.Element => {
     );
     setEditorState(nextOrderedListItemState);
   };
-  const handlePastedFiles = (e: React.ChangeEvent<HTMLInputElement>): any => {
+  const handleUploadFiles = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsUploading(true);
     if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        setEditorState(insertImage(e.target.result));
-      };
-      reader.readAsDataURL(file);
+      const resultUploadS3 = await upload(
+        e.target.files[0],
+        `blog_content_images/${cookies.meId}`
+      );
+      setEditorState(insertImage(resultUploadS3.Location));
     }
-    // fetch('/api/uploads',
-    // {method: 'POST', body: formData})
-    // .then(res => res.json())
-    // .then(data => {
-    //   if (data.file) {
-    //      setEditorState(insertImage(data.file)) //created below
-    //   }
-    // }).catch(err => {
-    //     console.log(err)
-    // })
+    setIsUploading(false);
   };
   const insertImage = (url: string) => {
     const contentState = editorState.getCurrentContent();
@@ -212,8 +212,16 @@ const BlogEdit = (): JSX.Element => {
     });
     return AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, " ");
   };
-  const uploadImage = (e: any) => {
-    setImage(e.target.files[0]);
+  const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setImage(file);
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImageUri(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
@@ -258,13 +266,9 @@ const BlogEdit = (): JSX.Element => {
               <label className="text-sm font-bold text-gray-400">
                 サムネイル
               </label>
-              <input
-                type="file"
-                className="pt-1"
-                src={image ? image : ""}
-                onChange={uploadImage}
-              />
+              <input type="file" className="pt-1" onChange={uploadImage} />
             </div>
+            <img src={imageUri ? imageUri : ""} />
             <div className="text-sm font-bold text-gray-400">本文</div>
             <div className="flex flex-wrap">
               <div
@@ -332,13 +336,14 @@ const BlogEdit = (): JSX.Element => {
                 <input
                   type="file"
                   className="hidden"
-                  onChange={handlePastedFiles}
+                  onChange={handleUploadFiles}
                 />
               </label>
               {/* <div className="border border-gray-300 p-1 mr-2 mb-2 whitespace-nowrap rounded" onClick={underlineText}>下線</div> */}
               {/* <div className="border border-gray-300 p-1 mr-2 mb-2 whitespace-nowrap rounded" onClick={underlineText}>下線</div> */}
               {/* <div className="border border-gray-300 p-1 mr-2 mb-2 whitespace-nowrap rounded" onClick={underlineText}>下線</div> */}
               {/* <div className="border border-gray-300 p-1 mr-2 mb-2 whitespace-nowrap rounded" onClick={underlineText}>下線</div> */}
+              {isUploading && <UploadingBar />}
             </div>
             <div className="border border-gray-600 bg-black text-base p-2 mb-1 h-auto min-h-200 rounded">
               <Editor

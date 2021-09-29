@@ -7,7 +7,7 @@ import S3 from "aws-sdk/clients/s3";
  * @param dir
  * @returns
  */
-export const upload = async (file: File, dir: string) => {
+export const upload = async (file: File, dir: string): Promise<any> => {
   const splitFileName = file.name.split(".");
   const extend = splitFileName[splitFileName.length - 1];
   const S = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

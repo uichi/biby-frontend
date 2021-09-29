@@ -171,7 +171,7 @@ const BlogAdd = (): JSX.Element => {
     );
     setEditorState(nextOrderedListItemState);
   };
-  const handlePastedFiles = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUploadFiles = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsUploading(true);
     if (e.target.files && e.target.files[0]) {
       const resultUploadS3 = await upload(
@@ -198,6 +198,7 @@ const BlogAdd = (): JSX.Element => {
   const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
+      setImage(file);
       const reader = new FileReader();
       reader.onload = () => {
         setImageUri(reader.result);
@@ -314,7 +315,7 @@ const BlogAdd = (): JSX.Element => {
                 <input
                   type="file"
                   className="hidden"
-                  onChange={handlePastedFiles}
+                  onChange={handleUploadFiles}
                 />
               </label>
               {/* <div className="border border-gray-300 p-1 mr-2 mb-2 whitespace-nowrap rounded" onClick={underlineText}>下線</div> */}
