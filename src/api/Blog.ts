@@ -22,11 +22,11 @@ export const getBlog = (
 };
 
 export const getBlogs = (
-  meId: string,
+  petId: string,
   token: string
 ): Promise<{ pet: Blog }[]> | [] => {
   const query_params = new URLSearchParams({
-    user: meId,
+    pet: petId,
   });
   const options = {
     method: "GET",

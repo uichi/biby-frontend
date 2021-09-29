@@ -27,7 +27,10 @@ const Blogs = (): JSX.Element => {
   useEffect(() => {
     let cleanedUp = false;
     (async () => {
-      const resultBlogs = await getBlogs(cookies.meId, cookies.authToken);
+      const resultBlogs = await getBlogs(
+        cookies.selectedPet,
+        cookies.authToken
+      );
       if (cleanedUp) return;
       setBlogs(resultBlogs);
       setIsLoaded(false);
