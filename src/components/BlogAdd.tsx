@@ -54,6 +54,7 @@ const BlogAdd = (): JSX.Element => {
   const imagePlugin = createImagePlugin();
   if (!cookies.authToken) history.push("/login");
   useEffect(() => {
+    let cleanedUp = false;
     (async () => {
       const resultCareLogs = await getCareLogs(
         cookies.meId,
@@ -63,6 +64,7 @@ const BlogAdd = (): JSX.Element => {
       );
       if (resultCareLogs.length >= 400) history.push("/care/logs");
       const resultGetPets = await getPets(cookies.meId, cookies.authToken);
+      if (cleanedUp) return;
       setPets(
         resultGetPets.map((value) => ({
           id: value.pet.id,
@@ -72,6 +74,10 @@ const BlogAdd = (): JSX.Element => {
       setIsLoaded(false);
     })();
     setPetId(Number(cookies.selectedPet));
+    const cleanup = () => {
+      cleanedUp = true;
+    };
+    return cleanup;
   }, []);
   const addBlog = async () => {
     if (!petId) {

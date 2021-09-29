@@ -14,6 +14,7 @@ import LinkOut from "@spectrum-icons/workflow/LinkOut";
 import Star from "@spectrum-icons/workflow/Star";
 import Book from "@spectrum-icons/workflow/Book";
 import Search from "@spectrum-icons/workflow/Search";
+import Homepage from "@spectrum-icons/workflow/Homepage";
 import { Link } from "@adobe/react-spectrum";
 import { Link as RouterLink } from "react-router-dom";
 import Header from "./Header";
@@ -66,6 +67,14 @@ const SettingApp = (): JSX.Element => {
             <LinkOut size="XS" marginEnd="size-100" />
             <Link onPress={logout} variant="secondary" isQuiet>
               ログアウト
+            </Link>
+          </View>
+          <Text marginTop="size-200">biby</Text>
+          <Divider size="M" />
+          <View>
+            <Homepage size="XS" marginEnd="size-100" />
+            <Link variant="secondary" isQuiet>
+              <a href="/">bibyトップ</a>
             </Link>
           </View>
           <Text marginTop="size-200">フィードバック</Text>
