@@ -44,7 +44,7 @@ const BlogAdd = (): JSX.Element => {
     EditorState.createEmpty()
   );
   const [image, setImage] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState<any>(null);
+  const [imageUri, setImageUri] = useState<any>(null);
   const [isPublished, setIsPublished] = useState<boolean>(false);
   const [publishDateTime, setPublishDateTime] = useState<string>(
     `${year}-${month}-${day}T${hour}:${minute}`
@@ -206,49 +206,30 @@ const BlogAdd = (): JSX.Element => {
   const uploadImage = async (e: any) => {
     const file = e.target.files[0];
     setImage(file);
-    const s3 = new AWS.S3({
-      accessKeyId: process.env.REACT_APP_AWS_S3_ACCESS_KEY,
-      secretAccessKey: process.env.REACT_APP_AWS_S3_SECRET_KEY,
-      region: process.env.REACT_APP_AWS_S3_REGION,
-    });
-    const bucket = process.env.REACT_APP_AWS_S3_BUCKET;
-    const key = "blog_thumbnails/" + file.name;
-    const uploadPrams: S3.Types.PutObjectRequest = {
-      Bucket: bucket ? bucket : "",
-      Key: key,
-      ContentType: file.type,
-      Body: file,
-    };
-    // const getObjectPrams: S3.Types.GetObjectRequest = {
-    //   Bucket: bucket ? bucket : '',
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImageUri(reader.result)
+    }
+    reader.readAsDataURL(file);
+    // const splitFileName = file.name.split('.');
+    // const extend = splitFileName[splitFileName.length - 1]
+    // const S="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    // const N=32
+    // const randomString = Array.from(Array(N)).map(()=>S[Math.floor(Math.random()*S.length)]).join('');
+    // const s3 = new AWS.S3({
+    //   accessKeyId: process.env.REACT_APP_AWS_S3_ACCESS_KEY,
+    //   secretAccessKey: process.env.REACT_APP_AWS_S3_SECRET_KEY,
+    //   region: process.env.REACT_APP_AWS_S3_REGION,
+    // });
+    // const bucket = process.env.REACT_APP_AWS_S3_BUCKET;
+    // const key = "blog_thumbnails/" + randomString + '.' + extend;
+    // const uploadPrams: S3.Types.PutObjectRequest = {
+    //   Bucket: bucket ? bucket : "",
     //   Key: key,
-    // }
-    const resultUpload = await s3.upload(uploadPrams).promise();
-    console.log(resultUpload.Location);
-    setImageUrl(resultUpload.Location);
-    // const resultGetObject = await s3.getObject(getObjectPrams).promise()
-    // console.log(resultGetObject)
-    // if (getObject.Body && getObject.ContentType) {
-    // btoa関数でbase64に変換
-    // const base64 = `data:${getObject.ContentType};base64,` + window.btoa(getObject.Body.toString('base64'))
-    // console.log(getObject.Body.toString('base64'))
-    // const bin = atob(base64.replace(/^.*,/, '')); //①
-    // const buffer = new Uint8Array(bin.length); //②
-    // for(let i = 0; i < bin.length; i++){ //③
-    //     buffer[i] = bin.charCodeAt(i);
-    // }
-    // Blobオブジェクトの作成 - javascriptで操作可能なオブジェクト
-    // if (buffer.buffer) {
-    // const blob = new Blob([ buffer.buffer ], { type: 'image/png' });
-    //   // ブラウザに持っているファイルを操作するためのオブジェクトを作成
-    // const reader = new FileReader();
-    // reader.readAsDataURL(blob);
-    // reader.onloadend = () => {
-    //   console.log(reader.result)
-    //   setImageUrl(reader.result)
-    // }
-    // }
-    // }
+    //   ContentType: file.type,
+    //   Body: file,
+    // };
+    // await s3.upload(uploadPrams).promise();
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
@@ -269,7 +250,6 @@ const BlogAdd = (): JSX.Element => {
             onSubmit={(e) => e.preventDefault()}
           >
             <h3 id="label-3">ブログ追加</h3>
-            <img src={imageUrl ? imageUrl : ""} />
             <Picker
               label="ペットを選択してください"
               items={pets}
@@ -292,6 +272,7 @@ const BlogAdd = (): JSX.Element => {
               </label>
               <input type="file" className="pt-1" onChange={uploadImage} />
             </div>
+            <img src={imageUri ? imageUri : ''} />
             <div className="text-sm font-bold text-gray-400">本文</div>
             <div className="flex flex-wrap">
               <div
