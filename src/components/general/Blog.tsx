@@ -36,7 +36,7 @@ const Blog = (): JSX.Element => {
           cookies.authToken
         );
       }
-      const resultBlogs = await getBlogs(resultBlog.pet.id, true);
+      const resultBlogs = await getBlogs(resultBlog.pet.id, true, 5, 1);
       const dateTime = new Date(
         resultBlog.publish_date_time ? resultBlog.publish_date_time : ""
       );
@@ -46,8 +46,8 @@ const Blog = (): JSX.Element => {
       const hour = ("00" + dateTime.getHours()).slice(-2);
       const minute = ("00" + dateTime.getMinutes()).slice(-2);
       if (cleanedUp) return;
-      if (resultLikeBlog && resultLikeBlog.results.length)
-        setLikeBlogId(resultLikeBlog.results[0].id);
+      if (resultLikeBlog && resultLikeBlog[0])
+        setLikeBlogId(resultLikeBlog[0].id);
       setBlogs(resultBlogs);
       setPublishDateTime(`${year}年${month}月${day}日 ${hour}:${minute}`);
       setBlogId(resultBlog.id);
@@ -134,47 +134,51 @@ const Blog = (): JSX.Element => {
         </button>
       </form> */}
       {(() => {
-        if (blogs.length)
+        if (blogs.length > 1)
           return (
             <div className="pt-8 px-2 pb-1 text-2lx font-bold">
               このペットの他の記事を見る
             </div>
           );
       })()}
-      {blogs.map((blog, index) => (
-        <>
-          <a key={index} className="w-full" href={`/blog/${blog.id}`}>
-            {(() => {
-              if (blog.image)
-                return (
-                  <img
-                    className="w-full object-cover h-56 pb-2"
-                    src={blog.image}
-                    alt="ブログ画像"
-                  />
-                );
-            })()}
-            <div className="w-full font-bold text-xl px-2">{blog.title}</div>
-            <div className="px-2">
+      {blogs.map((blog, index) => {
+        if (blogId === blog.id) return;
+        return (
+          <>
+            <a key={index} className="w-full" href={`/blog/${blog.id}`}>
               {(() => {
-                const dateTime = new Date(blog.publish_date_time);
-                const year = dateTime.getFullYear();
-                const month = ("00" + (dateTime.getMonth() + 1)).slice(-2);
-                const day = ("00" + dateTime.getDate()).slice(-2);
-                const hour = ("00" + dateTime.getHours()).slice(-2);
-                const minute = ("00" + dateTime.getMinutes()).slice(-2);
-                return (
-                  <div className="w-full text-sm">
-                    {year}年{month}月{day}日 {hour}時{minute}分
-                  </div>
-                );
+                if (blog.image)
+                  return (
+                    <img
+                      className="w-full object-cover h-56 pb-2"
+                      src={blog.image}
+                      alt="ブログ画像"
+                    />
+                  );
               })()}
-              <div className="w-full text-sm">{blog.pet.name}</div>
-            </div>
-          </a>
-          <hr className="border-1 border-gray-300 mt-8 mb-6" />
-        </>
-      ))}
+              <div className="w-full font-bold text-xl px-2">{blog.title}</div>
+              <div className="px-2">
+                {(() => {
+                  const dateTime = new Date(blog.publish_date_time);
+                  const year = dateTime.getFullYear();
+                  const month = ("00" + (dateTime.getMonth() + 1)).slice(-2);
+                  const day = ("00" + dateTime.getDate()).slice(-2);
+                  const hour = ("00" + dateTime.getHours()).slice(-2);
+                  const minute = ("00" + dateTime.getMinutes()).slice(-2);
+                  return (
+                    <div className="w-full text-sm">
+                      {year}年{month}月{day}日 {hour}時{minute}分
+                    </div>
+                  );
+                })()}
+                <div className="w-full text-sm">{blog.pet.name}</div>
+              </div>
+            </a>
+            <hr className="border-1 border-gray-300 mt-8 mb-6" />
+          </>
+        );
+      })}
+      <Footer />
     </div>
   );
 };

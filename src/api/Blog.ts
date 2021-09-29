@@ -19,13 +19,18 @@ export const getBlog = (blogId: string): Promise<Blog> | null => {
 
 export const getBlogs = (
   petId: string,
-  isPublished?: boolean
+  isPublished?: boolean,
+  limit?: number,
+  offset?: number
 ): Promise<{ pet: Blog }[]> | [] => {
-  const query_params = new URLSearchParams({
-    pet: petId,
-  });
+  const query_params = new URLSearchParams();
+  if (petId.length) query_params.append("pet", petId);
   if (typeof isPublished !== "undefined") {
     query_params.append("is_published", isPublished ? "true" : "false");
+  }
+  if (limit && offset) {
+    query_params.append("limit", limit.toString());
+    query_params.append("offset", offset.toString());
   }
   const options = {
     method: "GET",
@@ -38,7 +43,7 @@ export const getBlogs = (
       if (!res.ok) throw new Error();
       return res.json();
     })
-    .then((json) => json.results)
+    .then((json) => json)
     .catch(() => []);
 };
 

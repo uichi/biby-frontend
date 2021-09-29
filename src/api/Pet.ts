@@ -37,7 +37,7 @@ export const getPets = (
       if (!res.ok) throw new Error();
       return res.json();
     })
-    .then((json) => json.results)
+    .then((json) => json)
     .catch(() => []);
 };
 
@@ -143,7 +143,7 @@ export const getPetRelatedShareId = (
         return res.json();
       })
       // NOTE: ペットが配列形式で返ってくるが一匹しか含まれないのでインデックス指定
-      .then((json) => json.results[0])
+      .then((json) => json[0])
       .catch(() => null)
   );
 };

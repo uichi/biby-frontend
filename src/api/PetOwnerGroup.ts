@@ -21,7 +21,7 @@ export const getPetOwnerGroup = (
       if (!res.ok) throw new Error();
       return res.json();
     })
-    .then((json) => json.results[0])
+    .then((json) => json[0])
     .catch(() => null);
 };
 
@@ -47,6 +47,6 @@ export const postPetOwnerGroup = (
       if (!res.ok) throw new Error();
       return res.json();
     })
-    .then((json) => json.results)
+    .then((json) => json)
     .catch(() => null);
 };

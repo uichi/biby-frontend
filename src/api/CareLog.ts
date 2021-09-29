@@ -79,7 +79,7 @@ export const getCareLogs = (
       if (!res.ok) throw new Error();
       return res.json();
     })
-    .then((json) => json.results)
+    .then((json) => json)
     .catch(() => []);
 };
 

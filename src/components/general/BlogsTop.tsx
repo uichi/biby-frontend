@@ -11,7 +11,7 @@ const BlogsTop = (): JSX.Element => {
   useEffect(() => {
     let cleanedUp = false;
     (async () => {
-      const resultBlogs = await getBlogs("", true);
+      const resultBlogs = await getBlogs("", true, 99, 1);
       if (cleanedUp) return;
       setBlogs(resultBlogs);
     })();

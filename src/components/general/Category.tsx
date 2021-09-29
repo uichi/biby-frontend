@@ -1,6 +1,7 @@
 import Header from "./Header";
 import scrollToTop from "../common/scrollToTop";
 import { Link as RouterLink } from "react-router-dom";
+import Footer from "./Footer";
 
 const BlogsTop = (): JSX.Element => {
   scrollToTop();
@@ -42,6 +43,7 @@ const BlogsTop = (): JSX.Element => {
           </div>
         </RouterLink>
       </div>
+      <Footer />
     </div>
   );
 };
