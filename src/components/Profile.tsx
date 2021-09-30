@@ -24,20 +24,19 @@ import {
 } from "./common/toast";
 import { emailValid } from "./common/validation";
 import { useCookies } from "react-cookie";
-import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { getMe } from "../api/Authentication";
 import Loading from "./common/Loading";
 import scrollToTop from "./common/scrollToTop";
 
 const Profile = (): JSX.Element => {
   const [cookies, setCookie, removeCookie] = useCookies(); // eslint-disable-line
+  if (!cookies.authToken) return <Redirect to="/login" />;
   const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const isEmailValid = useMemo(() => emailValid.test(email), [email]);
-  const history = useHistory();
   scrollToTop();
-  if (!cookies.authToken) history.push("/login");
   useEffect(() => {
     let cleanedUp = false;
     (async () => {
@@ -91,7 +90,7 @@ const Profile = (): JSX.Element => {
     removeCookie("authToken", { path: "/" });
     removeCookie("meId", { path: "/" });
     removeCookie("selectedPet", { path: "/" });
-    history.push("/signup");
+    return <Redirect to="/signup" />;
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">

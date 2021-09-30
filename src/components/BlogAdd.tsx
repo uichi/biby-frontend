@@ -13,7 +13,7 @@ import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import Header from "./Header";
 import Footer from "./Footer";
-import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { getCareLogs } from "../api/CareLog";
 import { notifyErrorSave, notifyEssentialValueIsEmpty } from "./common/toast";
@@ -29,13 +29,14 @@ import Editor from "@draft-js-plugins/editor";
 import { stateToHTML } from "draft-js-export-html";
 
 const BlogAdd = (): JSX.Element => {
+  const [cookies, setCookie] = useCookies(); // eslint-disable-line
+  if (!cookies.authToken) return <Redirect to="/login" />;
   const today = new Date();
   const year = today.getFullYear();
   const month = ("00" + (today.getMonth() + 1)).slice(-2);
   const day = ("00" + today.getDate()).slice(-2);
   const hour = ("00" + today.getHours()).slice(-2);
   const minute = ("00" + today.getMinutes()).slice(-2);
-  const [cookies, setCookie] = useCookies(); // eslint-disable-line
   const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [pets, setPets] = useState<any[]>([]);
   const [petId, setPetId] = useState<number>();
@@ -50,9 +51,7 @@ const BlogAdd = (): JSX.Element => {
     `${year}-${month}-${day}T${hour}:${minute}`
   );
   const [isUploading, setIsUploading] = useState<boolean>(false);
-  const history = useHistory();
   const imagePlugin = createImagePlugin();
-  if (!cookies.authToken) history.push("/login");
   useEffect(() => {
     let cleanedUp = false;
     (async () => {
@@ -62,7 +61,7 @@ const BlogAdd = (): JSX.Element => {
         "",
         cookies.authToken
       );
-      if (resultCareLogs.length >= 400) history.push("/care/logs");
+      if (resultCareLogs.length >= 400) return <Redirect to="/care/logs" />;
       const resultGetPets = await getPets(cookies.meId, cookies.authToken);
       if (cleanedUp) return;
       setPets(
@@ -98,7 +97,7 @@ const BlogAdd = (): JSX.Element => {
       notifyErrorSave();
       return;
     }
-    history.push("/blogs");
+    return <Redirect to="/blogs" />;
   };
   const onChangePet = (value: any): void => {
     setPetId(value);

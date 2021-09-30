@@ -14,7 +14,7 @@ import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { useCookies } from "react-cookie";
 import Header from "./Header";
 import Footer from "./Footer";
-import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { getCategories } from "../api/CareCategory";
 import { CareCategory } from "../types";
@@ -28,13 +28,14 @@ import { getPets } from "../api/Pet";
 import Loading from "./common/Loading";
 
 const CareLogAdd = (): JSX.Element => {
+  const [cookies, setCookie] = useCookies(); // eslint-disable-line
+  if (!cookies.authToken) return <Redirect to="/login" />;
   const today = new Date();
   const year = today.getFullYear();
   const month = ("00" + (today.getMonth() + 1)).slice(-2);
   const day = ("00" + today.getDate()).slice(-2);
   const hour = ("00" + today.getHours()).slice(-2);
   const minute = ("00" + today.getMinutes()).slice(-2);
-  const [cookies, setCookie] = useCookies(); // eslint-disable-line
   const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [inputType, setInputType] = useState<any>();
   const [inputTypes, setInputTypes] = useState<any[]>([]);
@@ -48,12 +49,10 @@ const CareLogAdd = (): JSX.Element => {
   const [memo, setMemo] = useState<string | null>(null);
   const [pets, setPets] = useState<any[]>([]);
   const [petId, setPetId] = useState<number>();
-  const history = useHistory();
   const [fieldTypeId, setFieldTypeId]: [
     string,
     Dispatch<SetStateAction<any>> // HACK: 型定義見直す
   ] = useState<string>("");
-  if (!cookies.authToken) history.push("/login");
   useEffect(() => {
     (async () => {
       const resultCareLogs = await getCareLogs(
@@ -62,7 +61,7 @@ const CareLogAdd = (): JSX.Element => {
         "",
         cookies.authToken
       );
-      if (resultCareLogs.length >= 400) history.push("/care/logs");
+      if (resultCareLogs.length >= 400) return <Redirect to="/care/logs" />;
       const resultGetPets = await getPets(cookies.meId, cookies.authToken);
       setPets(
         resultGetPets.map((value) => ({
@@ -107,7 +106,7 @@ const CareLogAdd = (): JSX.Element => {
       return;
     }
     notifySuccessSave();
-    history.push("/care/logs");
+    return <Redirect to="/care/logs" />;
   };
   // HACK: 型指定見直す
   const onChangeInputType = (categoryId: any): void => {

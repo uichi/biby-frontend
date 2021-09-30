@@ -15,7 +15,7 @@ import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import Header from "./Header";
 import Footer from "./Footer";
-import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import {
   notifySuccessSave,
@@ -35,13 +35,14 @@ import { stateToHTML } from "draft-js-export-html";
 import { stateFromHTML } from "draft-js-import-html";
 
 const BlogEdit = (): JSX.Element => {
+  const [cookies, setCookie] = useCookies(); // eslint-disable-line
+  if (!cookies.authToken) return <Redirect to="/login" />;
   const today = new Date();
   const year = today.getFullYear();
   const month = ("00" + (today.getMonth() + 1)).slice(-2);
   const day = ("00" + today.getDate()).slice(-2);
   const hour = ("00" + today.getHours()).slice(-2);
   const minute = ("00" + today.getMinutes()).slice(-2);
-  const [cookies, setCookie] = useCookies(); // eslint-disable-line
   const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [pets, setPets] = useState<any[]>([]);
   const [petId, setPetId] = useState<number>();
@@ -57,9 +58,7 @@ const BlogEdit = (): JSX.Element => {
     `${year}-${month}-${day}T${hour}:${minute}`
   );
   const [isUploading, setIsUploading] = useState<boolean>(false);
-  const history = useHistory();
   const imagePlugin = createImagePlugin();
-  if (!cookies.authToken) history.push("/login");
   useEffect(() => {
     let cleanedUp = false;
     (async () => {
@@ -233,7 +232,7 @@ const BlogEdit = (): JSX.Element => {
   };
   const removeBlog = async () => {
     await deleteBlog(blogId, cookies.authToken);
-    history.push("/blogs");
+    return <Redirect to="/blogs" />;
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">

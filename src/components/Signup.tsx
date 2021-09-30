@@ -20,7 +20,7 @@ import {
 } from "./common/toast";
 import { emailValid } from "./common/validation";
 import { signupAuth } from "../api/Authentication";
-import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { loginAuth, getMe } from "../api/Authentication";
 
@@ -32,8 +32,7 @@ const Signup = (): JSX.Element => {
   const [passwordConfirm, setPasswordConfirm] = useState<string>("");
   const [agree, setAgree] = useState<boolean>(false);
   const isEmailValid = useMemo(() => emailValid.test(email), [email]);
-  const history = useHistory();
-  if (cookies.authToken && cookies.meId) history.push("/");
+  if (cookies.authToken && cookies.meId) return <Redirect to="/" />;
   const signup = async () => {
     if (!(username && email && password && passwordConfirm)) {
       validateNotEnteredError();
@@ -67,7 +66,7 @@ const Signup = (): JSX.Element => {
       setCookie("authToken", resultLoginAuth.auth_token, { path: "/" });
       const me = await getMe(resultLoginAuth.auth_token);
       setCookie("meId", me.id, { path: "/" });
-      history.push("/");
+      return <Redirect to="/" />;
     }
     signupError();
   };

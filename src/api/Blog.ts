@@ -1,4 +1,4 @@
-import { blogsUrl, likeBlogUrl, blogCommentUrl } from "./Config";
+import { blogsUrl, likeBlogUrl } from "./Config";
 import { Blog } from "../types";
 
 export const getBlog = (blogId: string): Promise<Blog> | null => {

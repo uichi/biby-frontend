@@ -7,7 +7,7 @@ import {
   ActionButton,
   Link,
 } from "@adobe/react-spectrum";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, Redirect } from "react-router-dom";
 import { useState, useMemo } from "react";
 import { Toaster } from "react-hot-toast";
 import {
@@ -15,7 +15,6 @@ import {
   validateEmailError,
   loginError,
 } from "./common/toast";
-import { useHistory } from "react-router-dom";
 import { emailValid } from "./common/validation";
 import { useCookies } from "react-cookie";
 import { loginAuth, getMe } from "../api/Authentication";
@@ -25,8 +24,8 @@ const Login = (): JSX.Element => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const isEmailValid = useMemo(() => emailValid.test(email), [email]);
-  const history = useHistory();
-  if (cookies.authToken && cookies.meId) history.push("/dashboard/top");
+  if (cookies.authToken && cookies.meId)
+    return <Redirect to="/dashboard/top" />;
   const login = async () => {
     if (!(email && password)) {
       validateNotEnteredError();
@@ -45,7 +44,7 @@ const Login = (): JSX.Element => {
       setCookie("authToken", resultLoginAuth.auth_token, { path: "/" });
       const me = await getMe(resultLoginAuth.auth_token);
       setCookie("meId", me.id, { path: "/" });
-      history.push("/dashboard/top");
+      return <Redirect to="/dashboard/top" />;
     }
     loginError();
   };

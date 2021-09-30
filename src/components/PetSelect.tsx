@@ -13,7 +13,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { getPets } from "../api/Pet";
 import { Pet } from "../types";
 //import { IllustratedMessage } from "@adobe/react-spectrum";
@@ -25,9 +25,8 @@ const PetSelect = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
   const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [pets, setPets] = useState<{ pet: Pet }[]>([]);
-  const history = useHistory();
   scrollToTop();
-  if (!cookies.authToken) history.push("/login");
+  if (!cookies.authToken) return <Redirect to="/login" />;
   useEffect(() => {
     let cleanedUp = false;
     (async () => {

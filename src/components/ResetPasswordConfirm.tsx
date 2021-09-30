@@ -16,7 +16,7 @@ import {
   notifyErrorSending,
   notifySuccessSavePassword,
 } from "./common/toast";
-import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { resetPasswordConfirm } from "../api/Authentication";
 
@@ -24,8 +24,7 @@ const ResetPasswordConfirm = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(["authToken", "meId"]); // eslint-disable-line
   const [password, setPassword] = useState<string>("");
   const [passwordConfirm, setPasswordConfirm] = useState<string>("");
-  const history = useHistory();
-  if (cookies.authToken && cookies.meId) history.push("/");
+  if (cookies.authToken && cookies.meId) return <Redirect to="/" />;
   const register = async () => {
     const searchParams = new URLSearchParams(location.search);
     if (!(password && passwordConfirm)) {

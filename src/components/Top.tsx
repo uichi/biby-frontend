@@ -14,7 +14,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { getPet } from "../api/Pet";
 import { getCareLogs } from "../api/CareLog";
 import Loading from "./common/Loading";
@@ -23,15 +23,14 @@ import SampleImage from "../assets/images/sample.png";
 
 const Top = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
+  if (!cookies.authToken) return <Redirect to="/login" />;
   const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [name, setName] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>(SampleImage);
   const [birthday, setBirthday] = useState<string>("");
   const [welcomeDay, setWelcomeDay] = useState<string>("");
   const [careLogs, setCareLogs] = useState<any[]>([]);
-  const history = useHistory();
   scrollToTop();
-  if (!cookies.authToken) history.push("/login");
   useEffect(() => {
     let cleanedUp = false;
     (async () => {

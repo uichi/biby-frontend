@@ -12,18 +12,17 @@ import Footer from "./Footer";
 import { Link as RouterLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { getBlogs } from "../api/Blog";
 import Loading from "./common/Loading";
 import scrollToTop from "./common/scrollToTop";
 
 const Blogs = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
+  if (!cookies.authToken) return <Redirect to="/login" />;
   const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [blogs, setBlogs] = useState<any[]>([]);
-  const history = useHistory();
   scrollToTop();
-  if (!cookies.authToken) history.push("/login");
   useEffect(() => {
     let cleanedUp = false;
     (async () => {

@@ -16,23 +16,21 @@ import Book from "@spectrum-icons/workflow/Book";
 import Search from "@spectrum-icons/workflow/Search";
 import Homepage from "@spectrum-icons/workflow/Homepage";
 import { Link } from "@adobe/react-spectrum";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, Redirect } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import { useCookies } from "react-cookie";
-import { useHistory } from "react-router-dom";
 import scrollToTop from "./common/scrollToTop";
 
 const SettingApp = (): JSX.Element => {
   const [cookies, setCookie, removeCookie] = useCookies(); // eslint-disable-line
-  const history = useHistory();
+  if (!cookies.authToken) return <Redirect to="/login" />;
   scrollToTop();
-  if (!cookies.authToken) history.push("/login");
   const logout = async () => {
     removeCookie("authToken", { path: "/" });
     removeCookie("meId", { path: "/" });
     removeCookie("selectedPet", { path: "/" });
-    history.push("/login");
+    return <Redirect to="/login" />;
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">

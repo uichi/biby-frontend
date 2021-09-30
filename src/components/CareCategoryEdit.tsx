@@ -15,7 +15,7 @@ import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { useCookies } from "react-cookie";
 import Header from "./Header";
 import Footer from "./Footer";
-import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import {
   notifySuccessSave,
   notifyEssentialValueIsEmpty,
@@ -32,12 +32,12 @@ import Loading from "./common/Loading";
 
 const CareCategoryEdit = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
+  if (!cookies.authToken) return <Redirect to="/login" />;
   const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [name, setName] = useState<string>("");
   const [unit, setUnit] = useState<string>("");
   const [isDailyRoutine, setIsDailyRoutine] = useState<boolean>(false);
   const [careCategoryId, setCareCategoryId] = useState<string>("");
-  const history = useHistory();
   const [fieldTypeId, setFieldTypeId]: [
     string,
     Dispatch<SetStateAction<any>> // HACK: 型定義見直す
@@ -48,7 +48,6 @@ const CareCategoryEdit = (): JSX.Element => {
     { id: "float", name: "小数" },
     //    { id: 'checkbox', name: "チェックボックス" },
   ];
-  if (!cookies.authToken) history.push("/login");
   useEffect(() => {
     let cleanedUp = false;
     (async () => {
@@ -98,11 +97,11 @@ const CareCategoryEdit = (): JSX.Element => {
       return;
     }
     notifySuccessSave();
-    history.push("/care/categories");
+    return <Redirect to="/care/categories" />;
   };
   const removeCareCategory = async () => {
     await deleteCareCategory(careCategoryId, cookies.authToken);
-    history.push("/care/categories");
+    return <Redirect to="/care/categories" />;
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
