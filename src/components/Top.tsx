@@ -30,6 +30,7 @@ const Top = (): JSX.Element => {
   const [birthday, setBirthday] = useState<string>("");
   const [welcomeDay, setWelcomeDay] = useState<string>("");
   const [careLogs, setCareLogs] = useState<any[]>([]);
+  const [isPc, setIsPc] = useState<boolean>(false);
   scrollToTop();
   useEffect(() => {
     let cleanedUp = false;
@@ -50,6 +51,7 @@ const Top = (): JSX.Element => {
           "today",
           cookies.authToken
         );
+        if (!navigator.userAgent.match(/iPhone|Android.+Mobile/)) setIsPc(true);
         setCareLogs(resultCareLogs);
       }
       setIsLoaded(false);
@@ -59,6 +61,11 @@ const Top = (): JSX.Element => {
     };
     return cleanup;
   }, []);
+  const UseAdvise = (): JSX.Element => (
+    <View padding="size-100">
+      本サービスはスマートフォン推奨です。PC版は今後、対応予定です。
+    </View>
+  );
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
       {isLoaded && <Loading />}
@@ -70,6 +77,7 @@ const Top = (): JSX.Element => {
         paddingTop="8vh"
         // paddingBottom="8vh"
       >
+        {isPc && <UseAdvise />}
         {((): any => {
           if (cookies.selectedPet)
             return (
