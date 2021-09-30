@@ -33,6 +33,7 @@ import "draft-js/dist/Draft.css";
 import Editor from "@draft-js-plugins/editor";
 import { stateToHTML } from "draft-js-export-html";
 import { stateFromHTML } from "draft-js-import-html";
+import { styleMap } from "./common/draftJsStyleMap";
 
 const BlogEdit = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
@@ -356,8 +357,9 @@ const BlogEdit = (): JSX.Element => {
               {/* <div className="border border-gray-300 p-1 mr-2 mb-2 whitespace-nowrap rounded" onClick={underlineText}>下線</div> */}
               {isUploading && <UploadingBar />}
             </div>
-            <div className="border border-gray-600 bg-black text-base p-2 mb-1 h-auto min-h-200 rounded">
+            <div className="border border-gray-600 bg-black text-base p-2 mb-1 h-auto min-h-200 rounded blog-content-editor">
               <Editor
+                customStyleMap={styleMap}
                 editorState={editorState}
                 onChange={setEditorState}
                 plugins={[imagePlugin]}

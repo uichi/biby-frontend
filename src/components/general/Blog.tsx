@@ -95,7 +95,7 @@ const Blog = (): JSX.Element => {
         <div className="w-full text-sm">{petName}</div>
       </div>
       <div className="px-2 pt-4 pb-10 text-base tracking-wide leading-7">
-        <div dangerouslySetInnerHTML={{ __html: content }} />
+        <div className="blog-content" dangerouslySetInnerHTML={{ __html: content }} />
       </div>
       <button
         className={
