@@ -260,6 +260,7 @@ const BlogAdd = (): JSX.Element => {
                 type="file"
                 className="w-full pt-1"
                 onChange={uploadImage}
+                accept="image/jpeg, image/png"
               />
             </div>
             <img src={imageUri ? imageUri : ""} />
@@ -331,6 +332,7 @@ const BlogAdd = (): JSX.Element => {
                   type="file"
                   className="hidden"
                   onChange={handleUploadFiles}
+                  accept="image/jpeg, image/png"
                 />
               </label>
               {/* <div className="border border-gray-300 p-1 mr-2 mb-2 whitespace-nowrap rounded" onClick={underlineText}>下線</div> */}
