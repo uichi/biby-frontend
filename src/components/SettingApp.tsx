@@ -15,6 +15,7 @@ import Star from "@spectrum-icons/workflow/Star";
 import Book from "@spectrum-icons/workflow/Book";
 import Search from "@spectrum-icons/workflow/Search";
 import Homepage from "@spectrum-icons/workflow/Homepage";
+import ThumbUpOutline from "@spectrum-icons/workflow/ThumbUpOutline";
 import { Link } from "@adobe/react-spectrum";
 import { Link as RouterLink, Redirect } from "react-router-dom";
 import Header from "./Header";
@@ -38,7 +39,7 @@ const SettingApp = (): JSX.Element => {
       <View
         backgroundColor="gray-200"
         gridArea="content"
-        minHeight="84vh"
+        minHeight="100vh"
         paddingTop="8vh"
         paddingBottom="8vh"
       >
@@ -145,6 +146,18 @@ const SettingApp = (): JSX.Element => {
             <Question size="XS" marginEnd="size-100" />
             <Text>よくある質問</Text>
           </View> */}
+          <View>
+            <ThumbUpOutline size="XS" marginEnd="size-100" />
+            <Link variant="secondary" isQuiet>
+              <a
+                href="https://www.buymeacoffee.com/uichi"
+                target="_blank"
+                rel="noreferrer"
+              >
+                bibyを応援する
+              </a>
+            </Link>
+          </View>
           <Text>アプリバージョン 0.1.0</Text>
         </Flex>
       </View>

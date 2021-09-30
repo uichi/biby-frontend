@@ -278,7 +278,11 @@ const BlogEdit = (): JSX.Element => {
               <label className="w-full text-sm font-bold text-gray-400">
                 サムネイル
               </label>
-              <input type="file" className="w-full pt-1" onChange={uploadImage} />
+              <input
+                type="file"
+                className="w-full pt-1"
+                onChange={uploadImage}
+              />
             </div>
             <img src={imageUri ? imageUri : ""} />
             <div className="text-sm font-bold text-gray-400">本文</div>

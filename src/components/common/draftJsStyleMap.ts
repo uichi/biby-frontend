@@ -1,2 +1,1 @@
-export const styleMap = {
-};
+export const styleMap = {};
