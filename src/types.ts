@@ -21,6 +21,7 @@ export interface Pet {
   welcome_day: string;
   share_id: string;
   is_heaven: string;
+  donate_link: string | null;
 }
 
 export interface CareCategory {
@@ -58,6 +59,7 @@ export interface Blog {
     updated_at: string;
     category: number;
     owners: number[];
+    donate_link: string | null;
   };
   title: string | null;
   content: string;

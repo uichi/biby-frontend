@@ -16,7 +16,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { useCookies } from "react-cookie";
-import { Redirect } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { getCategories } from "../api/CareCategory";
 import { getPets } from "../api/Pet";
@@ -47,6 +47,7 @@ const CareLogEdit = (): JSX.Element => {
   ] = useState<string>("");
   const [pets, setPets] = useState<any[]>([]);
   const [petId, setPetId] = useState<number>();
+  const history = useHistory();
   useEffect(() => {
     let cleanedUp = false;
     (async () => {
@@ -146,7 +147,7 @@ const CareLogEdit = (): JSX.Element => {
   };
   const removeCareLog = async () => {
     await deleteCareLog(selectedCareLogId, cookies.authToken);
-    return <Redirect to="/care/logs" />;
+    history.push("/care/logs");
   };
   const onChangePet = (value: any): void => {
     setPetId(value);

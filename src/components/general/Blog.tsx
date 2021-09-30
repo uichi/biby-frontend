@@ -18,6 +18,7 @@ const Blog = (): JSX.Element => {
   const [imageUri, setImageUri] = useState<any>(null);
   const [publishDateTime, setPublishDateTime] = useState<string>();
   const [content, setContent] = useState<string>("");
+  const [donateLink, setDonateLink] = useState<string | null>(null);
   const [blogs, setBlogs] = useState<any[]>([]);
   const [likeBlogId, setLikeBlogId] = useState<string | null>(null);
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
@@ -55,6 +56,7 @@ const Blog = (): JSX.Element => {
       setPetName(resultBlog.pet.name);
       setImageUri(resultBlog.image);
       setContent(resultBlog.content);
+      setDonateLink(resultBlog.pet.donate_link);
     })();
     const cleanup = () => {
       cleanedUp = true;
@@ -101,30 +103,6 @@ const Blog = (): JSX.Element => {
             dangerouslySetInnerHTML={{ __html: content }}
           />
         </div>
-        <button
-          className={
-            `${likeBlogId ? "bg-pink-500 " : "bg-white "}` +
-            `${"border-2 border-pink-500 font-bold fixed z-10 rounded-full h-14 w-14 bottom-2 right-2 flex items-center justify-center"}`
-          }
-          onClick={handleLikeBlog}
-        >
-          <svg
-            className={
-              likeBlogId ? "h-8 w-8 text-white" : "h-8 w-8 text-pink-500"
-            }
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            strokeWidth="2"
-            stroke="currentColor"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" />
-            <path d="M12 20l-7 -7a4 4 0 0 1 6.5 -6a.9 .9 0 0 0 1 0a4 4 0 0 1 6.5 6l-7 7" />
-          </svg>
-        </button>
         {/* <div className="px-2 pb-2 text-2lx font-bold">コメント</div>
         <div className="px-2 pb-4 divide-y">
           <div className="w-full py-2">Hello World!</div>
@@ -137,6 +115,16 @@ const Blog = (): JSX.Element => {
             投稿
           </button>
         </form> */}
+        <div className="w-full text-center pb-6 my-2">
+          <a
+            className="bg-pink-500 border-double border-4 border-light-pink-500 text-lg text-white font-bold p-3 rounded"
+            href={"https://www.paypal.com/paypalme/" + donateLink}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {petName}ちゃんを応援する！！
+          </a>
+        </div>
         {(() => {
           if (blogs.length > 1)
             return (
@@ -184,6 +172,30 @@ const Blog = (): JSX.Element => {
             </div>
           );
         })}
+        <button
+          className={
+            `${likeBlogId ? "bg-pink-500 " : "bg-white "}` +
+            `${"border-2 border-pink-500 font-bold fixed z-10 rounded-full h-14 w-14 bottom-2 right-2 flex items-center justify-center"}`
+          }
+          onClick={handleLikeBlog}
+        >
+          <svg
+            className={
+              likeBlogId ? "h-8 w-8 text-white" : "h-8 w-8 text-pink-500"
+            }
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            strokeWidth="2"
+            stroke="currentColor"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" />
+            <path d="M12 20l-7 -7a4 4 0 0 1 6.5 -6a.9 .9 0 0 0 1 0a4 4 0 0 1 6.5 6l-7 7" />
+          </svg>
+        </button>
       </div>
       <Footer />
     </>

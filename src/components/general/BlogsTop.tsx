@@ -53,7 +53,7 @@ const BlogsTop = (): JSX.Element => {
                     </div>
                   );
                 })()}
-                <div className="w-full text-sm">{blog.update_user}</div>
+                <div className="w-full text-sm">{blog.pet.name}</div>
               </div>
             </RouterLink>
             <hr className="border-1 border-gray-300 mt-8 mb-6" />
