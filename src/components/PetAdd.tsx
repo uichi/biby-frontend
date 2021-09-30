@@ -20,7 +20,7 @@ import {
 import Header from "./Header";
 import Footer from "./Footer";
 import { useCookies } from "react-cookie";
-import { Redirect } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 import { getPets, postPet, getPetRelatedShareId } from "../api/Pet";
 import { postPetOwnerGroup, getPetOwnerGroup } from "../api/PetOwnerGroup";
 import { useEffect, useState } from "react";
@@ -43,12 +43,14 @@ const PetEdit = (): JSX.Element => {
   const [gender, setGender] = useState<string>("");
   const [birthday, setBirthday] = useState<string>("");
   const [welcomeDay, setWelcomeDay] = useState<string>("");
+  const [donateLink, setDonateLink] = useState<string>("");
+  const history = useHistory();
   const maxNumber = 1;
 
   useEffect(() => {
     (async () => {
       const resultGetPets = await getPets(cookies.meId, cookies.authToken);
-      if (resultGetPets.length >= 5) return <Redirect to="/pets" />;
+      if (resultGetPets.length >= 5) history.push("/pets");
     })();
   }, []);
 
@@ -81,13 +83,14 @@ const PetEdit = (): JSX.Element => {
       birthday,
       welcomeDay,
       image,
+      donateLink,
       cookies.authToken
     );
     if (!addPetResult) {
       notifyErrorSave();
       return;
     }
-    return <Redirect to="/pets" />;
+    history.push("/pets");
   };
 
   const uploadImage = (imageList: ImageListType) => {
@@ -205,6 +208,12 @@ const PetEdit = (): JSX.Element => {
               <Radio value="male">オス</Radio>
               <Radio value="female">メス</Radio>
             </RadioGroup>
+            <TextField
+              label="PayPal.Me (アカウント名を入力してください)"
+              placeholder="ex) biby"
+              value={donateLink}
+              onChange={setDonateLink}
+            />
             <ActionButton staticColor="white" onPress={addPet}>
               保存
             </ActionButton>

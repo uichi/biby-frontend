@@ -47,6 +47,7 @@ export const postPet = (
   birthday: string,
   welcome_day: string,
   image: File | undefined,
+  donateLink: string,
   token: string
 ): Promise<any> | null => {
   const formData = new FormData();
@@ -54,6 +55,7 @@ export const postPet = (
   formData.append("gender", gender);
   formData.append("birthday", birthday);
   formData.append("welcome_day", welcome_day);
+  if (donateLink.length) formData.append("donate_link", donateLink);
   if (image) formData.append("image", image);
   const options = {
     method: "POST",
@@ -78,6 +80,7 @@ export const patchPet = (
   birthday: string,
   welcome_day: string,
   image: File | undefined,
+  donateLink: string,
   token: string
 ): Promise<any> | null => {
   const formData = new FormData();
@@ -86,6 +89,7 @@ export const patchPet = (
   formData.append("birthday", birthday ? birthday : "");
   formData.append("welcome_day", welcome_day ? welcome_day : "");
   if (image) formData.append("image", image);
+  if (donateLink.length) formData.append("donate_link", donateLink);
   const options = {
     method: "PATCH",
     headers: {

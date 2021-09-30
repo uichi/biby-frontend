@@ -15,7 +15,7 @@ import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { useCookies } from "react-cookie";
 import Header from "./Header";
 import Footer from "./Footer";
-import { Redirect } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 import {
   notifySuccessSave,
   notifyEssentialValueIsEmpty,
@@ -48,6 +48,7 @@ const CareCategoryEdit = (): JSX.Element => {
     { id: "float", name: "小数" },
     //    { id: 'checkbox', name: "チェックボックス" },
   ];
+  const history = useHistory();
   useEffect(() => {
     let cleanedUp = false;
     (async () => {
@@ -101,7 +102,7 @@ const CareCategoryEdit = (): JSX.Element => {
   };
   const removeCareCategory = async () => {
     await deleteCareCategory(careCategoryId, cookies.authToken);
-    return <Redirect to="/care/categories" />;
+    history.push("/care/categories");
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">

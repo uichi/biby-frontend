@@ -15,7 +15,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { Redirect } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 import { getPet, patchPet, deletePet } from "../api/Pet";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 import {
@@ -25,7 +25,6 @@ import {
 } from "./common/toast";
 import { Toaster } from "react-hot-toast";
 import Loading from "./common/Loading";
-import scrollToTop from "./common/scrollToTop";
 
 const PetEdit = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
@@ -39,9 +38,10 @@ const PetEdit = (): JSX.Element => {
   const [gender, setGender] = useState<string>("");
   const [birthday, setBirthday] = useState<string>("");
   const [welcomeDay, setWelcomeDay] = useState<string>("");
+  const [donateLink, setDonateLink] = useState<string>("");
   //  const [isHeaven, setIsHeaven] = useState<boolean>(false);
+  const history = useHistory();
   const maxNumber = 1;
-  scrollToTop();
 
   useEffect(() => {
     let cleanedUp = false;
@@ -57,6 +57,7 @@ const PetEdit = (): JSX.Element => {
         if (pet.gender) setGender(pet.gender.toString());
         if (pet.birthday) setBirthday(pet.birthday);
         if (pet.welcome_day) setWelcomeDay(pet.welcome_day);
+        if (pet.donate_link) setDonateLink(pet.donate_link);
         //        setIsHeaven(pet.is_heaven === "true");
         setIsLoaded(false);
       }
@@ -78,6 +79,7 @@ const PetEdit = (): JSX.Element => {
       birthday,
       welcomeDay,
       image,
+      donateLink,
       cookies.authToken
     );
     if (!resultPatchPet) {
@@ -92,7 +94,7 @@ const PetEdit = (): JSX.Element => {
   };
   const removePet = async () => {
     await deletePet(petId, cookies.authToken);
-    return <Redirect to="/pets" />;
+    history.push("/pets");
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
@@ -182,6 +184,12 @@ const PetEdit = (): JSX.Element => {
               <Radio value="male">オス</Radio>
               <Radio value="female">メス</Radio>
             </RadioGroup>
+            <TextField
+              label="PayPal.Me (アカウント名を入力してください)"
+              placeholder="ex) biby"
+              value={donateLink}
+              onChange={setDonateLink}
+            />
             <ActionButton staticColor="white" onPress={updatePet}>
               保存
             </ActionButton>

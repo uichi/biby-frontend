@@ -15,7 +15,7 @@ import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import Header from "./Header";
 import Footer from "./Footer";
-import { Redirect } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import {
   notifySuccessSave,
@@ -60,6 +60,7 @@ const BlogEdit = (): JSX.Element => {
   );
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const imagePlugin = createImagePlugin();
+  const history = useHistory();
   useEffect(() => {
     let cleanedUp = false;
     (async () => {
@@ -237,7 +238,7 @@ const BlogEdit = (): JSX.Element => {
   };
   const removeBlog = async () => {
     await deleteBlog(blogId, cookies.authToken);
-    return <Redirect to="/blogs" />;
+    history.push("/blogs");
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
