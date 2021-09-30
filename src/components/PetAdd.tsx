@@ -70,7 +70,7 @@ const PetEdit = (): JSX.Element => {
       return;
     }
     await postPetOwnerGroup(cookies.meId, resultGetPet.id, cookies.authToken);
-    return <Redirect to="/pets" />;
+    history.push("/pets");
   };
   const addPet = async () => {
     if (name === "") {
