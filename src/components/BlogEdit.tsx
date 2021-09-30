@@ -104,7 +104,7 @@ const BlogEdit = (): JSX.Element => {
       return;
     }
     if (isPublished && !title?.trim()) {
-      alert('タイトル名をお忘れではありませんか？')
+      alert("タイトル名をお忘れではありませんか？");
       return;
     }
     const resultAddBlog = await patchBlog(
