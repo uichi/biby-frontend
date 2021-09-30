@@ -20,7 +20,7 @@ import {
 import Header from "./Header";
 import Footer from "./Footer";
 import { useCookies } from "react-cookie";
-import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { getPets, postPet, getPetRelatedShareId } from "../api/Pet";
 import { postPetOwnerGroup, getPetOwnerGroup } from "../api/PetOwnerGroup";
 import { useEffect, useState } from "react";
@@ -35,6 +35,7 @@ import { Toaster } from "react-hot-toast";
 
 const PetEdit = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
+  if (!cookies.authToken) return <Redirect to="/login" />;
   const [images, setImages] = useState([]);
   const [image, setImage] = useState<File>();
   const [shareId, setShareId] = useState<string>("");
@@ -42,17 +43,15 @@ const PetEdit = (): JSX.Element => {
   const [gender, setGender] = useState<string>("");
   const [birthday, setBirthday] = useState<string>("");
   const [welcomeDay, setWelcomeDay] = useState<string>("");
-  const history = useHistory();
   const maxNumber = 1;
 
   useEffect(() => {
     (async () => {
       const resultGetPets = await getPets(cookies.meId, cookies.authToken);
-      if (resultGetPets.length >= 5) history.push("/pets");
+      if (resultGetPets.length >= 5) return <Redirect to="/pets" />;
     })();
   }, []);
 
-  if (!cookies.authToken) history.push("/login");
   const addPetOwnerGroup = async (close: any) => {
     const resultGetPet = await getPetRelatedShareId(shareId, cookies.authToken);
     if (!resultGetPet) {
@@ -69,7 +68,7 @@ const PetEdit = (): JSX.Element => {
       return;
     }
     await postPetOwnerGroup(cookies.meId, resultGetPet.id, cookies.authToken);
-    history.push("/pets");
+    return <Redirect to="/pets" />;
   };
   const addPet = async () => {
     if (name === "") {
@@ -88,7 +87,7 @@ const PetEdit = (): JSX.Element => {
       notifyErrorSave();
       return;
     }
-    history.push("/pets");
+    return <Redirect to="/pets" />;
   };
 
   const uploadImage = (imageList: ImageListType) => {

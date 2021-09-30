@@ -15,7 +15,7 @@ import {
   validateEmailError,
   notifySendResetPasswordConfirm,
 } from "./common/toast";
-import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { emailValid } from "./common/validation";
 import { useCookies } from "react-cookie";
 import { resetPassword } from "../api/Authentication";
@@ -24,8 +24,7 @@ const ResetPassword = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(["authToken", "meId"]); // eslint-disable-line
   const [email, setEmail] = useState<string>("");
   const isEmailValid = useMemo(() => emailValid.test(email), [email]);
-  const history = useHistory();
-  if (cookies.authToken && cookies.meId) history.push("/");
+  if (cookies.authToken && cookies.meId) return <Redirect to="/" />;
   const login = async () => {
     if (!email) {
       validateNotEnteredError();

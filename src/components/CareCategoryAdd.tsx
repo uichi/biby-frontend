@@ -11,17 +11,16 @@ import {
 } from "@adobe/react-spectrum";
 import { useState, Dispatch, SetStateAction } from "react";
 import { useCookies } from "react-cookie";
-import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import { postCareCategory } from "../api/CareCategory";
 import { notifyEssentialValueIsEmpty, notifyErrorSave } from "./common/toast";
 import { Toaster } from "react-hot-toast";
-//import Loading from "./common/Loading";
 
 const CareCategoryEdit = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
-  //  const [isLoaded, setIsLoaded] = useState<boolean>(true);
+  if (!cookies.authToken) return <Redirect to="/login" />;
   const [name, setName] = useState<string>("");
   const [unit, setUnit] = useState<string>("");
   const [isDailyRoutine, setIsDailyRoutine] = useState<boolean>(false);
@@ -35,8 +34,6 @@ const CareCategoryEdit = (): JSX.Element => {
     { id: "float", name: "小数" },
     //    { id: 'checkbox', name: "チェックボックス" },
   ];
-  const history = useHistory();
-  if (!cookies.authToken) history.push("/login");
   // HACK: 型指定見直す
   const onChangeInputType = (value: any): void => {
     setFieldTypeId(value);
@@ -59,8 +56,7 @@ const CareCategoryEdit = (): JSX.Element => {
       notifyErrorSave();
       return;
     }
-    //    notifySuccessSave();
-    history.push("/care/categories");
+    return <Redirect to="/care/categories" />;
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">

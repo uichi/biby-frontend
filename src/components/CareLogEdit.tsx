@@ -16,7 +16,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { useCookies } from "react-cookie";
-import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { getCategories } from "../api/CareCategory";
 import { getPets } from "../api/Pet";
@@ -31,6 +31,7 @@ import Loading from "./common/Loading";
 
 const CareLogEdit = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
+  if (!cookies.authToken) return <Redirect to="/login" />;
   const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [careCategory, setCareCategory] = useState<any>();
   const [careCategories, setCareCategories] = useState<CareCategory[]>([]);
@@ -40,14 +41,12 @@ const CareLogEdit = (): JSX.Element => {
   const [float, setFloat] = useState<number | null>(null);
   const [memo, setMemo] = useState<string | null>(null);
   const [selectedCareLogId, setSelectedCareLogId] = useState<string>("");
-  const history = useHistory();
   const [fieldTypeId, setFieldTypeId]: [
     string,
     Dispatch<SetStateAction<any>> // HACK: 型定義見直す
   ] = useState<string>("");
   const [pets, setPets] = useState<any[]>([]);
   const [petId, setPetId] = useState<number>();
-  if (!cookies.authToken) history.push("/login");
   useEffect(() => {
     let cleanedUp = false;
     (async () => {
@@ -138,7 +137,7 @@ const CareLogEdit = (): JSX.Element => {
       return;
     }
     notifySuccessSave();
-    history.push("/care/logs");
+    return <Redirect to="/care/logs" />;
   };
   // HACK: 型指定見直す
   const onChangeInputType = (categoryId: any): void => {
@@ -147,7 +146,7 @@ const CareLogEdit = (): JSX.Element => {
   };
   const removeCareLog = async () => {
     await deleteCareLog(selectedCareLogId, cookies.authToken);
-    history.push("/care/logs");
+    return <Redirect to="/care/logs" />;
   };
   const onChangePet = (value: any): void => {
     setPetId(value);

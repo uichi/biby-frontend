@@ -15,7 +15,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { getPet, patchPet, deletePet } from "../api/Pet";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 import {
@@ -29,6 +29,7 @@ import scrollToTop from "./common/scrollToTop";
 
 const PetEdit = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
+  if (!cookies.authToken) return <Redirect to="/login" />;
   const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [name, setName] = useState<string>("");
   const [images, setImages] = useState([]);
@@ -39,11 +40,9 @@ const PetEdit = (): JSX.Element => {
   const [birthday, setBirthday] = useState<string>("");
   const [welcomeDay, setWelcomeDay] = useState<string>("");
   //  const [isHeaven, setIsHeaven] = useState<boolean>(false);
-  const history = useHistory();
   const maxNumber = 1;
   scrollToTop();
 
-  if (!cookies.authToken) history.push("/login");
   useEffect(() => {
     let cleanedUp = false;
     (async () => {
@@ -93,7 +92,7 @@ const PetEdit = (): JSX.Element => {
   };
   const removePet = async () => {
     await deletePet(petId, cookies.authToken);
-    history.push("/pets");
+    return <Redirect to="/pets" />;
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">

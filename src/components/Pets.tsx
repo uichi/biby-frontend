@@ -19,19 +19,17 @@ import Footer from "./Footer";
 import { Link as RouterLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { getPets } from "../api/Pet";
 import { Pet } from "../types";
-//import { IllustratedMessage } from "@adobe/react-spectrum";
-//import NotFound from "@spectrum-icons/illustrations/NotFound";
 import Loading from "./common/Loading";
 import scrollToTop from "./common/scrollToTop";
 
 const Pets = (): JSX.Element => {
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
+  if (!cookies.authToken) return <Redirect to="/login" />;
   const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [pets, setPets] = useState<{ pet: Pet }[]>([]);
-  const history = useHistory();
   scrollToTop();
   useEffect(() => {
     let cleanedUp = false;
@@ -46,7 +44,6 @@ const Pets = (): JSX.Element => {
     };
     return cleanup;
   }, []);
-  if (!cookies.authToken) history.push("/login");
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
       {isLoaded && <Loading />}

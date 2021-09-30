@@ -62,7 +62,7 @@ function App(): JSX.Element {
           <Route exact path="/blog/edit/:id" component={BlogEdit} />
           <Route exact path="/blog/:id" component={GeneralBlog} />
           <Route exact path="/" component={GeneralBlogsTop} />
-          <Route exact path="/category/:id" component={GeneralCategory} />
+          {/* <Route exact path="/category/:id" component={GeneralCategory} /> */}
         </Switch>
       </BrowserRouter>
     </CookiesProvider>
