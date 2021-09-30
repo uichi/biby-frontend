@@ -247,11 +247,11 @@ const BlogAdd = (): JSX.Element => {
               value={publishDateTime}
               onChange={setPublishDateTime}
             />
-            <div className="mb-1">
-              <label className="text-sm font-bold text-gray-400">
+            <div className="w-full mb-1">
+              <label className="w-full text-sm font-bold text-gray-400">
                 サムネイル
               </label>
-              <input type="file" className="pt-1" onChange={uploadImage} />
+              <input type="file" className="w-full pt-1" onChange={uploadImage} />
             </div>
             <img src={imageUri ? imageUri : ""} />
             <div className="text-sm font-bold text-gray-400">本文</div>

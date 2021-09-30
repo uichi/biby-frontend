@@ -74,7 +74,7 @@ const CareCategoryEdit = (): JSX.Element => {
           <h3 id="label-3">カテゴリー追加</h3>
           <Form aria-labelledby="label-3" necessityIndicator="icon">
             <TextField
-              label="カテゴリ名"
+              label="カテゴリー名"
               isRequired={true}
               onChange={setName}
             />
