@@ -43,7 +43,7 @@ export const getBlogs = (
       if (!res.ok) throw new Error();
       return res.json();
     })
-    .then((json) => json)
+    .then((json) => json.results)
     .catch(() => []);
 };
 
