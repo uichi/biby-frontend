@@ -100,7 +100,7 @@ const Profile = (): JSX.Element => {
       <View
         backgroundColor="gray-200"
         gridArea="content"
-        minHeight="92vh"
+        minHeight="100vh"
         paddingTop="8vh"
         // paddingBottom="8vh"
       >
