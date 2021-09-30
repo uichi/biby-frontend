@@ -102,6 +102,10 @@ const BlogEdit = (): JSX.Element => {
       notifyEssentialValueIsEmpty();
       return;
     }
+    if (isPublished && !title?.trim()) {
+      alert('タイトル名をお忘れではありませんか？')
+      return;
+    }
     const resultAddBlog = await patchBlog(
       blogId,
       petId,

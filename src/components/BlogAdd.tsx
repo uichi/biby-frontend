@@ -85,6 +85,10 @@ const BlogAdd = (): JSX.Element => {
       notifyEssentialValueIsEmpty();
       return;
     }
+    if (isPublished && !title?.trim()) {
+      alert('タイトル名をお忘れではありませんか？')
+      return;
+    }
     const resultAddBlog = await postBlog(
       petId,
       title,
