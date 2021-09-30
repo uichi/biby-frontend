@@ -28,7 +28,7 @@ export const getBlogs = (
   if (typeof isPublished !== "undefined") {
     query_params.append("is_published", isPublished ? "true" : "false");
   }
-  if (limit && offset) {
+  if ((typeof limit !== "undefined") && (typeof offset !== "undefined")) {
     query_params.append("limit", limit.toString());
     query_params.append("offset", offset.toString());
   }
