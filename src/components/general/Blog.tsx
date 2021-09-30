@@ -144,8 +144,8 @@ const Blog = (): JSX.Element => {
       {blogs.map((blog, index) => {
         if (blogId === blog.id) return;
         return (
-          <>
-            <a key={index} className="w-full" href={`/blog/${blog.id}`}>
+          <div key={index}>
+            <a className="w-full" href={`/blog/${blog.id}`}>
               {(() => {
                 if (blog.image)
                   return (
@@ -175,7 +175,7 @@ const Blog = (): JSX.Element => {
               </div>
             </a>
             <hr className="border-1 border-gray-300 mt-8 mb-6" />
-          </>
+          </div>
         );
       })}
       <Footer />
