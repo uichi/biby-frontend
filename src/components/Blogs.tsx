@@ -27,7 +27,7 @@ const Blogs = (): JSX.Element => {
   useEffect(() => {
     let cleanedUp = false;
     (async () => {
-      const resultBlogs = await getBlogs(cookies.selectedPet, true, 999, 1);
+      const resultBlogs = await getBlogs(cookies.selectedPet, true, 100, 0);
       if (cleanedUp) return;
       setBlogs(resultBlogs);
       setIsLoaded(false);
