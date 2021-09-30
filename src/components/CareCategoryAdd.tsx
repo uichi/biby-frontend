@@ -11,7 +11,7 @@ import {
 } from "@adobe/react-spectrum";
 import { useState, Dispatch, SetStateAction } from "react";
 import { useCookies } from "react-cookie";
-import { Redirect } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import { postCareCategory } from "../api/CareCategory";
@@ -28,6 +28,7 @@ const CareCategoryEdit = (): JSX.Element => {
     string,
     Dispatch<SetStateAction<any>> // HACK: 型定義見直す
   ] = useState<string>("text");
+  const history = useHistory();
   const options = [
     { id: "text", name: "テキスト" },
     { id: "integer", name: "整数" },
@@ -56,7 +57,7 @@ const CareCategoryEdit = (): JSX.Element => {
       notifyErrorSave();
       return;
     }
-    return <Redirect to="/care/categories" />;
+    history.push("/care/categories");
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">

@@ -13,7 +13,7 @@ import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import Header from "./Header";
 import Footer from "./Footer";
-import { Redirect } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { getCareLogs } from "../api/CareLog";
 import { notifyErrorSave, notifyEssentialValueIsEmpty } from "./common/toast";
@@ -52,6 +52,7 @@ const BlogAdd = (): JSX.Element => {
   );
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const imagePlugin = createImagePlugin();
+  const history = useHistory();
   useEffect(() => {
     let cleanedUp = false;
     (async () => {
@@ -97,7 +98,7 @@ const BlogAdd = (): JSX.Element => {
       notifyErrorSave();
       return;
     }
-    return <Redirect to="/blogs" />;
+    history.push("/blogs");
   };
   const onChangePet = (value: any): void => {
     setPetId(value);
