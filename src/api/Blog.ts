@@ -19,16 +19,16 @@ export const getBlog = (blogId: string): Promise<Blog> | null => {
 
 export const getBlogs = (
   petId: string,
-  isPublished?: boolean,
   limit?: number,
-  offset?: number
+  offset?: number,
+  isPublished: boolean | undefined = undefined
 ): Promise<{ pet: Blog }[]> | [] => {
   const query_params = new URLSearchParams();
   if (petId.length) query_params.append("pet", petId);
   if (typeof isPublished !== "undefined") {
     query_params.append("is_published", isPublished ? "true" : "false");
   }
-  if ((typeof limit !== "undefined") && (typeof offset !== "undefined")) {
+  if (typeof limit !== "undefined" && typeof offset !== "undefined") {
     query_params.append("limit", limit.toString());
     query_params.append("offset", offset.toString());
   }
@@ -99,7 +99,7 @@ export const patchBlog = (
   if (image) formData.append("image", image);
   formData.append("is_published", isPublished.toString());
   if (publishDateTime) formData.append("publish_date_time", publishDateTime);
-  formData.append("create_user_pk", meId);
+  formData.append("update_user_pk", meId);
   const options = {
     method: "PATCH",
     headers: {

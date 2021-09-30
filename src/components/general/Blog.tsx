@@ -36,7 +36,7 @@ const Blog = (): JSX.Element => {
           cookies.authToken
         );
       }
-      const resultBlogs = await getBlogs(resultBlog.pet.id, true, 5, 0);
+      const resultBlogs = await getBlogs(resultBlog.pet.id, 5, 0, true);
       const dateTime = new Date(
         resultBlog.publish_date_time ? resultBlog.publish_date_time : ""
       );
