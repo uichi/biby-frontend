@@ -7,6 +7,7 @@ import Footer from "./Footer";
 
 const BlogsTop = (): JSX.Element => {
   const [blogs, setBlogs] = useState<any[]>([]);
+  const [isPwa, setIsPwa] = useState<boolean>(false);
   scrollToTop();
   useEffect(() => {
     let cleanedUp = false;
@@ -14,16 +15,25 @@ const BlogsTop = (): JSX.Element => {
       const resultBlogs = await getBlogs("", 99, 0, true);
       if (cleanedUp) return;
       setBlogs(resultBlogs);
+      setIsPwa(window.matchMedia('(display-mode: standalone)').matches);
     })();
     const cleanup = () => {
       cleanedUp = true;
     };
     return cleanup;
   }, []);
+  const AblePwaMessage = () => {
+    return (
+      <div className="text-sm text-center pb-5">
+        <div className="bg-green-500 text-white p-2">ホーム画面に追加するとPWAでご利用可能です</div>
+      </div>
+    )
+  }
   return (
     <>
       <Header />
       <div className="container w-full lg:w-1/3 pt-20 lg:mx-auto">
+        {!isPwa && <AblePwaMessage />}
         <div className="w-full font-bold text-2xl px-2 pb-2">新着記事</div>
         {blogs.map((blog, index) => (
           <div className="pb-8" key={index}>
