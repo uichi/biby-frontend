@@ -24,7 +24,7 @@ export const getBlogs = (
   isPublished: boolean | undefined = undefined
 ): Promise<{ pet: Blog }[]> | [] => {
   const query_params = new URLSearchParams();
-  if (petId) query_params.append("pet", petId);
+  query_params.append("pet", petId);
   if (typeof isPublished !== "undefined") {
     query_params.append("is_published", isPublished ? "true" : "false");
   }
