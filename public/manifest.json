@@ -1,6 +1,6 @@
 {
-  "short_name": "biby diary",
-  "name": "biby diary",
+  "short_name": "biby",
+  "name": "biby",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,14 +8,19 @@
       "type": "image/x-icon"
     },
     {
-      "src": "ogp.jpg",
+      "src": "icon32x32.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "32x32"
     },
     {
-      "src": "ogp.jpg",
+      "src": "icon64x64.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "64x64"
+    },
+    {
+      "src": "icon128x128.png",
+      "type": "image/png",
+      "sizes": "128x128"
     }
   ],
   "start_url": ".",

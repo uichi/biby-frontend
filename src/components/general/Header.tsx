@@ -10,7 +10,7 @@ const Header = (): JSX.Element => {
           className="text-gray-900 text-xl no-underline hover:no-underline font-bold px-3"
           to="/"
         >
-          biby
+          bibyブログ
         </RouterLink>
       </div>
       <div className="w-1/2 p-3 pull-right">

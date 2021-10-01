@@ -158,7 +158,7 @@ const SettingApp = (): JSX.Element => {
               </a>
             </Link>
           </View>
-          <Text>アプリバージョン 0.1.0</Text>
+          <Text>アプリバージョン 1.0.0</Text>
         </Flex>
       </View>
       <Footer />
