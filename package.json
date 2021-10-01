@@ -20,7 +20,6 @@
     "@types/react-router-dom": "^5.1.7",
     "autoprefixer": "^9",
     "aws-sdk": "^2.996.0",
-    "cra-template-pwa-typescript": "^1.0.4",
     "draft-js": "^0.11.7",
     "draft-js-export-html": "^1.4.1",
     "draft-js-import-html": "^1.4.1",

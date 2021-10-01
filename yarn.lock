@@ -5449,11 +5449,6 @@ cosmiconfig@^7.0.1:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
-cra-template-pwa-typescript@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/cra-template-pwa-typescript/-/cra-template-pwa-typescript-1.0.4.tgz#95ce152d14cab30ee8cd59711451c3dd7a560a62"
-  integrity sha512-FWnL4SUelJsUU1dE1GpvaAj15BTEZigrLzNdJUxJ3ORFcbvuXt3HTigSHbgKhf84/QCB1sPm2g71gCirkEYw9A==
-
 create-ecdh@^4.0.0:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/create-ecdh/-/create-ecdh-4.0.4.tgz#d6e7f4bffa66736085a0762fd3a632684dabcc4e"
