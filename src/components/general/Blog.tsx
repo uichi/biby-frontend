@@ -116,18 +116,19 @@ const Blog = (): JSX.Element => {
           </button>
         </form> */}
         {(() => {
-          if (donateLink) return (
-            <div className="w-full text-center pb-6 my-2">
-              <a
-                className="bg-pink-500 border-double border-4 border-light-pink-500 text-lg text-white font-bold p-3 rounded"
-                href={"https://www.paypal.com/paypalme/" + donateLink}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {petName}ちゃんを応援する！！
-              </a>
-            </div>
-          )
+          if (donateLink)
+            return (
+              <div className="w-full text-center pb-6 my-2">
+                <a
+                  className="bg-pink-500 border-double border-4 border-light-pink-500 text-lg text-white font-bold p-3 rounded"
+                  href={"https://www.paypal.com/paypalme/" + donateLink}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {petName}ちゃんを応援する！！
+                </a>
+              </div>
+            );
         })()}
         {(() => {
           if (blogs.length > 1)
