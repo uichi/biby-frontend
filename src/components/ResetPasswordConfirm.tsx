@@ -55,7 +55,7 @@ const ResetPasswordConfirm = (): JSX.Element => {
       <Toaster position="top-center" />
       <View backgroundColor="gray-200" gridArea="content" height="100vh">
         <View marginStart="size-100" marginEnd="size-100" paddingTop="size-400">
-          <h3 id="label-3">bibyパスワードリセット</h3>
+          <h3 id="label-3">biby diaryパスワードリセット</h3>
           <Form aria-labelledby="label-3" necessityIndicator="icon">
             <TextField
               type="password"

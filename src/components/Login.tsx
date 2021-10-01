@@ -53,7 +53,7 @@ const Login = (): JSX.Element => {
       <Toaster position="top-center" />
       <View backgroundColor="gray-200" gridArea="content" height="100vh">
         <View marginStart="size-100" marginEnd="size-100" paddingTop="size-400">
-          <h3 id="label-3">bibyにログインする</h3>
+          <h3 id="label-3">biby diaryにログインする</h3>
           <Form aria-labelledby="label-3" necessityIndicator="icon">
             <TextField
               inputMode="email"
@@ -86,6 +86,7 @@ const Login = (): JSX.Element => {
               <RouterLink to="/signup">アカウントをお持ちでない方</RouterLink>
             </Link>
           </Form>
+          <View marginTop="size-400">※本サービスはスマートフォン推奨です。PC版は今後、対応予定です。</View>
         </View>
       </View>
     </Provider>
