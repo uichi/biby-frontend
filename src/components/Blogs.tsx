@@ -61,9 +61,7 @@ const Blogs = (): JSX.Element => {
                 margin="size-100"
                 minHeight="size-800"
               >
-                <View>
-                  {blog.pet.name}
-                </View>
+                <View>{blog.pet.name}</View>
                 <View>
                   <Heading level={3} margin="size-0" marginBottom="size-50">
                     {blog.title}

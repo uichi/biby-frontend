@@ -136,7 +136,9 @@ const Signup = (): JSX.Element => {
               </RouterLink>
             </Link>
           </Form>
-          <View marginTop="size-400">※本サービスはスマートフォン推奨です。PC版は今後、対応予定です。</View>
+          <View marginTop="size-400">
+            ※本サービスはスマートフォン推奨です。PC版は今後、対応予定です。
+          </View>
         </View>
       </View>
     </Provider>
