@@ -111,9 +111,11 @@ const PetEdit = (): JSX.Element => {
       >
         <View marginStart="size-100">
           <Flex justifyContent="space-between">
-            <Heading level={3}>ペット追加</Heading>
+            <View marginTop="size-100">
+              <h3>ペット追加</h3>
+            </View>
             <DialogTrigger>
-              <ActionButton marginTop="size-150" marginEnd="size-100">
+              <ActionButton marginTop="size-100" marginEnd="size-100">
                 共有IDをお持ちの方
               </ActionButton>
               {(close) => (

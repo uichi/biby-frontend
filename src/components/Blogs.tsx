@@ -62,7 +62,6 @@ const Blogs = (): JSX.Element => {
                 minHeight="size-800"
               >
                 <View>
-                  {/* <div dangerouslySetInnerHTML={{ __html: blog.content }}></div> */}
                   {blog.pet.name}
                 </View>
                 <View>

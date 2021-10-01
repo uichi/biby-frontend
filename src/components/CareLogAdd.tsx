@@ -127,11 +127,13 @@ const CareLogAdd = (): JSX.Element => {
         gridArea="content"
         minHeight="100vh"
         paddingTop="8vh"
-        // paddingBottom="8vh"
+        paddingBottom="8vh"
       >
-        <View margin="size-100">
+        <View marginX="size-100" marginBottom="size-100">
           <Form aria-labelledby="label-3" necessityIndicator="icon">
-            <h3 id="label-3">記録追加</h3>
+            <View>
+              <h3>記録追加</h3>
+            </View>
             <Picker
               label="ペットを選択してください"
               items={pets}

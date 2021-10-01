@@ -252,13 +252,15 @@ const BlogEdit = (): JSX.Element => {
         paddingTop="8vh"
         paddingBottom="8vh"
       >
-        <View margin="size-100">
+        <View marginX="size-100" marginBottom="size-100">
           <Form
             aria-labelledby="label-3"
             necessityIndicator="icon"
             onSubmit={(e) => e.preventDefault()}
           >
-            <h3 id="label-3">ブログ追加</h3>
+            <View>
+              <h3>ブログ追加</h3>
+            </View>
             <Picker
               label="ペットを選択してください"
               items={pets}
