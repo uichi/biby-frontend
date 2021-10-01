@@ -91,7 +91,7 @@ const Blog = (): JSX.Element => {
       <Helmet>
         <title>{title}</title>
         {/* <!-- meta tags --> */}
-        <meta name="description" content="ペットの成長を記録できるノートです。" />
+        <meta name="description" content="ペットとの思い出を投稿できるbibyブログ" />
         {/* <!-- OG tags--> */}
         <meta property="og:title" content={title ? title : "bibyブログ"} />
         <meta property="og:site_name" content={title ? title : "bibyブログ"} />
