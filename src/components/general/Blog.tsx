@@ -10,6 +10,7 @@ import {
   deleteLikeBlog,
 } from "../../api/Blog";
 import Footer from "./Footer";
+import { Helmet } from "react-helmet";
 
 const Blog = (): JSX.Element => {
   const [blogId, setBlogId] = useState<string>("");
@@ -21,6 +22,7 @@ const Blog = (): JSX.Element => {
   const [donateLink, setDonateLink] = useState<string | null>(null);
   const [blogs, setBlogs] = useState<any[]>([]);
   const [likeBlogId, setLikeBlogId] = useState<string | null>(null);
+  const [pageUrl, setPageUrl] = useState<string>("");
   const [cookies, setCookie] = useCookies(); // eslint-disable-line
   scrollToTop();
   useEffect(() => {
@@ -57,6 +59,7 @@ const Blog = (): JSX.Element => {
       setImageUri(resultBlog.image);
       setContent(resultBlog.content);
       setDonateLink(resultBlog.pet.donate_link);
+      setPageUrl(window.location.href);
     })();
     const cleanup = () => {
       cleanedUp = true;
@@ -85,6 +88,40 @@ const Blog = (): JSX.Element => {
   };
   return (
     <>
+      <Helmet>
+        <title>{title}</title>
+        {/* <!-- OG tags--> */}
+        <meta property="og:title" content={title ? title : "bibyブログ"} />
+        <meta property="og:site_name" content={title ? title : "bibyブログ"} />
+        <meta
+          property="og:description"
+          content="ペットとの思い出を投稿できるbibyブログ"
+        />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:image" content={imageUri} />
+        {/* <!-- Google / Search Engine Tags --> */}
+        <meta itemProp="name" content={title ? title : "bibyブログ"} />
+        <meta
+          itemProp="description"
+          content="ペットとの思い出を投稿できるbibyブログ"
+        />
+        <meta itemProp="image" content={imageUri} />
+        {/* <!-- Facebook Meta Tags --> */}
+        <meta property="og:url" content={imageUri} />
+        <meta property="og:title" content={title ? title : "bibyブログ"} />
+        <meta
+          property="og:description"
+          content="ペットとの思い出を投稿できるbibyブログ"
+        />
+        <meta property="og:image" content={imageUri} />
+        {/* <!-- Twitter Meta Tags --> */}
+        <meta name="twitter:title" content={title ? title : "bibyブログ"} />
+        <meta
+          name="twitter:description"
+          content="ペットとの思い出を投稿できるbibyブログ"
+        />
+        <meta name="twitter:image" content={imageUri} />
+      </Helmet>
       <Header />
       <div className="container w-full lg:w-1/3 pt-20 lg:mx-auto">
         <div className="w-full font-bold text-2xl px-1 pb-2">{title}</div>

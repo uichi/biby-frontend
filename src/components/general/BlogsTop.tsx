@@ -15,7 +15,7 @@ const BlogsTop = (): JSX.Element => {
       const resultBlogs = await getBlogs("", 99, 0, true);
       if (cleanedUp) return;
       setBlogs(resultBlogs);
-      setIsPwa(window.matchMedia('(display-mode: standalone)').matches);
+      setIsPwa(window.matchMedia("(display-mode: standalone)").matches);
     })();
     const cleanup = () => {
       cleanedUp = true;
@@ -25,10 +25,12 @@ const BlogsTop = (): JSX.Element => {
   const AblePwaMessage = () => {
     return (
       <div className="text-sm text-center pb-5">
-        <div className="bg-green-500 text-white p-2">ホーム画面に追加するとPWAでご利用可能です</div>
+        <div className="bg-green-500 text-white p-2">
+          ホーム画面に追加するとPWAでご利用可能です
+        </div>
       </div>
-    )
-  }
+    );
+  };
   return (
     <>
       <Header />
