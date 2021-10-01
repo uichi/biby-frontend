@@ -164,8 +164,10 @@ const CareLogEdit = (): JSX.Element => {
         paddingTop="8vh"
         paddingBottom="8vh"
       >
-        <View margin="size-100">
-          <h3 id="label-3">記録編集</h3>
+        <View marginX="size-100" marginBottom="size-100">
+          <View>
+            <h3>記録編集</h3>
+          </View>
           <Form aria-labelledby="label-3" necessityIndicator="icon">
             <Picker
               label="ペットを選択してください"
