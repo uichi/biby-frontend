@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { getBlogs } from "../../api/Blog";
 import Footer from "./Footer";
+import { Helmet } from "react-helmet";
 
 const BlogsTop = (): JSX.Element => {
   const [blogs, setBlogs] = useState<any[]>([]);
@@ -33,6 +34,40 @@ const BlogsTop = (): JSX.Element => {
   };
   return (
     <>
+      <Helmet>
+        <title>bibyブログ</title>
+        {/* <!-- OG tags--> */}
+        <meta property="og:title" content="bibyブログ" />
+        <meta property="og:site_name" content="bibyブログ" />
+        <meta
+          property="og:description"
+          content="ペットとの思い出を投稿できるbibyブログ"
+        />
+        <meta property="og:url" content="https://www.diary.biby.live/" />
+        <meta property="og:image" content="%PUBLIC_URL%/ogp.jpg" />
+        {/* <!-- Google / Search Engine Tags --> */}
+        <meta itemProp="name" content="bibyブログ" />
+        <meta
+          itemProp="description"
+          content="ペットとの思い出を投稿できるbibyブログ"
+        />
+        <meta itemProp="image" content="https://www.diary.biby.live/" />
+        {/* <!-- Facebook Meta Tags --> */}
+        <meta property="og:url" content="%PUBLIC_URL%/ogp.jpg" />
+        <meta property="og:title" content="bibyブログ" />
+        <meta
+          property="og:description"
+          content="ペットとの思い出を投稿できるbibyブログ"
+        />
+        <meta property="og:image" content="%PUBLIC_URL%/ogp.jpg" />
+        {/* <!-- Twitter Meta Tags --> */}
+        <meta name="twitter:title" content="bibyブログ" />
+        <meta
+          name="twitter:description"
+          content="ペットとの思い出を投稿できるbibyブログ"
+        />
+        <meta name="twitter:image" content="%PUBLIC_URL%/ogp.jpg" />
+      </Helmet>
       <Header />
       <div className="container w-full lg:w-1/3 pt-20 lg:mx-auto">
         {!isPwa && <AblePwaMessage />}
