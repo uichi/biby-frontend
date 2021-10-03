@@ -44,6 +44,7 @@ const Login = (): JSX.Element => {
       setCookie("authToken", resultLoginAuth.auth_token, { path: "/" });
       const me = await getMe(resultLoginAuth.auth_token);
       setCookie("meId", me.id, { path: "/" });
+      setCookie("selectedPet", "", { path: "/" });
       return <Redirect to="/dashboard/top" />;
     }
     loginError();
