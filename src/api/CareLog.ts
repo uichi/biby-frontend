@@ -62,7 +62,6 @@ export const getCareLogs = (
   dateTime: string,
   token: string
 ): Promise<any[]> | [] => {
-  if (!petId) return [];
   const query_params = new URLSearchParams({
     user: meId,
     pet: petId,
