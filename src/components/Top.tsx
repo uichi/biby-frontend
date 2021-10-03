@@ -82,13 +82,13 @@ const Top = (): JSX.Element => {
           if (cookies.selectedPet)
             return (
               <View
-                alignSelf="center"
-                backgroundColor="gray-400"
-                borderRadius="small"
-                padding="size-100"
                 margin="size-100"
-                minHeight="size-800"
                 marginTop="size-200"
+                borderWidth="thin"
+                borderColor="dark"
+                borderRadius="small"
+                backgroundColor="gray-400"
+                padding="size-100"
               >
                 <Flex marginBottom="size-100">
                   <Image
@@ -160,7 +160,7 @@ const Top = (): JSX.Element => {
                 borderRadius="small"
                 padding="size-100"
                 margin="size-100"
-                height="size-800"
+                minHeight="size-800"
               >
                 <View>
                   <Text>{careLog.care_category.name}</Text>
