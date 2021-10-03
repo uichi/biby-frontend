@@ -82,13 +82,13 @@ const Top = (): JSX.Element => {
           if (cookies.selectedPet)
             return (
               <View
-                margin="size-100"
-                marginTop="size-200"
-                borderWidth="thin"
-                borderColor="dark"
-                borderRadius="small"
+                alignSelf="center"
                 backgroundColor="gray-400"
+                borderRadius="small"
                 padding="size-100"
+                margin="size-100"
+                minHeight="size-800"
+                marginTop="size-200"
               >
                 <Flex marginBottom="size-100">
                   <Image
