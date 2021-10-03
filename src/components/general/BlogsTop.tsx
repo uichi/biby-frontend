@@ -37,7 +37,10 @@ const BlogsTop = (): JSX.Element => {
       <Helmet>
         <title>bibyブログ</title>
         {/* <!-- meta tags --> */}
-        <meta name="description" content="ペットとの思い出を投稿できるbibyブログ" />
+        <meta
+          name="description"
+          content="ペットとの思い出を投稿できるbibyブログ"
+        />
         {/* <!-- OG tags--> */}
         <meta property="og:title" content="bibyブログ" />
         <meta property="og:site_name" content="bibyブログ" />
