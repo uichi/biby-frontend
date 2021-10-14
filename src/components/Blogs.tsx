@@ -26,8 +26,9 @@ const Blogs = (): JSX.Element => {
   useEffect(() => {
     let cleanedUp = false;
     (async () => {
-      let resultBlogs:any = [];
-      if (cookies.selectedPet) resultBlogs = await getBlogs(cookies.selectedPet, 100, 0);
+      let resultBlogs: any = [];
+      if (cookies.selectedPet)
+        resultBlogs = await getBlogs(cookies.selectedPet, 100, 0);
       if (cleanedUp) return;
       setBlogs(resultBlogs);
       setIsLoaded(false);
@@ -51,7 +52,11 @@ const Blogs = (): JSX.Element => {
         <View marginStart="size-100" marginTop="size-100">
           <h2>ブログ一覧</h2>
         </View>
-        {blogs.length === 0 && <View marginStart="size-100" marginTop="size-100">ホームでペットを選択してください</View>}
+        {blogs.length === 0 && (
+          <View marginStart="size-100" marginTop="size-100">
+            ホームでペットを選択してください
+          </View>
+        )}
         {blogs.map((blog, index) => (
           <Link variant="secondary" key={index} isQuiet>
             <RouterLink to={"/blog/edit/" + blog.id}>
