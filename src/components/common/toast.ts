@@ -87,6 +87,20 @@ export const notMatchPassword = (): string =>
     duration: 3000,
   });
 
+export const notifySuccessSignup = (): string =>
+toast.error(
+  "仮登録しました。\nメールを確認してください。",
+  {
+    icon: "👏",
+    style: {
+      borderRadius: "10px",
+      background: "#333",
+      color: "#fff",
+    },
+    duration: 10000,
+  }
+);
+
 export const signupError = (): string =>
   toast.error("サインアップできませんでした", {
     icon: "❌",

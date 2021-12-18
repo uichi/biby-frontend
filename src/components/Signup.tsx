@@ -15,6 +15,7 @@ import {
   validateEmailError,
   validateNotEnteredError,
   notMatchPassword,
+  notifySuccessSignup,
   signupError,
   notifyNeedAgreeTermsOfUse,
 } from "./common/toast";
@@ -57,18 +58,20 @@ const Signup = (): JSX.Element => {
       passwordConfirm
     );
     if (signUpAuth) {
-      const resultLoginAuth = await loginAuth(email, password);
+      // const resultLoginAuth = await loginAuth(email, password);
       //    if (resultLoginAuth) {
       //      if (!resultLoginAuth.auth_token) {
       //        loginError();
       //        return;
       //      }
-      setCookie("authToken", resultLoginAuth.auth_token, { path: "/" });
-      const me = await getMe(resultLoginAuth.auth_token);
-      setCookie("meId", me.id, { path: "/" });
-      return <Redirect to="/" />;
+      // setCookie("authToken", resultLoginAuth.auth_token, { path: "/" });
+      // const me = await getMe(resultLoginAuth.auth_token);
+      // setCookie("meId", me.id, { path: "/" });
+      // return <Redirect to="/" />;
+      notifySuccessSignup();
+    } else {
+      signupError();
     }
-    signupError();
   };
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
